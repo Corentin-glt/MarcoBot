@@ -415,16 +415,16 @@ module.exports = {
     }
   },
   initialMessage2: {
-    "text": `I got tired of spending hours planning my visits, finding an authentic restaurant and looking for the trendiest bar of the city …`
+    "text": `🔎 I got tired of spending hours planning my visits, finding an authentic restaurant and looking for the trendiest bar of the city…`
   },
   initialMessage3: {
-    "text": `So, every day I’ll send you a message with all the sightseeing you need to do for the day, what to eat on the go for lunch, and suggestions of amazing nights in the city your traveling.`
+    "text": `📆 So, every day, I’ll send you a message with all the sightseeing you need to do for the day, what to eat on the go for lunch, and suggestions of amazing nights (restaurant + bar) in the city you're traveling.`
   },
   missionMessage: {
     "text": `Before we go any further, I’d like to optimize your experience by getting to know you a little bit better. `
   },
   missionMessage2: {
-    "text": `For that I just need to know a little more about the details of your trip to be able to offer you relevant things to do.`
+    "text": `For that I just need to know a little more about the details of your trip to be able to offer you relevant things to do. 🙂`
   },
   whichCity: {
     "text": `So which city did you choose for your unforgettable vacation?`,
@@ -469,7 +469,7 @@ module.exports = {
             ]
           },
           {
-            "title": "🇮🇹🇮🇹 Roma 🇮🇹🇮🇹",
+            "title": "🇮🇹🇮🇹 Rome 🇮🇹🇮🇹",
             "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
             "buttons": [
               {
@@ -495,7 +495,7 @@ module.exports = {
     }
   },
   forgetCity: {
-    "text": `Excuse me, you forget to tell me which city you choose for your unforgettable vacation`,
+    "text": `Wait a second 😊, you forgot to tell me which city you chose for your unforgettable vacation.`,
   },
   isItFirstTime(city) {
     return {
@@ -516,12 +516,12 @@ module.exports = {
   },
   whenAreYouArriving(boolean, city) {
     return {
-      "text": (boolean) ? `First time for everything! It will be a pleasure to help you to discover this beautiful city 😇.\nWhen will you arrive ? (you have 2 options) \n\nOption A - If you\'re not at ${city} now, Type the date (ex: 03/14/19 or 14 March 2019)\n\nOption B - If you\'re already at ${city}, please to click the button below inside to type the date`
-        : `So let me show you more about this city, When will you arrive ? (you have 2 options) \n\nOption A - If you\'re not at ${city} now, Type the date (ex: 03/14/19 or 14 March 2019)\n\nOption B - If you\'re already at ${city}, please to click the button below inside to type the date`,
+      "text": (boolean) ? `First time for everything! It'll be a pleasure to help you discover this amazing city 😇.\nWhen will you arrive ? (you have 2 options) \n\nOption A - If you\'re not in ${city} right now, type the date of your arrival (ex: 03/14/19 or 14 March 2019)\n\nOption B - If you\'re already in ${city}, please click on the button below.`
+        : `So, let me show you more about this city. When will you arrive? (you have 2 options) \n\nOption A - If you\'re not in ${city} right now, type the date of your arrival (ex: 03/14/19 or 14 March 2019)\n\nOption B - If you\'re already in ${city}, please click on the button below.`,
       "quick_replies": [
         {
           "content_type": "text",
-          "title": `Already at ${city}`,
+          "title": `Already in ${city}`,
           "payload": "ALREADYINCITY",
         },
       ]
@@ -529,7 +529,7 @@ module.exports = {
   },
   whenAreYouArriving2(city) {
     return {
-      "text": `Excuse me but you didn't tell me when you'll arrive to ${city} (you have 2 options)! \n\nOption A - If you\'re not at ${city} now, Type the date (ex: 03/14/19 or 14 March 2019)\n\nOption B - If you\'re already at ${city}, please to click the button below inside to type the date`,
+      "text": `Sorry, you didn't tell me when you'll be arriving in ${city} (you have 2 options)! \n\nOption A - If you\'re not in ${city} right now, type the date of your arrival (ex: 03/14/19 or 14 March 2019)\n\nOption B - If you\'re already in ${city}, please click on the button below.`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -541,11 +541,11 @@ module.exports = {
   },
   howManyDayAreStaying(city) {
     return {
-      "text": `How many day will you stay in ${city}? (Type the duration)`,
+      "text": `How many days will you stay in ${city}? (Type the duration) 🕑`,
     }
   },
   arrivalLater: {
-    "text": 'Nice! Thanks, I\'ll get back to you the day before your arrival then. In the meantime you can already chack out what to do down there to give you some ideas.',
+    "text": 'Nice! Thanks, I\'ll get back to you the day before your arrival then. In the meantime you can already check out what to do down there to give you some ideas.',
     "quick_replies": [
       {
         "content_type": "text",
@@ -1518,7 +1518,7 @@ module.exports = {
   },
   priceMessage(type, tag) {
     return {
-      "text": type === 'RESTAURANT' ? "Yummy !! 😋\nNow, what price range do you have in mind?" : "Cheers! 🍻\nNow, how much are planning on spending?",
+      "text": type === 'RESTAURANT' ? "Yummy !! 😋\nNow, what price range do you have in mind?" : "Cheers! 🍻\nNow, how much are you planning on spending?",
       "quick_replies": [
         {
           "content_type": "text",

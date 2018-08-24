@@ -9,7 +9,7 @@ module.exports = (payload, senderID) => {
       visitHandler(`secret`, senderID);
       break;
     case 'FAMOUS':
-      visitHandler(`must_see`, senderID);
+      visitHandler(`mustsee`, senderID);
       break;
     case 'CULTURAL':
       visitHandler( `cultural`, senderID);
