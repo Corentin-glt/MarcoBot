@@ -1,7 +1,7 @@
 version: "3"
 services:
   marco_bot:
-    container_name: marco_bot_dev
+    container_name: marco_bot
     restart: always
     build: .
     ports:

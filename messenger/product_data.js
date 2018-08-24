@@ -51,7 +51,12 @@ const generateSubtitle = (elem, TODAY) => {
 module.exports = {
   getStartedData: {
     "get_started": {
-      "payload": "INIT"
+      "payload": "INIT",
+      "referral": {
+      "ref": "ref_data_in_m_dot_me_param",
+      "source": "SHORTLINK",
+      "type": "OPEN_THREAD",
+    }
     }
   },
   menuData: {
