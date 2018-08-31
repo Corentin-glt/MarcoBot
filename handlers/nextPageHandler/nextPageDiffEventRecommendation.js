@@ -14,12 +14,14 @@ module.exports = (params, senderID) => {
     },
     message: ''
   };
+  console.log(params);
   const tempParam = params.split(':');
   const type = tempParam[0];
   const page = tempParam[1];
   const recommandationApi = new ApiGraphql(
     config.category[config.indexCategory].recommendationApilUrl,
     config.accessTokenRecommendationApi);
+  console.log(visit.queryVisitsByPriceAndType(senderID, type, page));
   recommandationApi.sendQuery(
     visit.queryVisitsByPriceAndType(senderID, type, page))
     .then(res => {
