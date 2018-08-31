@@ -37,8 +37,8 @@ module.exports = (type, price, senderID) => {
     })
     .then(res => {
       if (res.barsByPriceAndType.length > 0 && res.barsByPriceAndType !== null ) {
-        console.log(res.barsByPriceAndType);
-        return product_data.templateList(res.barsByPriceAndType, "BAR", 0, "neo4j", type, price)
+        return product_data.templateList(res.barsByPriceAndType, "BAR", 0,
+          "neo4j", type, price)
       } else {
         return product_data.jokeMarco("BAR");
       }
