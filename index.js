@@ -16,6 +16,7 @@ const CronJob = require('cron').CronJob;
 const cronMethods = require('./helpers/cronMethods/cronMethods');
 const hoursCron = require('./variableApp/hoursCron');
 
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 

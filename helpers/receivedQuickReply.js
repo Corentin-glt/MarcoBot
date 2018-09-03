@@ -16,6 +16,7 @@ const subscribeHandler = require('../handlers/subscribeHandler/susbcribe');
 module.exports = (event) => {
   const senderID = event.sender.id;
   const recipientID = event.recipient.id;
+  const locale = event.locale;
   const timeOfMessage = event.timestamp;
   const payload = event.message.quick_reply.payload;
   const payloadType = payload.split("_");
@@ -26,7 +27,7 @@ module.exports = (event) => {
   } else {
     switch (payloadType[0]) {
       case 'EXCITEMENT':
-        excitementHandler(payloadType[1], senderID);
+        excitementHandler(payloadType[1], senderID, locale);
         break;
       case 'TRAVELTYPE':
         travelTypeHandler(payloadType[1], senderID);
@@ -47,10 +48,10 @@ module.exports = (event) => {
         backQuestionHandler(payloadType[1], senderID);
         break;
       case 'FIRSTTIME':
-        firstTimeCityHandler(payloadType[1], senderID);
+        firstTimeCityHandler(payloadType[1], senderID, locale);
         break;
       case 'ALREADYINCITY':
-        alreadyInCityHandler(senderID);
+        alreadyInCityHandler(senderID, locale);
         break;
       case  'UNSUBSCRIBE':
         unsubscribeHandler(senderID);

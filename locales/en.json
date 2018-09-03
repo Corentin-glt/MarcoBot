@@ -1,0 +1,39 @@
+{
+ "initialMessage": "Hi ",
+  "initialMessageBis": "I’m Marco your own personal travel assistant. My goal is to make your trip an authentic experience by giving you the best insider tips, making sure you don’t miss out on anything and stay away from tourist traps. 🙂",
+  "initialMessage2": "🔎 I got tired of spending hours planning my visits, finding an authentic restaurant and looking for the trendiest bar of the city…",
+  "initialMessage3": "📆 So, every day I’ll send you a message with all the sightseeing you need to do for the day, what to eat on the go for lunch, and suggestions of amazing nights in the city your traveling.",
+  "excitementMessage": "Isn't it cooooool? 🤩",
+  "excitementRep1": "👍",
+  "excitementRep2": "👎",
+  "experienceMessage": "Great! 🎉",
+  "missionMessage2": "For that I just need to know a little more about the details of your trip to be able to offer you relevant things to do.",
+  "whichCity": "So, which city did you choose for your unforgettable vacation?",
+  "paris": "Paris",
+  "london": "London",
+  "barcelona": "Barcelona",
+  "lisbon": "Lisbon",
+  "rome": "Rome",
+  "berlin": "Berlin",
+  "noNeedMessage": "Oh! That's a shame! 😢",
+  "preFeedback": "Nevertheless, I'd love to know why I can't help you...",
+  "feedBackInput": "Could you tell me?",
+  "isItFirstTime": "Great choice! I love this city! 😍 Is it your fist time in ",
+  "whenAreYouArrivingPart1" : "First time for everything! I'm pleased to help you discover this amazing city 😇.",
+  "whenAreYouArrivingPart2" : "When will you arrive? (2 options)",
+  "whenAreYouArrivingPart3" : "Option A - If you're not in ",
+  "whenAreYouArrivingPart4" : "now, type the date of your arrival (ex: 03/14/19 or 14 March 2019)",
+  "whenAreYouArrivingPart5" : "Option B - If you're already in ",
+  "whenAreYouArrivingPart6" : ", click on the button below.",
+  "whenAreYouArrivingPart7" : "Ok! Then, I'll show you some secret spots,",
+  "whenAreYouArrivingPart8" : "📍 Already in ",
+  "whenAreYouArriving2Part1" : "Just a moment! You forgot to tell me when you'll be arriving in ",
+  "whenAreYouArriving2Part2" : "(you have 2 options)",
+  "whenAreYouArriving2Part3" : "Option A - Type the date of your arrival (ex: 03/14/19 or 14 March 2019)",
+  "howManyDayAreStaying1": "How many days will you be staying in ",
+  "howManyDayAreStaying2": "? (Type the duration)"
+
+
+
+
+}

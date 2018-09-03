@@ -9,7 +9,7 @@ const apiMessenger = require('../helpers/apiMessenger');
 const messengerMethods = require('../messenger/messengerMethods');
 const clientControl = require('../controllers/clientControl');
 const product_data = require('../messenger/product_data');
-const config = require("../config")
+const config = require("../config");
 const stopTalking = require('../messenger/quickReplyBlocks/stopTalkingWithHuman')
 
 const messageToStopTalkingWithHuman = [

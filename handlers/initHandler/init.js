@@ -1,12 +1,13 @@
 const ApiGraphql = require("../../helpers/apiGraphql");
 const user = require("../../graphql/user/query");
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const helper = require("../../helpers/helper");
 const messengerMethods = require("../../messenger/messengerMethods");
 const config = require('../../config');
 
-module.exports = (senderID) => {
+module.exports = (senderID, locale) => {
+  const product_data = new MessageData(locale);
   let messageData = {
     recipient: {
       id: senderID

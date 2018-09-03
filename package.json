@@ -16,6 +16,7 @@
     "docker-nodemon": "^1.11.0",
     "express": "^4.16.3",
     "graphql-request": "^1.5.2",
+    "i18n": "^0.8.3",
     "qs": "^6.5.2",
     "request": "^2.85.0"
   }

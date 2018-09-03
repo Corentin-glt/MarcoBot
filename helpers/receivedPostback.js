@@ -25,9 +25,12 @@ const newTripHandler = require('../handlers/cityHandler/newTrip');
 
 const postbackInteractionWithCard = require('../messenger/postbackBlocks/interactionWithCard');
 const postbackLocation = require('../messenger/quickReplyBlocks/quickReplyLocation');
+
 module.exports = (event) => {
+
   const senderID = event.sender.id;
   const recipientID = event.recipient.id;
+  const locale = event.locale;
   const timeOfMessage = event.timestamp;
   const payload = event.postback.payload;
   const payloadType = payload.split("_");
@@ -37,10 +40,10 @@ module.exports = (event) => {
   } else {
     switch (payloadType[0]) {
       case 'INIT':
-        initHandler(senderID);
+        initHandler(senderID, locale);
         break;
       case 'TRAVELINGTO':
-        cityHandler(payloadType[1], senderID);
+        cityHandler(payloadType[1], senderID, locale);
         break;
       case 'RESTAURANT':
         priceHandlerRestaurant(payloadType[1], senderID);
