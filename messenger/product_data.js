@@ -138,16 +138,16 @@ class MessageData {
 
   get wouldYouSubOrUnsub() {
     return {
-      "text": "You can choose if you want to be susbcribe or unsubscribe to my notifications ",
+      "text": i18n.__("wouldYouSubOrUnsub"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "Susbcribe 👍",
+          "title": `${i18n.__("subscribe")} 👍` ,
           "payload": "SUBSCRIBE_",
         },
         {
           "content_type": "text",
-          "title": "Unsubscribe 👎",
+          "title": `${i18n.__("unsubscribe")} 👎`,
           "payload": "UNSUBSCRIBE_",
         }
       ]
@@ -163,6 +163,10 @@ class MessageData {
         }, {
           "locale": "en_US",
           "text": "Marco is your personal travel assistant available 24h/24h on Facebook Messenger! ✈️"
+        },
+        {
+          "locale": "fr_FR",
+          "text": "Marco est ton assistant personnel de voyage disponible 24h/24h sur Facebook Messenger! ✈️️"
         }
       ]
     };
@@ -185,7 +189,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Let's go!",
+                  "title": i18n.__("letsGo"),
                   "payload": `GOING_${kindElement}:${elem.id || elem._id}`
                 },
                 {
@@ -209,7 +213,7 @@ class MessageData {
                               {
                                 "type": "web_url",
                                 "url": `https://www.google.fr/maps/place/${elemLocationGoogleMap}`,
-                                "title": "Where is it? 📍"
+                                "title": i18n.__("whereShare")
                               },
                             ]
                           }
@@ -220,7 +224,7 @@ class MessageData {
                 },
                 {
                   "type": "postback",
-                  "title": "Tell me more",
+                  "title": i18n.__("tellMore"),
                   "payload": `VIEWMORE_${kindElement}:${elem.id || elem._id}`
                 },
               ]
@@ -235,13 +239,13 @@ class MessageData {
           const NEXT_PAGE = whichApi === "neo4j" ?
             `NEXTPAGENEO4J_${category}_${price}` : "NEXTPAGEEVENT";
           const morePage = {
-            "title": `See more`,
-            "subtitle": `Let me show you more results.`,
+            "title": i18n.__("seeMore"),
+            "subtitle": i18n.__("seeMoreSub"),
             "image_url": `https://api.marco-app.com/api/image/FBProfileRe.png`,
             "buttons": [
               {
                 "type": "postback",
-                "title": "Show more results",
+                "title": i18n.__("seeMoreButton"),
                 "payload": `${NEXT_PAGE}_${kindElement}:${parseInt(page) + 1}`
               },
             ]
@@ -249,13 +253,13 @@ class MessageData {
           arrayOfElement.push(morePage)
         } else {
           const talkWithHuman = {
-            "title": `I have nothing left in stock, but ask for a Parisian. 😉`,
-            "subtitle": `If you want more information on Paris, request a local by clicking the button below.`,
+            "title": i18n.__("nothingStock"),
+            "subtitle": i18n.__("nothingStockSub"),
             "image_url": `https://api.marco-app.com/api/image/askInformation.jpg`,
             "buttons": [
               {
                 "type": "postback",
-                "title": "Chat with a human",
+                "title": i18n.__("nothingStockButton"),
                 "payload": `SEARCH_HUMAN`
               },
             ]
@@ -291,7 +295,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Let's go!",
+                  "title": i18n.__("letsGo"),
                   "payload": `GOING_${elem.kindElement}:${elem.id || elem._id}`
                 },
                 {
@@ -315,7 +319,7 @@ class MessageData {
                               {
                                 "type": "web_url",
                                 "url": `https://www.google.fr/maps/place/${elemLocationGoogleMap}`,
-                                "title": "Where is it? 📍"
+                                "title": i18n.__("whereShare")
                               },
                             ]
                           }
@@ -326,7 +330,7 @@ class MessageData {
                 },
                 {
                   "type": "postback",
-                  "title": "Tell me more",
+                  "title": i18n.__("tellMore"),
                   "payload": `VIEWMORE_${elem.kindElement}:${elem.id ||
                   elem._id}`
                 },
@@ -343,13 +347,13 @@ class MessageData {
             `NEXTPAGEDIFFEVENTNEO4J_${category}` :
             `NEXTPAGEDIFFEVENT_${district}`;
           const morePage = {
-            "title": `See more`,
-            "subtitle": `Let me show you more results.`,
+            "title": i18n.__("seeMore"),
+            "subtitle": i18n.__("seeMoreSub"),
             "image_url": `https://api.marco-app.com/api/image/FBProfileRe.png`,
             "buttons": [
               {
                 "type": "postback",
-                "title": "Show more results",
+                "title": i18n.__("seeMoreButton"),
                 "payload": `${NEXT_PAGE}:${parseInt(page) + 1}`
               },
             ]
@@ -357,13 +361,13 @@ class MessageData {
           arrayOfElement.push(morePage)
         } else {
           const talkWithHuman = {
-            "title": `I have nothing left in stock, but ask for a Parisian. 😉`,
-            "subtitle": `If you want more information on Paris, request a local by clicking the button below.`,
+            "title": i18n.__("nothingStock"),
+            "subtitle": i18n.__("nothingStockSub"),
             "image_url": `https://api.marco-app.com/api/image/askInformation.jpg`,
             "buttons": [
               {
                 "type": "postback",
-                "title": "Chat with human",
+                "title": i18n.__("nothingStockButton"),
                 "payload": `SEARCH_HUMAN`
               },
             ]
@@ -398,7 +402,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Let's go!",
+                  "title": i18n.__("letsGo"),
                   "payload": `GOING_${elem.kindElement}:${elem.id || elem._id}`
                 },
                 {
@@ -422,7 +426,7 @@ class MessageData {
                               {
                                 "type": "web_url",
                                 "url": `https://www.google.fr/maps/place/${elemLocationGoogleMap}`,
-                                "title": "Where is it? 📍"
+                                "title": i18n.__("whereShare")
                               },
                             ]
                           }
@@ -433,7 +437,7 @@ class MessageData {
                 },
                 {
                   "type": "postback",
-                  "title": "Tell me more",
+                  "title": i18n.__("tellMore"),
                   "payload": `VIEWMORE_${elem.kindElement}:${elem.id ||
                   elem._id}`
                 },
@@ -447,13 +451,13 @@ class MessageData {
         if (err) return reject(err);
         if (arrayOfElement.length === 5) {
           const morePage = {
-            "title": `See more`,
-            "subtitle": `Let me show you more results.`,
+            "title": i18n.__("seeMore"),
+            "subtitle": i18n.__("seeMoreSub"),
             "image_url": `https://api.marco-app.com/api/image/FBProfileRe.png`,
             "buttons": [
               {
                 "type": "postback",
-                "title": "Show more results",
+                "title": i18n.__("seeMoreButton"),
                 "payload": `MYFAVORITE_${parseInt(page) + 1}`
               },
             ]
@@ -491,12 +495,6 @@ class MessageData {
     };
   }
 
-  get missionMessage() {
-    return {
-      "text": `Before we go any further, I’d like to optimize your experience by getting to know you a little bit better. `
-    }
-  }
-
   get missionMessage2() {
     return {
       "text": i18n.__("missionMessage2")
@@ -522,7 +520,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `TRAVELINGTO_PARIS`
                 },
               ]
@@ -533,7 +531,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `TRAVELINGTO_LONDON`
                 },
               ]
@@ -544,7 +542,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `TRAVELINGTO_BARCELONA`
                 },
               ]
@@ -555,7 +553,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `TRAVELINGTO_LISBON`
                 },
               ]
@@ -566,7 +564,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `TRAVELINGTO_ROME`
                 },
               ]
@@ -577,7 +575,7 @@ class MessageData {
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `TRAVELINGTO_BERLIN`
                 },
               ]
@@ -590,7 +588,7 @@ class MessageData {
 
   get forgetCity() {
     return {
-      "text": `Excuse me, you forget to tell me which city you choose for your unforgettable vacation`,
+      "text": `${i18n.__("forgetCity")}`,
     }
   }
 
@@ -650,8 +648,9 @@ class MessageData {
     }
   }
   updateCityDone(city) {
+    const lowerCity = city.toLowerCase();
     return {
-      "text": `The switch for ${city} has been done ✅`,
+      "text": `${i18n.__("updateCityDone")} ${i18n.__(lowerCity)} ✅`,
     }
   }
   get changeMyCity() {
@@ -662,71 +661,71 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": "🇫🇷🇫🇷 Paris 🇫🇷🇫🇷",
+              "title": `🇫🇷🇫🇷 ${i18n.__('paris')} 🇫🇷🇫🇷`,
               "image_url": `https://api.marco-app.com/api/image/paris.jpg`,
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `MODIFYCITY_PARIS`
                 },
               ]
             },
             {
-              "title": "🇬🇧🇬🇧 London 🇬🇧🇬🇧",
+              "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
               "image_url": `https://api.marco-app.com/api/image/london.jpg`,
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `MODIFYCITY_LONDON`
                 },
               ]
             },
             {
-              "title": "🇪🇸🇪🇸 Barcelona 🇪🇸🇪🇸",
+              "title": `🇪🇸🇪🇸 ${i18n.__('barcelona')} 🇪🇸🇪🇸`,
               "image_url": `https://api.marco-app.com/api/image/barcelona.jpg`,
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Validate ✔️",
+                  "title": i18n.__("validate"),
                   "payload": `MODIFYCITY_BARCELONA`
                 },
               ]
             },
-            // {
-            //   "title": "🇵🇹🇵🇹 Lisbon 🇵🇹🇵🇹",
-            //   "image_url": `https://api.marco-app.com/api/image/lisbon.png`,
-            //   "buttons": [
-            //     {
-            //       "type": "postback",
-            //       "title": "Validate ✔️",
-            //       "payload": `MODIFYCITY_LISBON`
-            //     },
-            //   ]
-            // },
-            // {
-            //   "title": "🇮🇹🇮🇹 Roma 🇮🇹🇮🇹",
-            //   "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
-            //   "buttons": [
-            //     {
-            //       "type": "postback",
-            //       "title": "Validate ✔️",
-            //       "payload": `MODIFYCITY_ROMA`
-            //     },
-            //   ]
-            // },
-            // {
-            //   "title": "🇩🇪🇩🇪 Berlin 🇩🇪🇩🇪",
-            //   "image_url": `https://api.marco-app.com/api/image/berlin.jpg`,
-            //   "buttons": [
-            //     {
-            //       "type": "postback",
-            //       "title": "Validate ✔️",
-            //       "payload": `MODIFYCITY_BERLIN`
-            //     },
-            //   ]
-            // }
+            {
+              "title": `🇵🇹🇵🇹 ${i18n.__('lisbon')} 🇵🇹🇵🇹`,
+              "image_url": `https://api.marco-app.com/api/image/lisbon.png`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `MODIFYCITY_LISBON`
+                },
+              ]
+            },
+            {
+              "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
+              "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `MODIFYCITY_ROMA`
+                },
+              ]
+            },
+            {
+              "title": `🇩🇪🇩🇪 ${i18n.__('berlin')} 🇩🇪🇩🇪`,
+              "image_url": `https://api.marco-app.com/api/image/berlin.jpg`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `MODIFYCITY_BERLIN`
+                },
+              ]
+            }
           ]
         }
       }
@@ -735,43 +734,45 @@ class MessageData {
 
   noMoreCityInTrip(city) {
     const cityToUpper = city[0].toUpperCase() + city.slice(1);
+    const lowerCity = cityToUpper.toLowerCase();
     return {
-      "text": `Currently you're looking for ${cityToUpper}, Which city do you want to switch ?\nBy the way you have no recorded city in your upcoming trips.\nI advise you to record a new trip in the menu \"👤 My account\" -> \"🗺 New trip\"`
+      "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)}${i18n.__("noMoreCityInTrip2")}`
     }
   }
   yourCityActual(city) {
     const cityToUpper = city[0].toUpperCase() + city.slice(1);
+    const lowerCity = cityToUpper.toLowerCase();
     return {
-      "text": `Currently you're looking for ${cityToUpper}, Which city do you want to switch ?`
+      "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)} ${i18n.__("yourCityActual")} `
     }
   }
   get arrivalLater() {
     return {
-      "text": 'Nice! Thanks, I\'ll get back to you the day before your arrival then 😉. In the meantime you can already check out what to do down there to give you some ideas 💡.',
+      "text": i18n.__("arrivalLater"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": `📸 ${i18n.__("visit")}`,
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": `🍽 ${i18n.__("eat")}`,
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": `🍸 ${i18n.__("drink")}`,
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": `🚶‍️ ${i18n.__("walkAround")}`,
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with human",
+          "title": `🗣 ${i18n.__("chat")}`,
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -779,37 +780,37 @@ class MessageData {
   }
   get isHereNow() {
     return {
-      "text": "Thank you, you’re perfect! Now as promised here is your program for the day: "
+      "text": i18n.__("isHereNow")
     }
   }
 
   get noPropgramForThisStaying() {
     return {
-      "text": "Nice! Thanks, You can check out what to do down there to give you some ideas 💡.",
+      "text": i18n.__("noPropgramForThisStaying"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -842,19 +843,19 @@ class MessageData {
 
   get defaultPostback() {
     return {
-      "text": "Mmmh, there seems to be a problem..."
+      "text": i18n.__("defaultPostback")
     }
   }
 
   get letsGoMessage(){
     return {
-      "text": "Awesome!! 👌🚀"
+      "text": i18n.__("letsGoMessage")
     }
   }
 
   get letsGoMessage2(){
     return {
-      "text": "Ok then! We're on the way there. 🧐"
+      "text": i18n.__("letsGoMessage2")
     }
   }
 
@@ -878,26 +879,26 @@ class MessageData {
 
   get preQuestionMessage() {
     return {
-      "text": "Would you mind telling me with whom you are traveling ? 🤫",
+      "text": i18n.__("preQuestionMessage"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "😇 I'm Alone",
+          "title": i18n.__("alone"),
           "payload": "TRAVELTYPE_ALONE",
         },
         {
           "content_type": "text",
-          "title": "❤️ With my partner",
+          "title": i18n.__("partner"),
           "payload": "TRAVELTYPE_PARTNER",
         },
         {
           "content_type": "text",
-          "title": "🎉 With friends",
+          "title": i18n.__("friends"),
           "payload": "TRAVELTYPE_FRIENDS",
         },
         {
           "content_type": "text",
-          "title": "👨‍👩‍👧‍👦 With my family",
+          "title": i18n.__("family"),
           "payload": "TRAVELTYPE_FAMILY",
         }
       ]
@@ -906,31 +907,31 @@ class MessageData {
 
   get question1Message() {
     return {
-      "text": "Now tell me, what do you feel like doing today?",
+      "text": i18n.__("question1Message"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -939,36 +940,36 @@ class MessageData {
 
   backQuestion(EVENT) {
     return {
-      "text": "Do not hesitate to try something else :",
+      "text": i18n.__("backQuestion"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "🔙 Change category",
+          "title": i18n.__("changeCategory"),
           "payload": `CATEGORY_${EVENT}`,
         },
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -977,31 +978,31 @@ class MessageData {
 
   get question1MessageAfterLocation() {
     return {
-      "text": "I’m sure you’ll enjoy yourself here! 🙂 If you have any further queries, don’t hesitate to tell me. ",
+      "text": i18n.__("question1MessageAfterLocation"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1010,31 +1011,31 @@ class MessageData {
 
   get question1MessageAfterLater() {
     return {
-      "text": "Enjoy yourself in the meantime and if you have any further queries, don’t hesitate to tell me. ",
+      "text": i18n.__("question1MessageAfterLater"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1043,31 +1044,31 @@ class MessageData {
 
   get question1MessageAfterDistrict() {
     return {
-      "text": "If you have any further queries, don’t hesitate to tell me",
+      "text": i18n.__("question1MessageAfterDistrict"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "🔙 other districts",
+          "title": i18n.__("changeDistrict"),
           "payload": "SEARCH_DISTRICT1",
         },
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1076,31 +1077,31 @@ class MessageData {
 
   get question1MessageListView() {
     return {
-      "text": "If you have any further queries, don’t hesitate to tell me.",
+      "text": i18n.__("question1MessageAfterDistrict"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1109,31 +1110,31 @@ class MessageData {
 
   get nothingMore() {
     return {
-      "text": "Sorry! There's nothing left in stock... If you have any other queries, don’t hesitate to tell me.",
+      "text": i18n.__("nothingMore"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍♂️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1142,14 +1143,14 @@ class MessageData {
 
   rememberLocation(eventID, kindEvent) {
     return {
-      "text": "Could you just help me remember your location? We haven't talked in a while. 🙈",
+      "text": i18n.__("rememberLocation"),
       "quick_replies": [
         {
           "content_type": "location",
         },
         {
           "content_type": "text",
-          "title": "No, use my old location",
+          "title": i18n.__("rememberLocationNo"),
           "payload": `USEOLDLOCATIONEVENT_${kindEvent}:${eventID}`,
         }
       ]
@@ -1158,14 +1159,14 @@ class MessageData {
 
   updateLocation() {
     return {
-      "text": "You can update your location, if you want, by clicking the button.",
+      "text": i18n.__("updateLocation"),
       "quick_replies": [
         {
           "content_type": "location",
         },
         {
           "content_type": "text",
-          "title": "No",
+          "title": "👎",
           "payload": `NOUPDATELOCATION`,
         }
       ]
@@ -1174,16 +1175,16 @@ class MessageData {
 
   askLocation(nameUser, eventID, kindEvent) {
     return {
-      "text": `I love your determination! 👊. Don’t worry though ${nameUser}, your data is safe with me and won’t be used any other way.`,
+      "text": i18n.__("askLocation"),
       "quick_replies": [
         {
           "content_type": "location",
-          "title": "Yes",
+          "title": "👍",
           "payload": `YESLOCATIONEVENT:${eventID}`,
         },
         {
           "content_type": "text",
-          "title": "No",
+          "title": "👎",
           "payload": `NOLOCATIONEVENT_${kindEvent}:${eventID}`,
         }
       ]
@@ -1196,12 +1197,12 @@ class MessageData {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text": "Just click on the button to see the itinerary. 👇‍️",
+          "text": i18n.__("sendItinerary"),
           "buttons": [
             {
               "type": "web_url",
               "url": `https://www.google.com/maps/dir/${origin.lat},${origin.lng}/${destination.lat},${destination.lng}/`,
-              "title": "🚇🚎 Itinerary 📍",
+              "title": i18n.__("itinéraire"),
               "webview_height_ratio": "full",
               "messenger_extensions": "false",
             }
@@ -1217,7 +1218,7 @@ class MessageData {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text": "It's here, on the map 👇‍️",
+          "text": i18n.__("sendLocation"),
           "buttons": [
             {
               "type": "web_url",
@@ -1234,7 +1235,7 @@ class MessageData {
 
   noLocationEvent(eventName) {
     return {
-      "text": `I understand. ☺️ Let me still give you the address for ${eventName}.  You can also directly see it on the map by clicking here.`
+      "text": `${i18n.__("noLocationEvent")} ${eventName}${i18n.__("noLocationEvent2")}`
     }
   }
 
@@ -1246,19 +1247,19 @@ class MessageData {
 
   get  selectionSite() {
     return {
-      "text": "Perfect! 🎉",
+      "text": i18n.__("selectionSite"),
     }
   }
 
   get saveLater() {
     return {
-      "text": "That’s fine, no problem ! I’ll keep it somewhere safe for later then! ❤️",
+      "text": i18n.__("saveLater"),
     }
   }
 
   get selectionSite2() {
     return {
-      "text": "I just need you to tell the kind of places you’re looking forward to visiting.\n "
+      "text": i18n.__("selectionSite2")
     }
   }
 
@@ -1270,61 +1271,61 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": "Historical",
+              "title": i18n.__("historical"),
               "image_url": "https://api.marco-app.com/api/image/minArc.jpg",
-              "subtitle": "Part of the french heritage.",
+              "subtitle": i18n.__("historicalSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Historical",
+                  "title": i18n.__("historical"),
                   "payload": "SITE_HISTORICAL"
                 }
               ]
             },
             {
-              "title": "Secret",
+              "title": i18n.__("secret"),
               "image_url": "https://api.marco-app.com/api/image/minGalery.jpg",
-              "subtitle": "Atypical and hidden places to discover the authentic Paris.",
+              "subtitle": i18n.__("secretSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Secret",
+                  "title": i18n.__("secret"),
                   "payload": "SITE_SECRET"
                 }
               ]
             },
             {
-              "title": "Must see",
+              "title": i18n.__("mustSee"),
               "image_url": "https://api.marco-app.com/api/image/minTourEiffel.jpg",
-              "subtitle": "All the must see of Paris.",
+              "subtitle": i18n.__("mustSeeSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Must see",
+                  "title": i18n.__("mustSee"),
                   "payload": "SITE_FAMOUS"
                 }
               ]
             },
             {
-              "title": "Cultural",
+              "title": i18n.__("cultural"),
               "image_url": "https://api.marco-app.com/api/image/minLouvre.jpg",
-              "subtitle": "Paris will share some of its culture.",
+              "subtitle": i18n.__("culturalSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Cultural",
+                  "title": i18n.__("cultural"),
                   "payload": "SITE_CULTURAL"
                 }
               ]
             },
             {
-              "title": "Other",
+              "title": i18n.__("other"),
               "image_url": "https://api.marco-app.com/api/image/minStChap.jpg",
-              "subtitle": "So many other things to discover.",
+              "subtitle": i18n.__("otherSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Other",
+                  "title": i18n.__("other"),
                   "payload": "SITE_OTHER"
                 }
               ]
@@ -1337,13 +1338,13 @@ class MessageData {
 
   get selectionBar() {
     return {
-      "text": "Awesome! 👌",
+      "text": i18n.__("selectionBar"),
     }
   }
 
   get selectionBar2() {
     return {
-      "text": "Just tell me, what vibe are you into? "
+      "text": i18n.__("selectionBar2")
     }
   }
 
@@ -1355,73 +1356,73 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": "Trendy",
+              "title": i18n.__("trendy"),
               "image_url": "https://api.marco-app.com/api/image/minTrendy.jpg",
-              "subtitle": "Perfect for a saturday night.",
+              "subtitle": i18n.__("trendySub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Trendy",
+                  "title": i18n.__("trendy"),
                   "payload": "BAR_TRENDY"
                 }
               ]
             },
             {
-              "title": "Atypical",
+              "title": i18n.__("atypical"),
               "image_url": "https://api.marco-app.com/api/image/minAtypicalBar.jpg",
-              "subtitle": "Perfect for discovering new places to drink a cocktail.",
+              "subtitle": i18n.__("atypicalSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Atypical",
+                  "title": i18n.__("atypical"),
                   "payload": "BAR_ATYPICAL"
                 }
               ]
             },
             {
-              "title": "High class",
+              "title": i18n.__("highClass"),
               "image_url": "https://api.marco-app.com/api/image/minHighClass.jpg",
-              "subtitle": "The prettiest bars of Paris.",
+              "subtitle": i18n.__("highClassSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "High class",
+                  "title": i18n.__("highClass"),
                   "payload": "BAR_HIGHCLASS"
                 }
               ]
             },
             {
-              "title": "Pubs",
+              "title": i18n.__("pubs"),
               "image_url": "https://api.marco-app.com/api/image/minPub.jpg",
-              "subtitle": "Let's go watch the wolrd cup tonight.",
+              "subtitle": i18n.__("pubsSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Pubs",
+                  "title": i18n.__("pubs"),
                   "payload": "BAR_PUB"
                 }
               ]
             },
             {
-              "title": "Cafés",
+              "title": i18n.__("cafe"),
               "image_url": "https://api.marco-app.com/api/image/minCafe.jpg",
-              "subtitle": "Enjoy a terasse on a nice sunny afternoon.",
+              "subtitle": i18n.__("cafeSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Cafés",
+                  "title": i18n.__("cafe"),
                   "payload": "BAR_CAFE"
                 }
               ]
             },
             {
-              "title": "Wine bars",
+              "title": i18n.__("wine"),
               "image_url": "https://api.marco-app.com/api/image/minWineBar.jpg",
-              "subtitle": "Perfect for tasting famous wines.",
+              "subtitle": i18n.__("wineSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Wine bars",
+                  "title": i18n.__("wine"),
                   "payload": "BAR_WINE"
                 }
               ]
@@ -1435,13 +1436,13 @@ class MessageData {
 
   get selectionRestaurant() {
     return {
-      "text": "Perfect! 👌",
+      "text": i18n.__("selectionRestaurant"),
     }
   }
 
   get selectionRestaurant2() {
     return {
-      "text": "Perfect! 👌",
+      "text": i18n.__("selectionRestaurant"),
     }
   }
 
@@ -1453,73 +1454,73 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": "Gastronomic",
+              "title": i18n.__("gastronomic"),
               "image_url": "https://api.marco-app.com/api/image/minGastronomy.jpg",
-              "subtitle": "The finest french cuisine from incredible chefs.",
+              "subtitle": i18n.__("gastronomicSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Gastronomic",
+                  "title": i18n.__("gastronomic"),
                   "payload": "RESTAURANT_GASTRONOMY"
                 }
               ]
             },
             {
-              "title": "Healthy",
+              "title": i18n.__("healthy"),
               "image_url": "https://api.marco-app.com/api/image/minVeggie.jpg",
-              "subtitle": "The best of healthy food.",
+              "subtitle": i18n.__("healthySub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Healthy",
+                  "title": i18n.__("healthy"),
                   "payload": "RESTAURANT_VEGGIE"
                 }
               ]
             },
             {
-              "title": "Brunch",
+              "title": i18n.__("brunch"),
               "image_url": "https://api.marco-app.com/api/image/minBrunch.jpg",
-              "subtitle": "A typical parisian sunday breakfast.",
+              "subtitle": i18n.__("brunchSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Brunch",
+                  "title": i18n.__("brunch"),
                   "payload": "RESTAURANT_BRUNCH"
                 }
               ]
             },
             {
-              "title": "Street food",
+              "title": i18n.__("street"),
               "image_url": "https://api.marco-app.com/api/image/minStreetfood.jpg",
-              "subtitle": "The finest ready to eat parisian food.",
+              "subtitle": i18n.__("streetSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Street food",
+                  "title": i18n.__("street"),
                   "payload": "RESTAURANT_STREET"
                 }
               ]
             },
             {
-              "title": "Traditional",
+              "title": i18n.__("traditional"),
               "image_url": "https://api.marco-app.com/api/image/minTraditional.jpg",
-              "subtitle": "Typical french food and restaurants.",
+              "subtitle": i18n.__("traditionalSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Traditional",
+                  "title": i18n.__("traditional"),
                   "payload": "RESTAURANT_TRADITIONAL"
                 }
               ]
             },
             {
-              "title": "Others",
+              "title": i18n.__("other"),
               "image_url": "https://api.marco-app.com/api/image/minRestaurant.jpg",
-              "subtitle": "Let(s start the discovery.",
+              "subtitle": i18n.__("otherSub"),
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Others",
+                  "title": i18n.__("other"),
                   "payload": "RESTAURANT_OTHER"
                 }
               ]
@@ -1533,13 +1534,13 @@ class MessageData {
 
   get selectionDistrict() {
     return {
-      "text": "‍Great! 🚀‍️",
+      "text": i18n.__("selectionDistrict"),
     }
   }
 
   get selectionDistrict2() {
     return {
-      "text": " Oh but wait, I don’t know where you’d like to go. Would you mind telling me?"
+      "text": i18n.__("selectionDistrict2")
     }
   }
 
@@ -1548,7 +1549,7 @@ class MessageData {
     const buttonsDistrict =
       limitPageDistrict(city) <= page ? null :
         [{
-          "title": "View more ➕",
+          "title": i18n.__("selectionDistrictType"),
           "type": "postback",
           "payload": `SEARCH_DISTRICTAT${parseInt(page) + 1}`
         }];
@@ -1569,31 +1570,31 @@ class MessageData {
 
   get nothingInThisDistrict() {
     return {
-      "text": "Sorry, I have nothing to show 😔, though, you can always check out other districts or do something else.",
+      "text": i18n.__("nothingInThisDistrict"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "🔙 other districts",
+          "title": i18n.__("changeDistrict"),
           "payload": `SEARCH_OTHERDISTRICT`,
         },
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1602,31 +1603,31 @@ class MessageData {
 
   get findNothing() {
     return {
-      "text": "Sorry I'm actually very young and still learning some things. Maybe try something else? ",
+      "text": i18n.__("findNothing"),
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1639,12 +1640,12 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "Let's go! 🚀",
+          "title": i18n.__("viewMore1"),
           "payload": `GOING_${kindElement}:${eventID}`,
         },
         {
           "content_type": "text",
-          "title": "Later ❤️",
+          "title": i18n.__("viewMore2"),
           "payload": `LATER_${kindElement}:${eventID}`,
         },
       ]
@@ -1654,8 +1655,8 @@ class MessageData {
   priceMessage(type, tag) {
     return {
       "text": type === 'RESTAURANT' ?
-        "Yummy !! 😋\nNow, what price range do you have in mind?" :
-        "Cheers! 🍻\nNow, how much are planning on spending?",
+        i18n.__("priceMessage1") :
+        i18n.__("priceMessage2"),
       "quick_replies": [
         {
           "content_type": "text",
@@ -1707,7 +1708,7 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "🔙 Change category",
+          "title": i18n.__("changeDistrict"),
           "payload": `CATEGORY_${EVENT}`,
         },
         {

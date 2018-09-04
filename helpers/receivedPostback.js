@@ -100,7 +100,7 @@ module.exports = (event) => {
         updateCityHandler(payloadType[1], senderID);
         break;
       case 'NEWTRIP':
-        newTripHandler(senderID);
+        newTripHandler(senderID, locale);
         break;
       default :
         postbackDefault(senderID);
