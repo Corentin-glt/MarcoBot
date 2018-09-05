@@ -5,7 +5,6 @@ const Activity = require("../activity/query").activity;
 const Bar = require("../bar/query").bar;
 const Club = require("../club/query").club;
 const Event = require("../event/query").event;
-const Exhibition = require("../exhibition/query").exhibition;
 const Museum = require("../museum/query").museum;
 const Parc = require("../parc/query").parc;
 const Restaurant = require("../restaurant/query").restaurant;
@@ -22,7 +21,6 @@ module.exports = {
         bars_id{ ${Bar} }
         clubs_id{ ${Club} }
         events_id{ ${Event} }
-        exhibitions_id{ ${Exhibition} }
         museums_id{ ${Museum} }
         parcs_id{ ${Parc} }
         restaurants_id{ ${Restaurant} }
@@ -40,7 +38,6 @@ module.exports = {
         bars_id{ ${Bar} }
         clubs_id{ ${Club} }
         events_id{ ${Event} }
-        exhibitions_id{ ${Exhibition} }
         museums_id{ ${Museum} }
         parcs_id{ ${Parc} }
         restaurants_id{ ${Restaurant} }
