@@ -78,7 +78,7 @@ module.exports = (event) => {
                         .then(helper.delayPromise(2000))
                         .then(() => {
                           return sendMessage(senderID,
-                            product_data.messageOfItineraryNotification2(city, numberDay, idProgram), "RESPONSE")
+                            product_data.messageOfItineraryNotification2(city, 1, idProgram), "RESPONSE")
                         })
                     } else {
                       return sendMessage(senderID, product_data.noPropgramForThisStaying, "RESPONSE")
