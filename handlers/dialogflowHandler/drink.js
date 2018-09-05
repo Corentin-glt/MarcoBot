@@ -3,7 +3,7 @@
  */
 const queryBar = require('../../graphql/bar/query');
 const queryUser = require('../../graphql/user/query');
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const config = require("../../config");
 const ApiGraphql = require('../../helpers/apiGraphql');
 const helper = require("../../helpers/helper");
@@ -22,7 +22,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (parameters, senderId) => {
+module.exports = (parameters, senderId, locale) => {
+  const product_data = new MessageData(locale);
   let dataToSend = {};
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   if (typeof parameters.drink !== "undefined" && parameters.drink !== null

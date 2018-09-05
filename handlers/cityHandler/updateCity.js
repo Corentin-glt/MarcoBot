@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 28/08/2018.
  */
-const product_data = require("../../messenger/product_data");
+const MesssageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const userQuery = require("../../graphql/user/query");
 const userMutation = require("../../graphql/user/mutation");
@@ -23,7 +23,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (payload, senderID) => {
+module.exports = (payload, senderID, locale) => {
+  const product_data = new MesssageData(locale);
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(senderID))
     .then(res => {

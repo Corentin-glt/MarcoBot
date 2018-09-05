@@ -2,7 +2,7 @@
  * Created by corentin on 13/06/2018.
  */
 const async = require("async");
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
@@ -47,7 +47,8 @@ const events = {
   "SITE": (page, city) => querySite.querySites(page, city)
 };
 
-module.exports = (payload, senderID) => {
+module.exports = (payload, senderID, locale) => {
+  const product_data = new MessageData(locale);
   const newPayload = payload.split(':');
   let eventName = newPayload[0];
   const page = newPayload[1];

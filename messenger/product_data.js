@@ -7,6 +7,7 @@ const anecdotes = require('../variableApp/anecdote');
 const ARRAYDAY = ["sunday", "monday", "tuesday", "wednesday", "thursday",
   "friday", "saturday"];
 const numberDayString = ['', 'first', 'second', 'third', 'fourth', 'fifth'];
+const numberDayStringFR = ['', 'premier', 'deuxième', 'troisième', 'quatrième', 'cinquième'];
 const indexElementDistrict = require('../variableApp/district/index');
 const limitPageDistrict = require('../variableApp/district/limit');
 
@@ -22,6 +23,7 @@ i18n.configure({
 
 class MessageData {
   constructor(locale) {
+    this.locale = locale;
     i18n.setLocale(locale);
   }
 
@@ -30,22 +32,22 @@ class MessageData {
       let money = "";
       switch (elem.priceRange) {
         case 0:
-          money = "FREE";
+          money = i18n.__("templatePrice");
           break;
         case 1:
           money = "💰";
           break;
         case 2:
-          money = "💰💰- 💰💰💰";
+          money = "💰💰";
           break;
         case 3:
-          money = "💰💰 - 💰💰💰";
+          money = "💰💰";
           break;
         case 4:
-          money = "💰💰💰💰";
+          money = "💰💰💰";
           break;
         default:
-          money = "FREE";
+          money = i18n.__("templatePrice");
           break;
       }
       let schedule = "🕐 ";
@@ -55,14 +57,14 @@ class MessageData {
       if (daySchedule.length > 0) {
         daySchedule.map((day, i) => {
           schedule = (day.start === "12:00 am" && day.end === "12:00 pm") ?
-            schedule.concat("Always open")
+            schedule.concat(i18n.__("templateOpen"))
             : schedule.concat(day.start, ' - ', day.end, ' ');
           if (i === daySchedule.length - 1) {
             resolve({schedule: schedule, money: money});
           }
         })
       } else {
-        schedule = "❌ CLOSED";
+        schedule = i18n.__("templateClose");
         resolve({schedule: schedule, money: money});
       }
     });
@@ -1442,7 +1444,7 @@ class MessageData {
 
   get selectionRestaurant2() {
     return {
-      "text": i18n.__("selectionRestaurant"),
+      "text": i18n.__("selectionRestaurant2"),
     }
   }
 
@@ -1665,7 +1667,7 @@ class MessageData {
         },
         {
           "content_type": "text",
-          "title": "💰💰-💰💰💰",
+          "title": "💰💰",
           "payload": `PRICE${type}_${tag}_TWO-THREE`,
         },
         // {
@@ -1675,7 +1677,7 @@ class MessageData {
         // },
         {
           "content_type": "text",
-          "title": "💰💰💰💰",
+          "title": "💰💰💰",
           "payload": `PRICE${type}_${tag}_FOUR`,
         }
       ]
@@ -1684,19 +1686,19 @@ class MessageData {
 
   get fetchRestaurantsMessage() {
     return {
-      "text": "Ok! Check out what I found for you:"
+      "text": i18n.__("fetchRestaurantMessage")
     }
   }
 
   get fetchVisitsMessage() {
     return {
-      "text": "Sure thing!! This is what I found for you: "
+      "text": i18n.__("fetchVisitMessage")
     }
   }
 
   get fetchBarsMessage() {
     return {
-      "text": "Thanks! Look at what I found just for you:"
+      "text": i18n.__("fetchBarsMessage")
     }
   }
 
@@ -1704,7 +1706,7 @@ class MessageData {
     const indexJoke = Math.floor(Math.random() *
       Math.floor(anecdotes.length - 1));
     return {
-      "text": `Sorry! There's nothing left in stock... \nBut here's an anecdote for you while we work on it: \n${anecdotes[indexJoke]}`,
+      "text": `${i18n.__("jokeMarco1")}\n${i18n.__("jokeMarco2")}\n${anecdotes[indexJoke]}`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -1713,27 +1715,27 @@ class MessageData {
         },
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1744,31 +1746,31 @@ class MessageData {
     const indexJoke = Math.floor(Math.random() *
       Math.floor(anecdotes.length - 1));
     return {
-      "text": `Sorry! There's nothing left in stock... \nBut here's an anecdote for you while we work on it: \n${anecdotes[indexJoke]}`,
+      "text": `${i18n.__("jokeMarco1")}\n ${i18n.__("jokeMarco2")}\n${anecdotes[indexJoke]}`,
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1777,31 +1779,31 @@ class MessageData {
 
   get helpMessage() {
     return {
-      "text": "You're lost? \nMarco is a personal travel assistant giving the best insider tips just for you.\n\nYou can manage your account by checking out the menu. 😉"
+      "text": `${i18n.__("helpMessage1")}\n${i18n.__("helpMessage2")}\n\n${i18n.__("helpMessage3")}`
     }
   }
 
   get unsubscribeMessage() {
     return {
-      "text": "Done! ✅ Could you tell me in a few words why? It will help me getting better. 🙂 \n\n\nNevertheless if you want to delete your account, email us at hello@marcobot.io "
+      "text": `${i18n.__("unsubscribeMessage1")}\n\n\n${i18n.__("unsubscribeMessage2")}`
     }
   }
 
   get subscribeMessage() {
     return {
-      "text": "Done! ✅, I'm happy to be able to continue talking with you my friend 🙂"
+      "text": i18n.__("subscribeMessage")
     }
   }
 
   get unsubscribeMessageError() {
     return {
-      "text": "Oops! Something wrong happened... Please email at hello@marcobot.io"
+      "text": i18n.__("unsubscribeMessageError")
     }
   }
 
   get startTalkingWithHuman() {
     return {
-      "text": "Okay! An awesome Parisian is gonna answer your request ASAP!\n To stop chatting just type \"I want Marco back\" or \"Stop\". \nI\'ll come back for you. See you soon 🙂 ",
+      "text": `${i18n.__("startTalkingWithHuman")}\n${i18n.__("startTalkingWithHuman2")}\n${i18n.__("startTalkingWithHuman3")}`,
     }
   }
 
@@ -1813,8 +1815,8 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": `You started to chat with an awesome Parisian that'll answer your requests ASAP! 🙂`,
-              "subtitle": `To stop chatting just type \"I want Marco back\", \"Stop\" or click the button.`,
+              "title": `${i18n.__("startTalkingWithHuman")}`,
+              "subtitle": i18n.__("startTalkingWithHuman2Bis"),
               "buttons": [
                 {
                   "type": "postback",
@@ -1829,33 +1831,39 @@ class MessageData {
     }
   }
 
+  get selectionDistrictChoice() {
+    return {
+      "text": i18n.__("selectionDistrictChoice")
+    }
+  }
+
   stopTalkingWithHuman(name) {
     return {
-      "text": `Hey ${name}, I missed you. I\'m really happy to talk with you again 🙂. How can I help you?`,
+      "text": `Hey ${name}${i18n.__("stopTalkingWithHuman")}`,
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with a human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1872,7 +1880,7 @@ class MessageData {
             {
               "title": "Marco",
               "image_url": `https://api.marco-app.com/api/image/marcoSharePhoto.jpg`,
-              "subtitle": "Your own personal travel assistant 24h/24h on Facebook Messenger. ✈️",
+              "subtitle": i18n.__("shareSubtitle"),
               "buttons": [
                 {
                   "type": "element_share",
@@ -1885,11 +1893,11 @@ class MessageData {
                           {
                             "title": "Marco",
                             "image_url": `https://api.marco-app.com/api/image/marcoSharePhoto.jpg`,
-                            "subtitle": "Your own personal travel assistant 24h/24h on Facebook Messenger. ✈️",
+                            "subtitle": i18n.__("shareSubtitle"),
                             "buttons": [{
                               "type": "web_url",
-                              "url": "http://m.me/marco.bot.paris",
-                              "title": "Start me"
+                              "url": "https://m.me/meethellomarco",
+                              "title": i18n.__("shareButton")
                             }
                             ]
                           }
@@ -1907,14 +1915,15 @@ class MessageData {
   }
 
   messageOfItineraryNotification(name, city, numberDay, programs_id) {
-    const dayString = numberDayString[numberDay];
+    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay]:numberDayString[numberDay];
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
+    const lowerCity = cityToLowerCase.toLowerCase();
     return {
       "attachment": {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text": `Hey ${name} 😊, you can find here your program for your ${dayString} day in ${cityToLowerCase}`,
+          "text": `Hey ${name} 😊,${i18n.__("messageOfItineraryNotification")}${dayString}${i18n.__("messageOfItineraryNotification2")}${i18n.__(lowerCity)}`,
           "buttons": [
             {
               "type": "postback",
@@ -1928,14 +1937,15 @@ class MessageData {
   }
 
   messageOfItineraryNotification2(city, numberDay, programs_id) {
-    const dayString = numberDayString[numberDay];
+    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay]:numberDayString[numberDay];
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
+    const lowerCity = cityToLowerCase.toLowerCase();
     return {
       "attachment": {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text": `Your program for your ${dayString} day in ${cityToLowerCase}`,
+          "text": `${i18n.__("messageNotification")}${dayString}${i18n.__("messageOfItineraryNotification2")}${i18n.__(lowerCity)}`,
           "buttons": [
             {
               "type": "postback",
@@ -1958,7 +1968,7 @@ class MessageData {
           "buttons": [
             {
               "type": "postback",
-              "title": "Next",
+              "title": "Next !",
               "payload": `ITINERARYNEXT_${programs_id}:${parseInt(
                 numberDay)}:${parseInt(page) + 1}`
             }
@@ -1970,32 +1980,33 @@ class MessageData {
 
   messageForTomorrow(name, city) {
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
+    const lowerCity = cityToLowerCase.toLowerCase();
     return {
-      "text": `Hey ${name}, ready for tomorrow ? ${cityToLowerCase} is waiting for you 🤩.\nTomorrow morning I'll send you your personal program. But now, you can check out what to do`,
+      "text": `Hey ${name}${i18n.__("messageForTomorrow")}${cityToLowerCase} ${i18n.__("messageForTomorrow2")}\n${i18n.__("messageForTomorrow3")}${i18n.__(lowerCity)}`,
       "quick_replies": [
         {
           "content_type": "text",
-          "title": "📸 Visit",
+          "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": "🍽 Eat",
+          "title": i18n.__("eat"),
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": "🍸 Drink",
+          "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": "🚶‍️ Walk around",
+          "title": i18n.__("walkAround"),
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": "🗣 Chat with human",
+          "title": i18n.__("chat"),
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -2004,7 +2015,7 @@ class MessageData {
 
   textBeforeShare(url) {
     return {
-      "text": `You can find this program in its entirety 👉 ${url}\nIf you have fun, you can share this one with your friends\nI'm counting on you to make me grow! ❤️`,
+      "text": `${i18n.__("textBeforeShare")}${url}\n\n${i18n.__("textBeforeShare2")}\n${i18n.__("textBeforeShare3")}`,
     }
   }
 
@@ -2016,8 +2027,8 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": "Share Marco ❤",
-              "subtitle": "Marco is your personal travel assistant available 24h/24h on Facebook Messenger! ✈",
+              "title": i18n.__("shareUrlTitle"),
+              "subtitle": i18n.__("helpMessage2"),
               "image_url": "https://api.marco-app.com/api/image/FBProfileRe.png",
               "buttons": [
                 {
@@ -2030,18 +2041,18 @@ class MessageData {
                         "elements": [
                           {
                             "title": `Share`,
-                            "subtitle": `Marco is your personal travel assistant available 24h/24h on Facebook Messenger! ✈️`,
+                            "subtitle": i18n.__("helpMessage2"),
                             "image_url": `https://api.marco-app.com/api/image/FBProfileRe.png`,
                             "default_action": {
                               "type": "web_url",
-                              "url": "https://www.messenger.com/t/marco.bot.paris",
+                              "url": "https://www.messenger.com/t/meethellomarco",
 
                             },
                             "buttons": [
                               {
                                 "type": "web_url",
                                 "url": `https://www.messenger.com/t/marco.bot.paris`,
-                                "title": "Discover Marco"
+                                "title": i18n.__("shareUrlButton")
                               },
                             ]
                           }

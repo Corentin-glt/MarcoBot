@@ -30,22 +30,22 @@ module.exports = (event) => {
         excitementHandler(payloadType[1], senderID, locale);
         break;
       case 'TRAVELTYPE':
-        travelTypeHandler(payloadType[1], senderID);
+        travelTypeHandler(payloadType[1], senderID, locale);
         break;
       case 'SEARCH':
-        searchHandler(payloadType[1], senderID);
+        searchHandler(payloadType[1], senderID, locale);
         break;
       case 'NOUPDATELOCATION':
-        noUpdateLocation(senderID);
+        noUpdateLocation(senderID, locale);
         break;
       case 'PRICERESTAURANT':
-        restaurantHandler(payloadType[1], payloadType[2], senderID);
+        restaurantHandler(payloadType[1], payloadType[2], senderID, locale);
         break;
       case 'PRICEBAR':
-        barHandler(payloadType[1], payloadType[2], senderID);
+        barHandler(payloadType[1], payloadType[2], senderID, locale);
         break;
       case 'CATEGORY':
-        backQuestionHandler(payloadType[1], senderID);
+        backQuestionHandler(payloadType[1], senderID, locale);
         break;
       case 'FIRSTTIME':
         firstTimeCityHandler(payloadType[1], senderID, locale);
@@ -54,13 +54,13 @@ module.exports = (event) => {
         alreadyInCityHandler(senderID, locale);
         break;
       case  'UNSUBSCRIBE':
-        unsubscribeHandler(senderID);
+        unsubscribeHandler(senderID, locale);
         break;
       case  'SUBSCRIBE':
-        subscribeHandler(senderID);
+        subscribeHandler(senderID, locale);
         break;
       default :
-        postbackDefault(senderID);
+        postbackDefault(senderID, locale);
         break;
     }
   }

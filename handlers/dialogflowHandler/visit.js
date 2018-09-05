@@ -2,7 +2,6 @@
  * Created by corentin on 14/06/2018.
  */
 const queryVisit = require('../../graphql/bar/query');
-const product_data = require("../../messenger/product_data");
 const config = require("../../config");
 const ApiGraphql = require('../../helpers/apiGraphql');
 const helper = require("../../helpers/helper");

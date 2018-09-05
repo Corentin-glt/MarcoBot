@@ -3,7 +3,7 @@
  */
 
 const hoursCron = {
-  "morning": "10 08 * * * *",
+  "morning": "30 10 * * * *",
   "endAfterNoon": "10 18 * * * *"
 };
 

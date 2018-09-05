@@ -3,7 +3,7 @@
  */
 const queryProgram = require('../../graphql/program/query');
 const queryItinerary = require('../../graphql/itinerary/query');
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const config = require("../../config");
 const ApiGraphql = require('../../helpers/apiGraphql');
 const helper = require("../../helpers/helper");
@@ -23,7 +23,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (parameters, senderId) => {
+module.exports = (parameters, senderId, locale) => {
+  const product_data = new MessageData(locale);
   const paramatersArray = parameters.split(':');
   const idProgram = paramatersArray[0];
   const numberDay = parseInt(paramatersArray[1]);

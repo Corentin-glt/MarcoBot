@@ -10,7 +10,7 @@ const PORT = Config.category[Config.indexCategory].port;
 const verificationController = require("./controllers/verification");
 const messageWebhookController = require("./controllers/messageWebhook");
 const apiMessenger = require('./helpers/apiMessenger');
-const product_data = require('./messenger/product_data');
+const MessageData = require('./messenger/product_data');
 const axios = require('axios');
 const CronJob = require('cron').CronJob;
 const cronMethods = require('./helpers/cronMethods/cronMethods');
@@ -47,14 +47,15 @@ axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {clientId: Con
   .catch(err => console.log(err));
 
 //TODO: décommenter quand api recommendation sera disponible
-// axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {clientId: Config.clientId, clientSecret: Config.clientSecret, grantType: 'server'})
-//   .then(res => {
-//     Config.accessTokenRecommendationApi = res.data.token;
-//   })
-//   .catch(err => console.log(err));
+axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {clientId: Config.clientId, clientSecret: Config.clientSecret, grantType: 'server'})
+  .then(res => {
+    Config.accessTokenRecommendationApi = res.data.token;
+  })
+  .catch(err => console.log(err));
 
 
 app.get('/setup', (req, res) => {
+  const product_data = new MessageData('en');
   apiMessenger.callbackStartButton(product_data.getStartedData)
     .then(response => {
       return apiMessenger.callbackStartButton(product_data.menuData)
