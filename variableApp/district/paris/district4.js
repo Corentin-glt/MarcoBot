@@ -17,9 +17,9 @@ const district4 = (trans) => {
       ]
     },
     {
-      "title": "Pigalle",
+      "title": trans.__("district1Pigalle"),
       "image_url": "https://api.marco-app.com/api/image/minPigalle.jpg",
-      "subtitle": "The hottest neighbourhood of Paris.",
+      "subtitle": trans.__("district1PigalleSub"),
       "buttons": [
         {
           "type": "postback",
@@ -29,9 +29,9 @@ const district4 = (trans) => {
       ]
     },
     {
-      "title": "Montparnasse & surroundings",
+      "title": trans.__("district1Montparnasse"),
       "image_url": "https://api.marco-app.com/api/image/minMontpar.jpg",
-      "subtitle": "Famous for its theatres.",
+      "subtitle": trans.__("district1MontparnasseSub"),
       "buttons": [
         {
           "type": "postback",
@@ -41,9 +41,9 @@ const district4 = (trans) => {
       ]
     },
     {
-      "title": "Chinatown",
+      "title": trans.__("district1Chinese"),
       "image_url": "https://api.marco-app.com/api/image/minChinatown.jpg",
-      "subtitle": "Famous for its asian streets and food",
+      "subtitle": trans.__("district1ChineseSub"),
       "buttons": [
         {
           "type": "postback",
