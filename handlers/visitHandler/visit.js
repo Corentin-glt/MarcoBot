@@ -1,4 +1,4 @@
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const ApiGraphql = require("../../helpers/apiGraphql");
 const visit = require('../../graphql/visit/query');
@@ -6,7 +6,8 @@ const helper = require("../../helpers/helper");
 const userMutation = require('../../graphql/user/mutation');
 const config = require('../../config');
 
-module.exports = (type, senderID) => {
+module.exports = (type, senderID, locale) => {
+  const product_data = new MessageData(locale);
   let messageData = {
     recipient: {
       id: senderID
@@ -44,7 +45,6 @@ module.exports = (type, senderID) => {
       }
     })
     .then(result => {
-      console.log(result);
       delete messageData.sender_action;
       messageData.message = result;
       return apiMessenger.sendToFacebook(messageData);

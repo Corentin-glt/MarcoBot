@@ -7,6 +7,7 @@ module.exports = {
     name
     types
     description
+    descriptionFr
     tags
     tips
     priceRange
@@ -54,6 +55,7 @@ module.exports = {
           name
           types
           description
+          descriptionFr
           tags
           priceRange
           tips
@@ -103,6 +105,7 @@ module.exports = {
           name
           types
           description
+          descriptionFr
           tags
           priceRange
           tips

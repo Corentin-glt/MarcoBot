@@ -5,14 +5,14 @@ const districtParis = require('./paris/index');
 const districtLondon = require('./london/index');
 const districtBarcelona = require('./barcelona/index');
 
-const index = (city, page) => {
+const index = (city, page, trans) => {
   switch (city) {
     case 'paris':
-      return districtParis(page);
+      return districtParis(page, trans);
     case 'london':
-      return districtLondon(page);
+      return districtLondon(page, trans);
     case 'barcelona':
-      return districtBarcelona(page);
+      return districtBarcelona(page, trans);
     default:
       break;
   }

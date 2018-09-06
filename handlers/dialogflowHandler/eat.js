@@ -2,7 +2,7 @@
  * Created by corentin on 14/06/2018.
  */
 const queryRestaurant = require('../../graphql/restaurant/query');
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const queryUser = require('../../graphql/user/query');
 const config = require("../../config");
 const ApiGraphql = require('../../helpers/apiGraphql');
@@ -22,7 +22,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (parameters,senderId) => {
+module.exports = (parameters,senderId, locale) => {
+  const product_data = new MessageData(locale);
   let dataToSend = {};
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   if (typeof parameters.eatdrink !== "undefined" && parameters.eatdrink !== null

@@ -15,4 +15,4 @@ services:
 networks:
   default:
     external:
-      name: dockerenvironment_env-net
+      name: docker-environment_env-net

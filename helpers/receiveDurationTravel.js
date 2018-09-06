@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 08/08/2018.
  */
-const product_data = require("../messenger/product_data");
+const MessageData = require("../messenger/product_data");
 const apiMessenger = require("./apiMessenger");
 const userQuery = require("../graphql/user/query");
 const userMutation = require("../graphql/user/mutation");
@@ -26,6 +26,8 @@ const sendMessage = (senderID, data, typeMessage) => {
 };
 
 module.exports = (event) => {
+  const locale = event.locale;
+  const product_data = new MessageData(locale);
   const senderID = event.sender.id;
   const duration = event.message.nlp.entities.duration[0].normalized.value;
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);

@@ -8,8 +8,8 @@ const ApiGraphql = require('../helpers/apiGraphql');
 const apiMessenger = require('../helpers/apiMessenger');
 const messengerMethods = require('../messenger/messengerMethods');
 const clientControl = require('../controllers/clientControl');
-const product_data = require('../messenger/product_data');
-const config = require("../config")
+const MessageData = require('../messenger/product_data');
+const config = require("../config");
 const stopTalking = require('../messenger/quickReplyBlocks/stopTalkingWithHuman')
 
 const messageToStopTalkingWithHuman = [
@@ -39,9 +39,11 @@ const sendMessage = (senderId, data, typeMessage) => {
 
 module.exports = (event) => {
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
+  const locale = event.locale;
   const senderId = event.sender.id;
   const message = event.message.text;
   const query = user.queryUserByAccountMessenger(senderId);
+  const product_data = new MessageData(locale);
   apiGraphql.sendQuery(query)
     .then(res => {
       if (res.userByAccountMessenger === null) {
@@ -53,7 +55,7 @@ module.exports = (event) => {
       }
       if(res.userByAccountMessenger !== null && res.userByAccountMessenger.isTalkingToHuman){
         if(messageToStopTalkingWithHuman.some(elem => elem.toUpperCase() === message.toUpperCase())) {
-          return stopTalking(senderId);
+          return stopTalking(senderId, locale);
         } else {
           return null;
         }
@@ -61,7 +63,7 @@ module.exports = (event) => {
         const apiaiSession = apiAiClient.textRequest(message,
           {sessionId: Config.projectIDDialogflow});
           apiaiSession.on("response", (response) => {
-            return clientControl.checkDialogflow(senderId, response)
+            return clientControl.checkDialogflow(senderId, response, locale)
           });
           apiaiSession.on("error", error => {
             console.log("ERROR dialogflow ===>", error);

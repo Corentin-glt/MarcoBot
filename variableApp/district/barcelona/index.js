@@ -4,12 +4,12 @@
 const district1 = require('./district1');
 const district2 = require('./district2');
 
-const index = (page) => {
+const index = (page, trans) => {
   switch(page) {
     case 1:
-      return district1;
+      return district1(trans);
     case 2:
-      return district2;
+      return district2(trans);
     default:
       break;
   }

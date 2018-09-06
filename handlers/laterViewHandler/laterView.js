@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 14/06/2018.
  */
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const laterQuery = require("../../graphql/later/query");
 const userQuery = require("../../graphql/user/query");
@@ -23,7 +23,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (page, senderID) => {
+module.exports = (page, senderID, locale) => {
+  const product_data = new MessageData(locale);
   let dataToSend = {};
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(senderID))
