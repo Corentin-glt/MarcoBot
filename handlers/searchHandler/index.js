@@ -7,7 +7,7 @@ const searchVisit = require('./searchVisit');
 
 module.exports = (payload, senderID, locale) => {
   if(payload.includes('DISTRICTAT')){
-    return searchDistrictAt(senderID, payload.slice(10))
+    return searchDistrictAt(senderID, payload.slice(10), locale)
   }
   switch (payload) {
     case 'VISIT':

@@ -1547,7 +1547,7 @@ class MessageData {
   }
 
   selectionDistrictType(city, page) {
-    const elementsDistrict = indexElementDistrict(city, parseInt(page));
+    const elementsDistrict = indexElementDistrict(city, parseInt(page), i18n);
     const buttonsDistrict =
       limitPageDistrict(city) <= page ? null :
         [{
@@ -2029,7 +2029,7 @@ class MessageData {
             {
               "title": i18n.__("shareUrlTitle"),
               "subtitle": i18n.__("helpMessage2"),
-              "image_url": "https://api.marco-app.com/api/image/FBProfileRe.png",
+              "image_url": "https://api.marco-app.com/api/image/marcoSharePhoto.jpg",
               "buttons": [
                 {
                   "type": "element_share",
@@ -2042,7 +2042,7 @@ class MessageData {
                           {
                             "title": `Share`,
                             "subtitle": i18n.__("helpMessage2"),
-                            "image_url": `https://api.marco-app.com/api/image/FBProfileRe.png`,
+                            "image_url": `https://api.marco-app.com/api/image/marcoSharePhoto.jpg`,
                             "default_action": {
                               "type": "web_url",
                               "url": "https://www.messenger.com/t/meethellomarco",

@@ -21,9 +21,9 @@ module.exports = (event) => {
   const payload = event.message.quick_reply.payload;
   const payloadType = payload.split("_");
   if (payload.includes("NOLOCATIONEVENT") || payload.includes("USEOLDLOCATIONEVENT")) {
-    return quickReplyLocation(payload, senderID);
+    return quickReplyLocation(payload, senderID, locale);
   } else if (payload.includes("GOING") || payload.includes("LATER") ) {
-      return postbackInteractionWithCard(payload, senderID)
+      return postbackInteractionWithCard(payload, senderID, locale)
   } else {
     switch (payloadType[0]) {
       case 'EXCITEMENT':

@@ -136,7 +136,8 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) =>
     })
 };
 
-const _createLater = (senderID, userID, eventID, eventName, event, locale) => {
+const _createLater = (senderID, userID, eventID, eventName, locale) => {
+  const product_data = new MessageData(locale);
   const dataToSend = {
     "users_id": userID,
     "eventName": eventName
@@ -177,6 +178,8 @@ const _createLater = (senderID, userID, eventID, eventName, event, locale) => {
 };
 
 const _seeMore = (senderID, eventName, event, locale) => {
+  console.log(event);
+  const product_data = new MessageData(locale);
   return apiMessenger.sendToFacebook({
     recipient: {id: senderID},
     sender_action: 'typing_on',
@@ -186,8 +189,15 @@ const _seeMore = (senderID, eventName, event, locale) => {
     .then(helper.delayPromise(2000))
     .then(response => {
       if (response.status === 200) {
-        return sendMessage(senderID, product_data.viewMore(event.description, eventName, event.id), "RESPONSE")
+        const description = locale === 'fr' ? event.descriptionFr : event.description;
+        return sendMessage(senderID, product_data.viewMore(description, eventName, event.id), "RESPONSE")
       }
+    })
+    .then(response => {
+      console.log("end view more");
+    })
+    .catch(err => {
+      console.log(err);
     })
 };
 

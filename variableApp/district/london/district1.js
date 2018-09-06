@@ -1,43 +1,46 @@
 /**
  * Created by corentin on 29/08/2018.
  */
-const district1 = [
-  {
-    "title": "City",
-    "image_url": "https://api.marco-app.com/api/image/minCity.jpg",
-    "subtitle": "Tt's both the historic heart and the geographical center of the city of London",
-    "buttons": [
-      {
-        "type": "postback",
-        "title": "Gooooo! 🚀",
-        "payload": "AROUND_city"
-      }
-    ]
-  },
-  {
-    "title": "Camden",
-    "image_url": "https://api.marco-app.com/api/image/minCamden.jpg",
-    "subtitle": "Consolidation of Hampstead, Holborn and St. Pancras Districts, has more than 210,000 inhabitants.",
-    "buttons": [
-      {
-        "type": "postback",
-        "title": "Gooooo! 🚀",
-        "payload": "AROUND_camden"
-      }
-    ]
-  },
-  {
-    "title": "Notting Hill",
-    "image_url": "https://api.marco-app.com/api/image/minNottingHill.jpg",
-    "subtitle": "West of the center of London",
-    "buttons": [
-      {
-        "type": "postback",
-        "title": "Gooooo! 🚀",
-        "payload": "AROUND_notting_hill"
-      }
-    ]
-  },
-];
+const district1 = (trans) => {
+  return [
+    {
+      "title": trans.__("district2City"),
+      "image_url": "https://api.marco-app.com/api/image/minCity.jpg",
+      "subtitle": trans.__("district2CitySub"),
+      "buttons": [
+        {
+          "type": "postback",
+          "title": "Gooooo! 🚀",
+          "payload": "AROUND_city"
+        }
+      ]
+    },
+    {
+      "title": trans.__("district2Camden"),
+      "image_url": "https://api.marco-app.com/api/image/minCamden.jpg",
+      "subtitle": trans.__("district2CamdenSub"),
+      "buttons": [
+        {
+          "type": "postback",
+          "title": "Gooooo! 🚀",
+          "payload": "AROUND_camden"
+        }
+      ]
+    },
+    {
+      "title": trans.__("district2Notting"),
+      "image_url": "https://api.marco-app.com/api/image/minNottingHill.jpg",
+      "subtitle": trans.__("district2NottingSub"),
+      "buttons": [
+        {
+          "type": "postback",
+          "title": "Gooooo! 🚀",
+          "payload": "AROUND_notting_hill"
+        }
+      ]
+    },
+  ];
+}
+
 
 module.exports = district1;
