@@ -1547,6 +1547,7 @@ class MessageData {
   }
 
   selectionDistrictType(city, page) {
+    console.log(i18n);
     const elementsDistrict = indexElementDistrict(city, parseInt(page), i18n);
     const buttonsDistrict =
       limitPageDistrict(city) <= page ? null :
@@ -1703,10 +1704,11 @@ class MessageData {
   }
 
   jokeMarco(EVENT) {
+    const arrayAnecdotes = anecdotes(locale);
     const indexJoke = Math.floor(Math.random() *
-      Math.floor(anecdotes.length - 1));
+      Math.floor(arrayAnecdotes.length - 1));
     return {
-      "text": `${i18n.__("jokeMarco1")}\n${i18n.__("jokeMarco2")}\n${anecdotes[indexJoke]}`,
+      "text": `${i18n.__("jokeMarco1")}\n${i18n.__("jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -1743,10 +1745,11 @@ class MessageData {
   }
 
   jokeMarco2() {
+    const arrayAnecdotes = anecdotes(locale);
     const indexJoke = Math.floor(Math.random() *
-      Math.floor(anecdotes.length - 1));
+      Math.floor(arrayAnecdotes.length - 1));
     return {
-      "text": `${i18n.__("jokeMarco1")}\n ${i18n.__("jokeMarco2")}\n${anecdotes[indexJoke]}`,
+      "text": `${i18n.__("jokeMarco1")}\n${i18n.__("jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`,
       "quick_replies": [
         {
           "content_type": "text",

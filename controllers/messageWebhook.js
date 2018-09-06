@@ -38,6 +38,7 @@ module.exports = (req, res) =>  {
               apiGraphql.sendQuery(queryAccount)
                 .then(response => {
                   event.locale = response.accountMessenger.locale.split("_")[0];
+                  console.log(event.locale);
                   if (event.message && event.message.text) {
                     if(event.message.quick_reply) {
                       receivedQuickReply(event);

@@ -24,6 +24,7 @@ const sendMessage = (senderId, data, typeMessage) => {
 };
 
 module.exports = (_district, senderID, locale) => {
+  console.log("District" + locale);
   const product_data = new MessageData(locale);
   let dataToSend = {};
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
