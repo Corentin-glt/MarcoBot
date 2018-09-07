@@ -14,6 +14,7 @@ module.exports = {
           departureDateToCity,
           arrivalDateToCity,
           isTalkingToHuman,
+          lastMessageToHuman,
           geoLocation {
             lat,
             lng,
@@ -24,8 +25,8 @@ module.exports = {
     `
   },
   updateUserByAccountMessenger: () => {
-      return `mutation updateUserByAccountMessenger($PSID: ID!, $firstName: String, $lastName: String, $gender: String, $profilePic: String, $travelType: String, $geoLocation: LocationInput){
-        updateUserByAccountMessenger(PSID: $PSID, firstName: $firstName, lastName: $lastName, gender: $gender, profilePic: $profilePic, travelType: $travelType, geoLocation:$geoLocation) {
+      return `mutation updateUserByAccountMessenger($PSID: ID!, $firstName: String, $lastName: String, $gender: String, $profilePic: String, $travelType: String, $geoLocation: LocationInput, $lastMessageToHuman: String){
+        updateUserByAccountMessenger(PSID: $PSID, firstName: $firstName, lastName: $lastName, gender: $gender, profilePic: $profilePic, travelType: $travelType, geoLocation:$geoLocation, lastMessageToHuman: $lastMessageToHuman) {
            id
           firstName,
           lastName,
@@ -39,6 +40,7 @@ module.exports = {
           arrivalDateToCity,
           travelType,
           isTalkingToHuman,
+          lastMessageToHuman,
           geoLocation {
             lat,
             lng,
@@ -64,6 +66,7 @@ module.exports = {
           arrivalDateToCity,
           travelType,
           isTalkingToHuman,
+          lastMessageToHuman,
           geoLocation {
             lat,
             lng,
@@ -86,6 +89,7 @@ module.exports = {
           cityTraveling,
           isItFirstTimeCity,
           isTalkingToHuman,
+          lastMessageToHuman,
           arrivalDateToCity,
           departureDateToCity,
           geoLocation {
@@ -111,6 +115,7 @@ module.exports = {
           profilePic,
           cityTraveling,
           isTalkingToHuman,
+          lastMessageToHuman,
           arrivalDateToCity,
           departureDateToCity,
           PSID,
@@ -139,6 +144,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           travelType,
           arrivalDateToCity,
@@ -167,6 +173,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           arrivalDateToCity,
           departureDateToCity,
@@ -195,6 +202,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           arrivalDateToCity,
           departureDateToCity,
@@ -223,6 +231,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           arrivalDateToCity,
           departureDateToCity,
@@ -251,6 +260,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           arrivalDateToCity,
           departureDateToCity,
@@ -268,5 +278,5 @@ module.exports = {
       }
      }
     `
-  }
+  },
 };

@@ -4,6 +4,7 @@
 const Config = require('../config');
 const apiAiClient = require("apiai")(Config.clientTokenDialogflow);
 const user = require("../graphql/user/query");
+const userMutation = require("../graphql/user/mutation");
 const ApiGraphql = require('../helpers/apiGraphql');
 const apiMessenger = require('../helpers/apiMessenger');
 const messengerMethods = require('../messenger/messengerMethods');
@@ -57,7 +58,9 @@ module.exports = (event) => {
         if(messageToStopTalkingWithHuman.some(elem => elem.toUpperCase() === message.toUpperCase())) {
           return stopTalking(senderId, locale);
         } else {
-          return null;
+          return apiGraphql.sendMutation(userMutation.updateUserByAccountMessenger(),
+            {PSID: senderId, lastMessageToHuman: new Date()})
+            .catch(err => console.log(err))
         }
       } else {
         const apiaiSession = apiAiClient.textRequest(message,

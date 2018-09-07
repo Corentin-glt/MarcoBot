@@ -10,6 +10,7 @@ module.exports = {
           gender,
           deleted,
           isTalkingToHuman,
+          lastMessageToHuman,
           cityTraveling,
           departureDateToCity,
           isItFirstTimeCity,
@@ -33,6 +34,7 @@ module.exports = {
           gender,
           deleted,
           isTalkingToHuman,
+          lastMessageToHuman,
           cityTraveling,
           isItFirstTimeCity,
           departureDateToCity,
@@ -45,5 +47,28 @@ module.exports = {
         }
     }`
   },
-
+  usersByLastMessageToHuman: () => {
+    return `{
+        usersByLastMessageToHuman{
+          id,
+          PSID,
+          firstName,
+          lastName,
+          createAt,
+          gender,
+          deleted,
+          isTalkingToHuman,
+          lastMessageToHuman,
+          cityTraveling,
+          departureDateToCity,
+          isItFirstTimeCity,
+          arrivalDateToCity,
+          geoLocation {
+            lat,
+            lng,
+            lastUpdated
+          }
+        }
+      }`
+  },
 };

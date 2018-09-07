@@ -35,11 +35,11 @@ module.exports = {
         (response.result.metadata.intentName ? response.result.metadata.intentName : null) : null;
       switch (intent) {
         case 'visit_out':
-          return visitHandler(parameters, senderId);
+          return visitHandler(parameters, senderId, locale);
         case 'drink_out':
-          return drinkHandler(parameters, senderId);
+          return drinkHandler(parameters, senderId, locale);
         case 'eating_out':
-          return eatHandler(parameters, senderId);
+          return eatHandler(parameters, senderId, locale);
         case 'stop_input':
           return sendMessage(senderId, {"text" : response.result.fulfillment.speech}, "RESPONSE")
             .then((response) => {

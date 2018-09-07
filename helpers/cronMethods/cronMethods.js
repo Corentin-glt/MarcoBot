@@ -9,6 +9,7 @@ const queryTrip = require('../../graphql/trip/query');
 const queryProgram = require('../../graphql/program/query');
 const queryItinerary = require('../../graphql/itinerary/query');
 const queryUser = require('../../graphql/user/query');
+const userMutation = require('../../graphql/user/mutation');
 const queryAccountMessenger = require('../../graphql/accountMessenger/query');
 const MessageData = require("../../messenger/product_data");
 const numberDayProgramByCity = require('../../variableApp/limitCityProgram');
@@ -91,7 +92,7 @@ class CronMethods {
       .catch(err => console.log(err))
   }
 
-  readyForTomorrow(){
+  readyForTomorrow() {
     return this.apiGraphql.sendQuery(queryTrip.getTripsStartTomorrow())
       .then((trips) => {
         async.each(trips.getTripsStartTomorrow, (trip, callback) => {
@@ -123,6 +124,26 @@ class CronMethods {
             })
             .catch(err => callback())
         })
+      })
+      .catch(err => console.log(err))
+  }
+
+  checkLastMessageToHuman() {
+    return this.apiGraphql.sendQuery(queryUser.usersByLastMessageToHuman())
+      .then(res => {
+        if(res.usersByLastMessageToHuman){
+          async.each(res.usersByLastMessageToHuman, (user, callback) => {
+            return this.apiGraphql.sendMutation(userMutation.updateIsTalkingWithHuman(),
+              {PSID: user.PSID, isTalkingToHuman: false})
+              .then((response) => {
+                callback()
+              })
+              .catch(err => callback(err))
+          }, (err) => {
+            if(err) console.log(err)
+            console.log('cron check last Message done! ')
+          })
+        }
       })
       .catch(err => console.log(err))
   }
