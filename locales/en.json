@@ -145,6 +145,8 @@
  "subscribeMessage": "Done! ✅, I'm happy that you trust me to give you amazing recommendations, I'll take my duty seriously! 🙂",
  "unsubscribeMessageError": "Oops! Something wrong happened... Please email at hello@marcobot.io",
  "startTalkingWithHuman": "Okay! An awesome local is gonna answer your request ASAP!",
+ "startTalkingWithHumanHelp": "An awesome local is gonna help you!",
+ "startTalkingWithHumanHelp2": "If you don't need help anymore, just type \"Stop\" or click 👇",
  "startTalkingWithHuman2": "To stop chatting just type \"I want Marco back\" or \"Stop\".",
  "startTalkingWithHuman2Bis": "To stop chatting just type \"I want Marco back\", \"Stop\" or click on the button",
  "startTalkingWithHuman3": "I'll come back for you. See you soon 🙂 ",

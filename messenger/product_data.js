@@ -1834,6 +1834,30 @@ class MessageData {
     }
   }
 
+  get startTalkingWithHumanHelp() {
+    return {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [
+            {
+              "title": `${i18n.__("startTalkingWithHumanHelp")}`,
+              "subtitle": i18n.__("startTalkingWithHumanHelp2"),
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": "Stop chat",
+                  "payload": "STOPTALKING_"
+                },
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+
   get selectionDistrictChoice() {
     return {
       "text": i18n.__("selectionDistrictChoice")

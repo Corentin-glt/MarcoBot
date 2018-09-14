@@ -56,7 +56,7 @@ module.exports = (event) => {
       case  'UNSUBSCRIBE':
         unsubscribeHandler(senderID, locale);
         break;
-      case  'SUBSCRIBE':
+      case 'SUBSCRIBE':
         subscribeHandler(senderID, locale);
         break;
       default :
