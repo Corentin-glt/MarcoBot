@@ -59,35 +59,35 @@ module.exports = (payload, senderID, locale) => {
       if (res.userByAccountMessenger) {
         const city = res.userByAccountMessenger.cityTraveling.length > 0
           ? res.userByAccountMessenger.cityTraveling : "paris";
-        return apiGraphql.sendQuery(events[eventName](page, city))
-      }
-    })
-    .then((res) => {
-      let eventsNames = eventName === "ACTIVITY" ?
-        "activities" : eventName.toLocaleLowerCase() + 's';
-      const resultat = res[eventsNames];
-      if(resultat !== null || resultat.length > 0){
-        return product_data.templateList(resultat, eventName, page, "mongo")
-          .then(result => {
-            dataToSend = Object.assign({}, result);
-            return sendMessage(senderID, dataToSend, "RESPONSE")
+        apiGraphql.sendQuery(events[eventName](page, city))
+          .then((res) => {
+            let eventsNames = eventName === "ACTIVITY" ?
+              "activities" : eventName.toLocaleLowerCase() + 's';
+            const resultat = res[eventsNames];
+            if(resultat !== null || resultat.length > 0){
+              return product_data.templateList(resultat, eventName, page, "mongo")
+                .then(result => {
+                  dataToSend = Object.assign({}, result);
+                  return sendMessage(senderID, dataToSend, "RESPONSE")
+                })
+                .then((response) => {
+                  if (response.status === 200)
+                    return apiMessenger.sendToFacebook({
+                      recipient: {id: senderID},
+                      sender_action: 'typing_on',
+                      messaging_types: "RESPONSE",
+                      message: ""
+                    })
+                })
+                .then(helper.delayPromise(2000))
+                .then((response) => {
+                  if (response.status === 200)
+                    return sendMessage(senderID, product_data.question1MessageListView, "RESPONSE")
+                })
+            } else {
+              return sendMessage(senderID, product_data.jokeMarco2(city), "RESPONSE")
+            }
           })
-          .then((response) => {
-            if (response.status === 200)
-              return apiMessenger.sendToFacebook({
-                recipient: {id: senderID},
-                sender_action: 'typing_on',
-                messaging_types: "RESPONSE",
-                message: ""
-              })
-          })
-          .then(helper.delayPromise(2000))
-          .then((response) => {
-            if (response.status === 200)
-              return sendMessage(senderID, product_data.question1MessageListView, "RESPONSE")
-          })
-      } else {
-        return sendMessage(senderID, product_data.jokeMarco2(), "RESPONSE")
       }
     })
     .catch(err => {

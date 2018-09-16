@@ -5,6 +5,7 @@ const ApiGraphql = require("../../helpers/apiGraphql");
 const bar = require('../../graphql/bar/query');
 const helper = require("../../helpers/helper");
 const userMutation = require('../../graphql/user/mutation');
+const queryUser = require('../../graphql/user/query');
 
 module.exports = (type, price, senderID, locale) => {
   const product_data = new MessageData(locale);
@@ -38,28 +39,56 @@ module.exports = (type, price, senderID, locale) => {
     })
     .then(res => {
       if (res.barsByPriceAndType.length > 0 && res.barsByPriceAndType !== null ) {
-        console.log(res.barsByPriceAndType);
-        return product_data.templateList(res.barsByPriceAndType, "BAR", 0, "neo4j", type, price)
+        product_data.templateList(res.barsByPriceAndType, "BAR", 0, "neo4j", type, price)
+          .then(result => {
+            delete messageData.sender_action;
+            messageData.message = result;
+            return apiMessenger.sendToFacebook(messageData);
+          })
+          .then(res => {
+            if (res.status === 200) {
+              messageData.message = product_data.backQuestion("BAR");
+              return apiMessenger.sendToFacebook(messageData);
+            }
+          })
+          .then(res => {
+            console.log('end bar');
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
       } else {
-        return product_data.jokeMarco("BAR");
+        apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID))
+          .then(res => {
+            if (res.userByAccountMessenger) {
+              const city = res.userByAccountMessenger.cityTraveling.length > 0 ?
+                res.userByAccountMessenger.cityTraveling : "paris";
+
+              return product_data.jokeMarco("BAR", city);
+            }
+          })
+          .then(result => {
+            delete messageData.sender_action;
+            messageData.message = result;
+            return apiMessenger.sendToFacebook(messageData);
+          })
+          .then(res => {
+            if (res.status === 200) {
+              messageData.message = product_data.backQuestion("BAR");
+              return apiMessenger.sendToFacebook(messageData);
+            }
+          })
+          .then(res => {
+            console.log('end bar');
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
       }
-    })
-    .then(result => {
-      delete messageData.sender_action;
-      messageData.message = result;
-      return apiMessenger.sendToFacebook(messageData);
-    })
-    .then(res => {
-      if (res.status === 200) {
-        messageData.message = product_data.backQuestion("BAR");
-        return apiMessenger.sendToFacebook(messageData);
-      }
-    })
-    .then(res => {
-      console.log('end bar');
     })
     .catch(err => {
-      console.log(err);
       console.log(err.response.data.error);
-    });
+
+    })
+
 };

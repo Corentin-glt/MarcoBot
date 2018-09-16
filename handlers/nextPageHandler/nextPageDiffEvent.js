@@ -7,7 +7,9 @@ const apiMessenger = require("../../helpers/apiMessenger");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const ApiGraphql = require("../../helpers/apiGraphql");
-const indexLocationQuery = require("../../graphql/indexLocation/query")
+const indexLocationQuery = require("../../graphql/indexLocation/query");
+const queryUser = require('../../graphql/user/query');
+
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {
@@ -81,9 +83,15 @@ module.exports = (payload, senderID, locale) => {
             })
         })
       } else {
-        return sendMessage(senderID, product_data.jokeMarco2(), "RESPONSE")
+        return apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID));
       }
     })
-
+    .then(res => {
+      if (res.userByAccountMessenger) {
+        const city = res.userByAccountMessenger.cityTraveling.length > 0 ?
+          res.userByAccountMessenger.cityTraveling : "paris";
+        return sendMessage(senderID, product_data.jokeMarco2(city), "RESPONSE")
+      }
+    })
     .catch(err => console.log(err))
 };

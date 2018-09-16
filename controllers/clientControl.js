@@ -56,6 +56,7 @@ module.exports = {
               return sendMessage(senderId, product_data.question1MessageListView, "RESPONSE")
             });
         default:
+          console.log(response);
           return sendMessage(senderId, {"text" : response.result.fulfillment.speech}, "RESPONSE")
             .then((response) => {
               if (response.status === 200)

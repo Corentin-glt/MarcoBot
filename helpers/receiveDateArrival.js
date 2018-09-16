@@ -37,8 +37,7 @@ module.exports = (event) => {
           {PSID: senderID, arrivalDateToCity: dateArrival})
           .then(res => {
             if(res.updateArrivalDate) {
-              const city = res.updateArrivalDate.cityTraveling.charAt(0).toUpperCase()
-                + res.updateArrivalDate.cityTraveling.slice(1);
+              const city = res.updateArrivalDate.cityTraveling;
               return sendMessage(senderID, product_data.howManyDayAreStaying(city), "RESPONSE")
             }
           })

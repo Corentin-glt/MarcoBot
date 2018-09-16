@@ -3,7 +3,7 @@
  */
 const Config = require("../config");
 const async = require("async");
-const anecdotes = require('../variableApp/anecdote');
+const anecdotes = require('../variableApp/anecdotes/index');
 const ARRAYDAY = ["sunday", "monday", "tuesday", "wednesday", "thursday",
   "friday", "saturday"];
 const numberDayString = ['', 'first', 'second', 'third', 'fourth', 'fifth'];
@@ -129,6 +129,112 @@ class MessageData {
             },
             {
               "title": "💌 Invite a friend",
+              "type": "postback",
+              "payload": "INVITE"
+            },
+          ]
+        },
+        {
+          "locale": "en_US",
+          "composer_input_disabled": false,
+          "call_to_actions": [
+            {
+              "title": "👤 My account",
+              "type": "nested",
+              "call_to_actions": [
+                {
+                  "title": "🔄 Switch city",
+                  "type": "postback",
+                  "payload": "CHANGEMYCITY"
+                },
+                {
+                  "title": "🗺 New trip",
+                  "type": "postback",
+                  "payload": "NEWTRIP"
+                },
+                {
+                  "title": "🧡 My favorites",
+                  "type": "postback",
+                  "payload": "MYFAVORITE_0"
+                },
+              ]
+            },
+            {
+              "title": "🛎 Service",
+              "type": "nested",
+              "call_to_actions": [
+                {
+                  "title": "Help",
+                  "type": "postback",
+                  "payload": "HELP"
+                },
+                {
+                  "title": "Subscription",
+                  "type": "postback",
+                  "payload": "SUBSCRIPTION"
+                },
+                {
+                  "title": "Restart",
+                  "type": "postback",
+                  "payload": "INIT"
+                }
+              ]
+            },
+            {
+              "title": "💌 Invite a friend",
+              "type": "postback",
+              "payload": "INVITE"
+            },
+          ]
+        },
+        {
+          "locale": "fr_FR",
+          "composer_input_disabled": false,
+          "call_to_actions": [
+            {
+              "title": "👤 Profil",
+              "type": "nested",
+              "call_to_actions": [
+                {
+                  "title": "🔄 Changer de ville",
+                  "type": "postback",
+                  "payload": "CHANGEMYCITY"
+                },
+                {
+                  "title": "🗺 Nouveau voyage",
+                  "type": "postback",
+                  "payload": "NEWTRIP"
+                },
+                {
+                  "title": "🧡 Mes favoris",
+                  "type": "postback",
+                  "payload": "MYFAVORITE_0"
+                },
+              ]
+            },
+            {
+              "title": "🛎 Service",
+              "type": "nested",
+              "call_to_actions": [
+                {
+                  "title": "Aide",
+                  "type": "postback",
+                  "payload": "HELP"
+                },
+                {
+                  "title": "Abonnement",
+                  "type": "postback",
+                  "payload": "SUBSCRIPTION"
+                },
+                {
+                  "title": "Recommencer",
+                  "type": "postback",
+                  "payload": "INIT"
+                }
+              ]
+            },
+            {
+              "title": "💌 Inviter un ami",
               "type": "postback",
               "payload": "INVITE"
             },
@@ -622,7 +728,7 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
-          "title": `${i18n.__("whenAreYouArrivingPart8")}${city}`,
+          "title": `${i18n.__("whenAreYouArrivingPart8")}${i18n.__(city)}`,
           "payload": "ALREADYINCITY",
         },
       ]
@@ -1703,8 +1809,8 @@ class MessageData {
     }
   }
 
-  jokeMarco(EVENT) {
-    const arrayAnecdotes = anecdotes(locale);
+  jokeMarco(EVENT, city) {
+    const arrayAnecdotes = anecdotes(city, locale);
     const indexJoke = Math.floor(Math.random() *
       Math.floor(arrayAnecdotes.length - 1));
     return {
@@ -1744,8 +1850,8 @@ class MessageData {
     }
   }
 
-  jokeMarco2() {
-    const arrayAnecdotes = anecdotes(locale);
+  jokeMarco2(city) {
+    const arrayAnecdotes = anecdotes(city, locale);
     const indexJoke = Math.floor(Math.random() *
       Math.floor(arrayAnecdotes.length - 1));
     return {

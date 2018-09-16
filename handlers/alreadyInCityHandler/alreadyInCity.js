@@ -36,9 +36,7 @@ module.exports = (senderID, locale) => {
     })
     .then(res => {
       if(res.updateArrivalDateToNow) {
-        const city = res.updateArrivalDateToNow.cityTraveling.charAt(0).toUpperCase()
-          + res.updateArrivalDateToNow.cityTraveling.slice(1);
-        return sendMessage(senderID, product_data.howManyDayAreStaying(city), "RESPONSE")
+        return sendMessage(senderID, product_data.howManyDayAreStaying(res.updateArrivalDateToNow.cityTraveling), "RESPONSE")
       }
     })
 };

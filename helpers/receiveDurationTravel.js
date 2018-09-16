@@ -94,8 +94,7 @@ module.exports = (event) => {
           })
       } else if (res.userByAccountMessenger && res.userByAccountMessenger.cityTraveling !== null
         && res.userByAccountMessenger.cityTraveling.length > 0) {
-        const city = res.userByAccountMessenger.cityTraveling.charAt(0).toUpperCase()
-          + res.updateArrivalDate.cityTraveling.slice(1);
+        const city = res.userByAccountMessenger.cityTraveling;
         return sendMessage(senderID, product_data.whenAreYouArriving2(city), "RESPONSE")
       } else {
         return sendMessage(senderID, product_data.forgetCity, "RESPONSE")

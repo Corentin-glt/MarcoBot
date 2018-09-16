@@ -35,10 +35,16 @@ module.exports = (payload, senderID, locale) => {
       }
     })
     .then(res => {
+      console.log(res);
       if(res.updateFirstTimeCity) {
-        const city = res.updateFirstTimeCity.cityTraveling.charAt(0).toUpperCase()
-          + res.updateFirstTimeCity.cityTraveling.slice(1);
-        return sendMessage(senderID, product_data.whenAreYouArriving(isItFirstTime, city), "RESPONSE")
+        return sendMessage(senderID, product_data.whenAreYouArriving(isItFirstTime, res.updateFirstTimeCity.cityTraveling), "RESPONSE")
       }
+    })
+    .then(res => {
+      console.log(res);
+      console.log("end arriving");
+    })
+    .catch(err => {
+      console.log(err);
     })
 };

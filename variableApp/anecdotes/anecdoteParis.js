@@ -1,4 +1,4 @@
-const arrayOfAnecdote = (locale) => {
+const arrayOfAnecdoteParis = (locale) => {
 
   return locale === 'fr' ? [
     "La tour Eiffel devrait s'appeler la tour Nouguier et la tour Koechlin. \nEn effet, Koechlin et Nouguier, deux ingénieurs des ateliers de Gustave Eiffel, ont eu l’idée de la Dame de fer pour briller lors de l’exposition universelle de 1889, Eiffel étant initialement totalement désintéressé du projet. \nIl a eu la bonne idée d'acheter le brevet pour présenter la fameuse construction qui a finalement reçu son nom! ",
@@ -25,4 +25,4 @@ const arrayOfAnecdote = (locale) => {
   ];
 };
 
-module.exports = arrayOfAnecdote;
+module.exports = arrayOfAnecdoteParis;

@@ -34,7 +34,7 @@ module.exports = (payload, senderID, locale) => {
       }
     })
     .then(res => {
-      const city = payload.charAt(0) + payload.slice(1).toLowerCase();
+      const city = payload.toLowerCase();
       if(res.updateCityTraveling) {
         return sendMessage(senderID, product_data.isItFirstTime(city), "RESPONSE")
       }

@@ -221,5 +221,10 @@
 	"district3Barceloneta": "Barceloneta",
 	"district3BarcelonetaSub": "Le quartier balnéaire.",
 	"district3Olympic": "Autour du Port Olympique",
-	"district3OlympicSub": "Une marina à l'est de Barcelone."
+	"district3OlympicSub": "Une marina à l'est de Barcelone.",
+	"London": "London",
+	"Barcelona": "Barcelona",
+	"Lisbon": "Lisbon",
+	"Rome": "Rome",
+	"Berlin": "Berlin"
 }
