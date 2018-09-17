@@ -4,7 +4,8 @@
 const processMessage = require('../helpers/processMessage');
 const receivedPostback = require('../helpers/receivedPostback');
 const receivedQuickReply = require('../helpers/receivedQuickReply');
-const receiveLocation = require('../helpers/receiveLocation');
+const receiveLocationItinerary = require('../helpers/receiveLocationItinerary');
+const receiveLocationAroundMe = require('../helpers/receiveLocationAroundMe');
 const receiveDateArrival = require('../helpers/receiveDateArrival');
 const receiveDurationTravel = require('../helpers/receiveDurationTravel');
 const axios = require('axios');
@@ -15,7 +16,7 @@ const accountMessenger = require('../graphql/accountMessenger/query');
 const config = require('../config');
 
 
-const _handlingEvent = (event) => {
+const _handlingEvent = (event, user) => {
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   const senderId = event.sender.id;
   const queryAccount = accountMessenger.queryPSID(senderId);
@@ -75,7 +76,17 @@ const _handlingEvent = (event) => {
           }
           receivedPostback(event);
         } else if (event.message.attachments && event.message.attachments[0].type === 'location') {
-          receiveLocation(event);
+          switch(user.geoLocation.lastEvent) {
+            case "itinerary":
+              receiveLocationItinerary(event);
+              break;
+            case "aroundMe":
+              receiveLocationAroundMe(event);
+              break;
+            default:
+              console.log("nothing found error");
+          }
+
         }
       }
     })
@@ -96,12 +107,15 @@ module.exports = (req, res) =>  {
           .then(res => {
             if (res.userByAccountMessenger === null) {
               messengerMethods.createUser(senderId)
-                .then((userSaved) => {
-                  _handlingEvent(event);
+                .then(res => {
+                  console.log(res);
+                  const user = res.createUser;
+                  _handlingEvent(event, user);
                 })
                 .catch(err => console.log("Error to create USER: ", err));
             } else {
-              _handlingEvent(event);
+              const user = res.userByAccountMessenger;
+              _handlingEvent(event, user);
             }
           })
           .catch(err => {

@@ -4,6 +4,7 @@ const searchDistrictAt = require('./searchDistrict/searchDistrictAt');
 const searchBar = require('./searchBar');
 const searchTalkingWithHuman = require('./talkWithHuman');
 const searchVisit = require('./searchVisit');
+const searchGeolocation = require('./searchGeolocation');
 
 module.exports = (payload, senderID, locale) => {
   if(payload.includes('DISTRICTAT')){
@@ -24,6 +25,9 @@ module.exports = (payload, senderID, locale) => {
       break;
     case 'DISTRICT':
       searchDistrict(senderID, locale);
+      break;
+    case 'GEOLOCATION':
+      searchGeolocation(senderID, locale);
       break;
     case 'OTHERDISTRICT':
       searchDistrictAt(senderID, 1, locale);

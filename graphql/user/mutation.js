@@ -18,6 +18,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
@@ -44,6 +45,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
@@ -70,6 +72,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
@@ -95,6 +98,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           },
           categories {
@@ -124,6 +128,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           },
           categories {
@@ -153,6 +158,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           },
           categories {
@@ -182,7 +188,8 @@ module.exports = {
           geoLocation {
             lat,
             lng,
-            lastUpdated
+            lastEvent,
+            lastUpdated,
           },
           categories {
           name,
@@ -211,7 +218,8 @@ module.exports = {
           geoLocation {
             lat,
             lng,
-            lastUpdated
+            lastEvent,
+            lastUpdated,
           },
           categories {
           name,
@@ -240,7 +248,8 @@ module.exports = {
           geoLocation {
             lat,
             lng,
-            lastUpdated
+            lastEvent,
+            lastUpdated,
           },
           categories {
           name,
@@ -269,7 +278,38 @@ module.exports = {
           geoLocation {
             lat,
             lng,
-            lastUpdated
+            lastEvent,
+            lastUpdated,
+          },
+          categories {
+          name,
+          weight
+        }
+      }
+     }
+    `
+  },
+  updateLastEventLocation: () => {
+      return `mutation updateLastEventLocation($PSID: ID!, $lastEvent: String) {
+        updateLastEventLocation(PSID: $PSID, lastEvent: $lastEvent) {
+           id
+          firstName,
+          lastName,
+          cityTraveling,
+          gender,
+          profilePic,
+          isTalkingToHuman,
+          lastMessageToHuman,
+          PSID,
+          arrivalDateToCity,
+          departureDateToCity,
+          travelType,
+          isItFirstTimeCity,
+          geoLocation {
+            lat,
+            lng,
+            lastEvent,
+            lastUpdated,
           },
           categories {
           name,

@@ -1,20 +1,19 @@
-/**
- * Created by corentin on 11/06/2018.
- */
+const ApiGraphql = require("./apiGraphql");
+const mutationUser = require("../graphql/user/mutation");
+const apiMessenger = require("./apiMessenger");
+const MessageData = require("../messenger/product_data");
+const helper = require("./helper");
+const config = require("../config");
+const indexLocationQuery = require("../graphql/indexLocation/query");
 const async = require("async");
-const MessageData = require("../../messenger/product_data");
-const apiMessenger = require("../../helpers/apiMessenger");
-const helper = require("../../helpers/helper");
-const config = require("../../config");
-const ApiGraphql = require("../../helpers/apiGraphql");
-const indexLocationQuery = require("../../graphql/indexLocation/query");
-const queryUser = require('../../graphql/user/query');
+const queryUser = require('../graphql/user/query');
 
 
-const sendMessage = (senderId, data, typeMessage) => {
+
+const sendMessage = (senderID, data, typeMessage) => {
   return new Promise((resolve, reject) => {
     const objectToSend = {
-      recipient: {id: senderId},
+      recipient: {id: senderID},
       messaging_types: typeMessage,
       message: data
     };
@@ -24,14 +23,31 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (_district, senderID, locale) => {
-  const product_data = new MessageData(locale);
-  let dataToSend = {};
+module.exports = (_event) => {
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
-  return apiGraphql.sendQuery(indexLocationQuery.findByDistrict(_district, 0))
-    .then((response) => {
-      if(response.findByDistrict !== null && response.findByDistrict.length > 0){
-        let responses = [...response.findByDistrict];
+  const senderID = _event.sender.id;
+  let dataToSend = {};
+  const locale = _event.locale;
+  const product_data = new MessageData(locale);
+  const nowDate = new Date();
+  const location = _event.message.attachments[0].payload.coordinates;
+  const geoLocation = {
+    lat: location.lat,
+    lng: location.long,
+    lastUpdated: nowDate
+  };
+  let userObject = {};
+  return apiGraphql.sendMutation(mutationUser.updateLocationByAccountMessenger(),
+    {PSID: senderID, geoLocation: geoLocation})
+    .then(res => {
+      if (res.updateLocationByAccountMessenger) {
+        userObject = res.updateLocationByAccountMessenger;
+        return apiGraphql.sendQuery(indexLocationQuery.findByNearMe(geoLocation, 0, userObject.cityTraveling))
+      }
+    })
+    .then(response => {
+      if(response.findByNearMe !== null && response.findByNearMe.length > 0){
+        let responses = [...response.findByNearMe];
         let newResponses = [];
         async.each(responses, (elem, callback) => {
           elem.kindElement = "";
@@ -47,11 +63,11 @@ module.exports = (_district, senderID, locale) => {
         }, (err) => {
           if(err) return sendMessage(senderID,
             {text: "Hmmm... I think the machine's gone crazy! Try again later."}, "RESPONSE");
-          return product_data.templateListFromDifferentEvent(newResponses, 0, _district, "mongo")
+          return product_data.templateListFromDifferentEvent(newResponses, 0, "AROUNDME", "mongo")
             .then(result => {
               if (result) {
                 dataToSend = Object.assign({}, result);
-                return sendMessage(senderID, product_data.selectionDistrictChoice, "RESPONSE")
+                return sendMessage(senderID, product_data.aroundMeChoice, "RESPONSE")
               }
             })
             .then((response) => {
@@ -60,7 +76,6 @@ module.exports = (_district, senderID, locale) => {
                   recipient: {id: senderID},
                   sender_action: 'typing_on',
                   messaging_types: "RESPONSE",
-                  message: ""
                 })
             })
             .then(helper.delayPromise(2000))
@@ -80,8 +95,9 @@ module.exports = (_district, senderID, locale) => {
             .then(helper.delayPromise(2000))
             .then((response) => {
               if (response.status === 200)
-                return sendMessage(senderID, product_data.question1MessageAfterDistrict, "RESPONSE")
+                return sendMessage(senderID, product_data.question1MessageAfterLocation, "RESPONSE")
             })
+            .catch(err => console.log(err.response.data.error));
         })
       } else {
         return apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID));

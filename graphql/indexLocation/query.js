@@ -14,9 +14,9 @@ const Show = require("../show/query").show;
 const Site = require("../site/query").site;
 
 module.exports = {
-  findByNearMe: (location, page) => {
+  findByNearMe: (location, page, city) => {
     return ` {
-      findByNearMe(lat: ${location.lat}, lng: ${location.lng}, page: ${page}) {
+      findByNearMe(lat: ${location.lat}, lng: ${location.lng}, page: ${page}, city: ${city}) {
         id
         activities_id{ ${Activity} }
         bars_id{ ${Bar} }

@@ -860,6 +860,11 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
           "title": `📸 ${i18n.__("visit")}`,
           "payload": "SEARCH_VISIT",
         },
@@ -896,6 +901,11 @@ class MessageData {
     return {
       "text": i18n.__("noPropgramForThisStaying"),
       "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
         {
           "content_type": "text",
           "title": i18n.__("visit"),
@@ -1019,6 +1029,11 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1057,6 +1072,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1090,6 +1110,11 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1121,6 +1146,11 @@ class MessageData {
     return {
       "text": i18n.__("question1MessageAfterLater"),
       "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
         {
           "content_type": "text",
           "title": i18n.__("visit"),
@@ -1161,6 +1191,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1187,6 +1222,11 @@ class MessageData {
     return {
       "text": i18n.__("question1MessageAfterDistrict"),
       "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
         {
           "content_type": "text",
           "title": i18n.__("visit"),
@@ -1220,6 +1260,11 @@ class MessageData {
     return {
       "text": i18n.__("nothingMore"),
       "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
         {
           "content_type": "text",
           "title": i18n.__("visit"),
@@ -1688,6 +1733,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1714,6 +1764,11 @@ class MessageData {
     return {
       "text": i18n.__("findNothing"),
       "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
         {
           "content_type": "text",
           "title": i18n.__("visit"),
@@ -1823,6 +1878,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1857,6 +1917,11 @@ class MessageData {
     return {
       "text": `${i18n.__("jokeMarco1")}\n${i18n.__("jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`,
       "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
         {
           "content_type": "text",
           "title": i18n.__("visit"),
@@ -1970,10 +2035,21 @@ class MessageData {
     }
   }
 
+  get aroundMeChoice() {
+    return {
+      "text": i18n.__("aroundMeChoice")
+    }
+  }
+
   stopTalkingWithHuman(name) {
     return {
       "text": `Hey ${name}${i18n.__("stopTalkingWithHuman")}`,
       "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
         {
           "content_type": "text",
           "title": i18n.__("visit"),
@@ -2119,6 +2195,11 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -2199,6 +2280,19 @@ class MessageData {
           ]
         }
       }
+    }
+  }
+
+  get preGeolocation() {
+    return {
+      "text": i18n.__("preGeolocation"),
+      "quick_replies": [
+        {
+          "title": "test title",
+          "content_type": "location",
+          "payload": "ZER"
+        }
+      ]
     }
   }
 
