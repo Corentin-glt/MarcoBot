@@ -226,5 +226,9 @@
 	"Barcelona": "Barcelona",
 	"Lisbon": "Lisbon",
 	"Rome": "Rome",
-	"Berlin": "Berlin"
+	"Berlin": "Berlin",
+	"preGeolocation": "Super!! 🎉 Mais juste avant de laisser faire la magie, j'ai besoin que tu me dises où tu es. 😊 Pour cela, clique sur le bouton ci-dessous. 👇",
+	"geolocation": "📍 Autour de moi",
+	"aroundMeChoice": "Y'a toujours plein de choses qui se passent autour de toi 😉, voilà ce que je t'ai trouvé: "
+
 }

@@ -222,6 +222,9 @@
  "district3Barceloneta": "Barceloneta",
  "district3BarcelonetaSub": "Barceloneta is the district near the beach.",
  "district3Olympic": "Autour du Port Olympique",
- "district3OlympicSub": "A marina located east of Barcelona."
+ "district3OlympicSub": "A marina located east of Barcelona.",
+ "preGeolocation": "That's great!! 🎉 But just before the magic happens I'll need you to tell me where you are. 😊 Just click on the button below. 👇",
+ "geolocation": "📍 Around me",
+ "aroundMeChoice": "There's always plenty of things happening around you 😉, here's what I found for you: "
 
 }

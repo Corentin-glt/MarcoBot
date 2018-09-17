@@ -16,6 +16,7 @@ const queryShow = require("../../graphql/show/query");
 const querySite = require("../../graphql/site/query");
 const mutationGoing = require("../../graphql/going/mutation");
 const mutationLater = require("../../graphql/later/mutation");
+const mutationUser = require("../../graphql/user/mutation");
 const apiMessenger = require("../../helpers/apiMessenger");
 const MessageData = require("../product_data");
 const helper = require("../../helpers/helper");
@@ -60,7 +61,14 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) =>
   let user = {};
   dataToSend[key] = eventID;
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
-  return apiGraphql.sendMutation(mutationGoing.createGoing(), dataToSend)
+
+  apiGraphql.sendMutation(mutationUser.updateLastEventLocation(),
+    {PSID: senderID, lastEvent: 'itinerary'})
+    .then(res => {
+      if (res.updateLastEventLocation) {
+        return apiGraphql.sendMutation(mutationGoing.createGoing(), dataToSend)
+      }
+    })
     .then(res => {
       if(res.createGoing){
         return apiGraphql.sendQuery(queryUser.queryUser(userID))

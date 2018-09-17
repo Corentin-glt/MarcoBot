@@ -18,6 +18,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
@@ -42,6 +43,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
@@ -66,6 +68,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
