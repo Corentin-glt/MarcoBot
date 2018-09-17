@@ -1810,7 +1810,7 @@ class MessageData {
   }
 
   jokeMarco(EVENT, city) {
-    const arrayAnecdotes = anecdotes(city, locale);
+    const arrayAnecdotes = anecdotes(city, this.locale);
     const indexJoke = Math.floor(Math.random() *
       Math.floor(arrayAnecdotes.length - 1));
     return {
@@ -1851,7 +1851,7 @@ class MessageData {
   }
 
   jokeMarco2(city) {
-    const arrayAnecdotes = anecdotes(city, locale);
+    const arrayAnecdotes = anecdotes(city, this.locale);
     const indexJoke = Math.floor(Math.random() *
       Math.floor(arrayAnecdotes.length - 1));
     return {
