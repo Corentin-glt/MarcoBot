@@ -77,7 +77,7 @@
 	"rememberLocation": "Est-ce que tu pourrais juste me rappeler où tu es? Ça fait longtemps qu'on ne s'est pas parlé. 🙈",
 	"rememberLocationNo": "Position précédente",
 	"updateLocation": "Tu peux mettre à jour ta position en cliquant sur le bouton ci-dessous.",
-	"askLocation": "J'aime ta determination! 👊",
+	"askLocation": "J'aime ta determination! 👊\nEst-ce que tu pourrais me donner ton point de départ pour que je concocte un itinéraire?",
 	"sendItinerary": "Clique sur le bouton ci-dessous pour voir ton itinéraire 👇‍️",
 	"itinerary": "🚇🚎 Itinéraire 📍",
 	"sendLocation": "C'est là, sur la carte 👇‍️",
@@ -229,6 +229,10 @@
 	"Berlin": "Berlin",
 	"preGeolocation": "Super!! 🎉 Mais juste avant de laisser faire la magie, j'ai besoin que tu me dises où tu es. 😊 Pour cela, clique sur le bouton ci-dessous. 👇",
 	"geolocation": "📍 Autour de moi",
-	"aroundMeChoice": "Y'a toujours plein de choses qui se passent autour de toi 😉, voilà ce que je t'ai trouvé: "
+	"aroundMeChoice": "Y'a toujours plein de choses qui se passent autour de toi 😉, voilà ce que je t'ai trouvé: ",
+	"switchCity": "🔄 Changer de ville",
+	"noAroundMe": "Euh oh... Je n'ai rien trouvé autour de toi... 😢 Si tu n'es pas dans une des ville que je connais j'aurais du mal à t'aider. \n\nPar ailleurs, si tu as simplement oublié de me dire que tu voyages autre part qu'à ",
+	"noAroundMe2": ", tu peux changer de ville en cliquant ci-dessous. 👇"
+
 
 }
