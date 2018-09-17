@@ -58,7 +58,7 @@
 	"validate": "Valider ✔️",
 	"updateCityDone": "Tu es maintenant à ",
 	"noMoreCityInTrip1": "Tu es actuellement à ",
-	"noMoreCityInTrip2": ". Quelle ville te ferait plaisir ?\nD'ailleurs, tu n'as pas programmé de voyage.\nTu devrais en ajouter un à l'aide du menu : \"👤 Mon profil\" -> \"🗺 Nouveau voyage\"",
+	"noMoreCityInTrip2": ". Quelle ville te ferait plaisir ?\nD'ailleurs, tu n'as pas programmé de voyage.\nTu peux en ajouter un à l'aide du menu : \"👤 Mon profil\" -> \"🗺 Nouveau voyage\"",
 	"yourCityActual": ". Pour quelle ville aimerais-tu changer ?",
 	"defaultPostback": "Mmmh, il semble y avoir un problème...",
 	"letsGoMessage": "Génial!! 👌🚀",
