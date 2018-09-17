@@ -2296,6 +2296,25 @@ class MessageData {
     }
   }
 
+ noAroundMe(city) {
+    return {
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type": "button",
+          "text": `${i18n.__("noAroundMe")}${i18n.__(city)}${i18n.__("noAroundMe2")}`,
+          "buttons":[
+            {
+              "type":"postback",
+              "title": i18n.__("switchCity"),
+              "payload":"CHANGEMYCITY"
+            }
+          ]
+        }
+      }
+    }
+  }
+
 }
 
 module.exports = MessageData;

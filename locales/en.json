@@ -77,7 +77,7 @@
  "rememberLocation": "Could you just help me remember where you are? We haven't talked in a while. 🙈",
  "rememberLocationNo": "Previous location",
  "updateLocation": "You can update your location, by clicking on the button below.",
- "askLocation": "I love your determination! 👊.",
+ "askLocation": "I love your determination! 👊.\nCould you give me a starting point so that I create your itinerary?",
  "sendItinerary": "Just click on the button below to see your itinerary. 👇‍️",
  "itinerary": "🚇🚎 Itinerary 📍",
  "sendLocation": "It's here, on the map 👇‍️",
@@ -225,6 +225,10 @@
  "district3OlympicSub": "A marina located east of Barcelona.",
  "preGeolocation": "That's great!! 🎉 But just before the magic happens I'll need you to tell me where you are. 😊 Just click on the button below. 👇",
  "geolocation": "📍 Around me",
- "aroundMeChoice": "There's always plenty of things happening around you 😉, here's what I found for you: "
+ "aroundMeChoice": "There's always plenty of things happening around you 😉, here's what I found for you: ",
+ "switchCity": "🔄 Switch city",
+ "noAroundMe": "Uh oh ... I didn't find anything around you ... 😢 If you are not in a city that I know I will have a hard time helping you.\n\nThough, if you simply forgot to tell me you are traveling somewhere else than ",
+ "noAroundMe2": ", you can change city by clicking below. 👇"
+
 
 }
