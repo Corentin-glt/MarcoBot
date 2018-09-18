@@ -22,6 +22,7 @@ const messageToStopTalkingWithHuman = [
   "start marcobot",
   "stop human",
   "i want marco",
+  "i want marco back",
   "stop chat",
 ];
 
@@ -63,8 +64,9 @@ module.exports = (event) => {
             .catch(err => console.log(err))
         }
       } else {
+        apiAiClient.language = locale;
         const apiaiSession = apiAiClient.textRequest(message,
-          {sessionId: Config.projectIDDialogflow});
+          {sessionId: Config.projectIDDialogflow, lang: locale});
           apiaiSession.on("response", (response) => {
             return clientControl.checkDialogflow(senderId, response, locale)
           });

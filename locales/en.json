@@ -58,7 +58,7 @@
  "validate": "Validate ✔️",
  "updateCityDone": "You've successfully switched to ",
  "noMoreCityInTrip1": "You're currently in ",
- "noMoreCityInTrip2": ". Which city would you like?\nBy the way, you have no upcoming trips.\nI advise you to add a new trip in the menu \"👤 My account\" -> \"🗺 New trip\"",
+ "noMoreCityInTrip2": ". Which city would you like?\nBy the way, you have no upcoming trips.\nYou can to add a new trip in the menu \"👤 My account\" -> \"🗺 New trip\"",
  "yourCityActual": "For which city do you want to switch?",
  "defaultPostback": "Mmmh, there seems to be a problem...",
  "letsGoMessage": "Awesome!! 👌🚀",
