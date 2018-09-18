@@ -38,7 +38,7 @@ const _handlingEvent = (event, user) => {
           event: 'CUSTOM_APP_EVENTS',
           custom_events: JSON.stringify([
             {
-              _eventName: event.referral.ref,
+              _eventName: event.referral.source === "DISCOVER_TAB" ? 'Discovery' : event.referral.ref,
             }
           ]),
           advertiser_tracking_enabled: 1,
@@ -48,7 +48,7 @@ const _handlingEvent = (event, user) => {
           page_scoped_user_id: event.sender.id
         })
           .then(response => {
-            console.log(response.data);
+            console.log("post");
           })
           .catch(err => {
             console.log(err);
@@ -61,7 +61,7 @@ const _handlingEvent = (event, user) => {
               event: 'CUSTOM_APP_EVENTS',
               custom_events: JSON.stringify([
                 {
-                  _eventName: event.postback.referral.ref,
+                  _eventName: event.postback.referral.source === "DISCOVER_TAB" ? 'Discovery' : event.postback.referral.ref,
                 }
               ]),
               advertiser_tracking_enabled: 1,

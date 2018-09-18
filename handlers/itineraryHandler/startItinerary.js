@@ -48,7 +48,7 @@ module.exports = (parameters, senderId, locale) => {
           .then(helper.delayPromise(2000))
           .then(res => {
             return sendMessage(senderId,
-              product_data.itineraryNotifications(`${itineraryToSend.description}`, numberDay, 1, idProgram), "RESPONSE")
+              product_data.itineraryNotifications(`${locale === 'fr' ? itineraryToSend.descriptionFr:itineraryToSend.description}`, numberDay, 1, idProgram), "RESPONSE")
           })
           .catch(err => console.log(err.response.data))
       })

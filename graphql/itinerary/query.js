@@ -9,6 +9,7 @@ module.exports = {
     day
     order
     description
+    descriptionFr
     locations
     admins_id
   `,
@@ -21,6 +22,7 @@ module.exports = {
         day
         order
         description
+        descriptionFr
         admins_id
         locations {
           name
