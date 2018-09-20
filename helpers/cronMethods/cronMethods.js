@@ -38,17 +38,19 @@ class CronMethods {
     return Math.round((second - first) / (1000 * 60 * 60 * 24));
   };
 
+
   sendProgram() {
     return this.apiGraphql.sendQuery(queryTrip.getTrips())
       .then(trips => {
         async.each(trips.getTrips, (trip, callback) => {
           const dayArrival = new Date(trip.arrivalDateToCity);
           const dayDeparture = new Date(trip.departureDateToCity);
-          const numberDayAlreadyDone = CronMethods.diffDayBetween2Date(dayArrival, new Date());
+          const numberDayAlreadyDone = CronMethods.diffDayBetween2Date(dayArrival, new Date()) + 1;
           const numberDayIsStaying =
             CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) >= numberDayProgramByCity[trip.cityTraveling] ?
-              numberDayProgramByCity[trip.cityTraveling] : CronMethods.diffDayBetween2Date(dayArrival, dayDeparture);
-          if (numberDayAlreadyDone < numberDayIsStaying) {
+              numberDayProgramByCity[trip.cityTraveling] : CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) + 1;
+          console.log('VILLE: ', trip.cityTraveling,'\nNOMBRE DE JOUR FAIT: ',numberDayAlreadyDone, '\nNUMBRE DE JOUR QU\'IL RESTE DANS LA VILLE : ',numberDayIsStaying,'\n\n');
+          if (numberDayAlreadyDone <= numberDayIsStaying) {
             return this.apiGraphql.sendQuery(queryProgram.getOneProgram(trip.cityTraveling, numberDayIsStaying))
               .then(program => {
                 if (program.getOneProgram) {
@@ -64,7 +66,7 @@ class CronMethods {
                             if (accountMessenger.accountMessenger.subscribe){
                               return CronMethods.sendMessage(PSID,
                                 product_data.messageOfItineraryNotification(user.user.firstName,
-                                  trip.cityTraveling, numberDayAlreadyDone + 1, idProgram), "RESPONSE")
+                                  trip.cityTraveling, numberDayAlreadyDone, idProgram), "RESPONSE")
                                 .then(() => callback())
                                 .catch(err => {
                                   callback();

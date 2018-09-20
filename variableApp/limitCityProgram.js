@@ -5,10 +5,10 @@
 
 const numberDayProgramByCity = {
   'paris': 3,
-  'london': 0,
-  'barcelona': 3,
+  'london': 1,
+  'barcelona': 1,
   'berlin': 0,
-  'rome': 2,
+  'rome': 0,
   'lisbon': 0,
 };
 

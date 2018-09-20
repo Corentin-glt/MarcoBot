@@ -2187,6 +2187,18 @@ class MessageData {
     }
   }
 
+  sendPhotoItinerary(photo) {
+    return {
+      "attachment":{
+        "type":"image",
+        "payload":{
+          "url": `https://api.marco-app.com/api/image/${photo}`,
+          "is_reusable":true,
+        }
+      }
+    }
+  }
+
   messageForTomorrow(name, city) {
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToLowerCase.toLowerCase();
