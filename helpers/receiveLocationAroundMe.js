@@ -100,14 +100,15 @@ module.exports = (_event) => {
             .catch(err => console.log(err.response.data.error));
         })
       } else {
-        return apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID));
-      }
-    })
-    .then(res => {
-      if (res.userByAccountMessenger) {
-        const city = res.userByAccountMessenger.cityTraveling.length > 0 ?
-          res.userByAccountMessenger.cityTraveling : "paris";
-        return sendMessage(senderID, product_data.noAroundMe(city), "RESPONSE")
+        apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID))
+          .then(res => {
+            if (res.userByAccountMessenger) {
+              const city = res.userByAccountMessenger.cityTraveling.length > 0 ?
+                res.userByAccountMessenger.cityTraveling : "paris";
+              return sendMessage(senderID, product_data.noAroundMe(city), "RESPONSE")
+            }
+          })
+          .catch(err => console.log(err))
       }
     })
     .catch(err => console.log(err))
