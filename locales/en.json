@@ -71,6 +71,7 @@
  "question1Message": "Now tell me, what do you feel like doing today?",
  "backQuestion": "Do not hesitate to try something else:",
  "question1MessageAfterLocation": "I’m sure you’ll enjoy yourself here! 🙂 If you have any other queries, don’t hesitate to tell me. ",
+ "question1MessageAfterGeoLocation": "I hope you found what you were looking for! 🙂 If you have any other queries, don’t hesitate to tell me. ",
  "question1MessageAfterLater": "Enjoy yourself in the meantime and if you have any other queries, don’t hesitate to tell me. ",
  "question1MessageAfterDistrict": "If you have any further queries, don’t hesitate to tell me",
  "nothingMore": "Sorry! There's nothing left in stock... If you have any other queries, don’t hesitate to tell me.",

@@ -71,6 +71,7 @@
 	"question1Message": "Dis moi tout! Qu'est ce que tu aimerais faire aujourd'hui ?",
 	"backQuestion": "N'hésite pas à essayer quelque chose d'autre :",
 	"question1MessageAfterLocation": "Je suis sûr que tu vas adorer l'endroit ! 🙂 Si toutefois tu as d'autres envies, n'hésite pas à me faire signe.",
+	"question1MessageAfterGeoLocation": "J'espère que tu as trouvé ce que tu cherchais! 🙂 Si toutefois tu as d'autres envies, n'hésite pas à me faire signe.",
 	"question1MessageAfterLater": "Profite en attendant et si tu as d'autres envies, n'hésite pas à me faire signe.",
 	"question1MessageAfterDistrict": "Si tu as d'autres envies, n'hésite pas à me faire signe.",
 	"nothingMore": "Désolé! Je n'ai plus rien dans mon sac... Si tu as d'autres envies, n'hésite pas à me faire signe.",

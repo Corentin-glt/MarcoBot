@@ -33,7 +33,7 @@ module.exports = (payload, senderID, locale) => {
     .then(res => {
       const user = res.userByAccountMessenger;
       return apiGraphql.sendQuery(
-        indexLocationQuery.findByNearMe({lat: user.geoLocation.lat, lng: user.geoLocation.lng}, page))
+        indexLocationQuery.findByNearMe({lat: user.geoLocation.lat, lng: user.geoLocation.lng}, page, user.cityTraveling))
     })
     .then((response) => {
       if (response.findByNearMe !== null && response.findByNearMe.length >
@@ -51,14 +51,13 @@ module.exports = (payload, senderID, locale) => {
               if (elem[propertyName].kindElement ===
                 "ACTIVITIE") elem[propertyName].kindElement = "ACTIVITY";
               newResponses.push(elem[propertyName]);
-              callback();
+              return callback();
             }
           }
         }, (err) => {
           if (err) return sendMessage(senderID,
             {text: "Hmmm... I think the machine's gone crazy! Try again later."},
             "RESPONSE");
-          console.log(newResponses);
           return product_data.templateListFromDifferentEvent(newResponses, page,
             "AROUNDME", "mongo")
             .then(result => {
@@ -90,7 +89,7 @@ module.exports = (payload, senderID, locale) => {
             .then((response) => {
               if (response.status === 200)
                 return sendMessage(senderID,
-                  product_data.question1MessageAfterLocation, "RESPONSE")
+                  product_data.question1MessageAfterGeoLocation, "RESPONSE")
             })
         })
       } else {
@@ -102,6 +101,21 @@ module.exports = (payload, senderID, locale) => {
                 res.userByAccountMessenger.cityTraveling : "paris";
               return sendMessage(senderID, product_data.noAroundMe(city), "RESPONSE")
             }
+          })
+          .then((response) => {
+            if (response.status === 200)
+              return apiMessenger.sendToFacebook({
+                recipient: {id: senderID},
+                sender_action: 'typing_on',
+                messaging_types: "RESPONSE",
+                message: ""
+              })
+          })
+          .then(helper.delayPromise(2000))
+          .then((response) => {
+            if (response.status === 200)
+              return sendMessage(senderID,
+                product_data.question1MessageAfterGeoLocation, "RESPONSE")
           })
           .catch(err => console.log(err))
       }
