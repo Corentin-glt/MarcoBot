@@ -95,7 +95,7 @@ module.exports = (_event) => {
             .then(helper.delayPromise(2000))
             .then((response) => {
               if (response.status === 200)
-                return sendMessage(senderID, product_data.question1MessageAfterLocation, "RESPONSE")
+                return sendMessage(senderID, product_data.question1MessageAfterGeoLocation, "RESPONSE")
             })
             .catch(err => console.log(err.response.data.error));
         })
@@ -107,6 +107,21 @@ module.exports = (_event) => {
                 res.userByAccountMessenger.cityTraveling : "paris";
               return sendMessage(senderID, product_data.noAroundMe(city), "RESPONSE")
             }
+          })
+          .then((response) => {
+            if (response.status === 200)
+              return apiMessenger.sendToFacebook({
+                recipient: {id: senderID},
+                sender_action: 'typing_on',
+                messaging_types: "RESPONSE",
+                message: ""
+              })
+          })
+          .then(helper.delayPromise(2000))
+          .then((response) => {
+            if (response.status === 200)
+              return sendMessage(senderID,
+                product_data.question1MessageAfterGeoLocation, "RESPONSE")
           })
           .catch(err => console.log(err))
       }

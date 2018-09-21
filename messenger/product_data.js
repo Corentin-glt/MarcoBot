@@ -1142,6 +1142,44 @@ class MessageData {
     }
   }
 
+  get question1MessageAfterGeoLocation() {
+    return {
+      "text": i18n.__("question1MessageAfterGeoLocation"),
+      "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("visit"),
+          "payload": "SEARCH_VISIT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("eat"),
+          "payload": "SEARCH_RESTAURANT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("drink"),
+          "payload": "SEARCH_BAR",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("walkAround"),
+          "payload": "SEARCH_DISTRICT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("chat"),
+          "payload": "SEARCH_HUMAN",
+        }
+      ]
+    }
+  }
+
   get question1MessageAfterLater() {
     return {
       "text": i18n.__("question1MessageAfterLater"),
