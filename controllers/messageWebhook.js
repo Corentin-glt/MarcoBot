@@ -24,7 +24,6 @@ const _handlingEvent = (event, user) => {
     .then(response => {
       event.locale = response.accountMessenger.locale.split("_")[0];
       if (event.message && event.message.text) {
-        console.log("SLAUYTT ",event.message.nlp);
         if(event.message.quick_reply) {
           receivedQuickReply(event);
         } else if (event.message.nlp.entities.datetime && event.message.nlp.entities.datetime[0].confidence > 0.8) {
