@@ -6,7 +6,7 @@
 const numberDayProgramByCity = {
   'paris': 3,
   'london': 1,
-  'barcelona': 1,
+  'barcelona': 3,
   'berlin': 0,
   'rome': 0,
   'lisbon': 0,

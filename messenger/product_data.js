@@ -633,17 +633,17 @@ class MessageData {
                 },
               ]
             },
-            {
-              "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
-              "image_url": `https://api.marco-app.com/api/image/london.jpg`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `TRAVELINGTO_LONDON`
-                },
-              ]
-            },
+            // {
+            //   "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
+            //   "image_url": `https://api.marco-app.com/api/image/london.jpg`,
+            //   "buttons": [
+            //     {
+            //       "type": "postback",
+            //       "title": i18n.__("validate"),
+            //       "payload": `TRAVELINGTO_LONDON`
+            //     },
+            //   ]
+            // },
             {
               "title": `🇪🇸🇪🇸 ${i18n.__('barcelona')} 🇪🇸🇪🇸`,
               "image_url": `https://api.marco-app.com/api/image/barcelona.jpg`,
@@ -655,39 +655,39 @@ class MessageData {
                 },
               ]
             },
-            {
-              "title": `🇵🇹🇵🇹 ${i18n.__('lisbon')} 🇵🇹🇵🇹`,
-              "image_url": `https://api.marco-app.com/api/image/lisbon.png`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `TRAVELINGTO_LISBON`
-                },
-              ]
-            },
-            {
-              "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
-              "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `TRAVELINGTO_ROME`
-                },
-              ]
-            },
-            {
-              "title": `🇩🇪🇩🇪 ${i18n.__('berlin')} 🇩🇪🇩🇪`,
-              "image_url": `https://api.marco-app.com/api/image/berlin.jpg`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `TRAVELINGTO_BERLIN`
-                },
-              ]
-            }
+            // {
+            //   "title": `🇵🇹🇵🇹 ${i18n.__('lisbon')} 🇵🇹🇵🇹`,
+            //   "image_url": `https://api.marco-app.com/api/image/lisbon.png`,
+            //   "buttons": [
+            //     {
+            //       "type": "postback",
+            //       "title": i18n.__("validate"),
+            //       "payload": `TRAVELINGTO_LISBON`
+            //     },
+            //   ]
+            // },
+            // {
+            //   "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
+            //   "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
+            //   "buttons": [
+            //     {
+            //       "type": "postback",
+            //       "title": i18n.__("validate"),
+            //       "payload": `TRAVELINGTO_ROME`
+            //     },
+            //   ]
+            // },
+            // {
+            //   "title": `🇩🇪🇩🇪 ${i18n.__('berlin')} 🇩🇪🇩🇪`,
+            //   "image_url": `https://api.marco-app.com/api/image/berlin.jpg`,
+            //   "buttons": [
+            //     {
+            //       "type": "postback",
+            //       "title": i18n.__("validate"),
+            //       "payload": `TRAVELINGTO_BERLIN`
+            //     },
+            //   ]
+            // }
           ]
         }
       }
@@ -779,17 +779,17 @@ class MessageData {
                 },
               ]
             },
-            {
-              "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
-              "image_url": `https://api.marco-app.com/api/image/london.jpg`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `MODIFYCITY_LONDON`
-                },
-              ]
-            },
+            // {
+            //   "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
+            //   "image_url": `https://api.marco-app.com/api/image/london.jpg`,
+            //   "buttons": [
+            //     {
+            //       "type": "postback",
+            //       "title": i18n.__("validate"),
+            //       "payload": `MODIFYCITY_LONDON`
+            //     },
+            //   ]
+            // },
             {
               "title": `🇪🇸🇪🇸 ${i18n.__('barcelona')} 🇪🇸🇪🇸`,
               "image_url": `https://api.marco-app.com/api/image/barcelona.jpg`,
@@ -801,39 +801,39 @@ class MessageData {
                 },
               ]
             },
-            {
-              "title": `🇵🇹🇵🇹 ${i18n.__('lisbon')} 🇵🇹🇵🇹`,
-              "image_url": `https://api.marco-app.com/api/image/lisbon.png`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `MODIFYCITY_LISBON`
-                },
-              ]
-            },
-            {
-              "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
-              "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `MODIFYCITY_ROMA`
-                },
-              ]
-            },
-            {
-              "title": `🇩🇪🇩🇪 ${i18n.__('berlin')} 🇩🇪🇩🇪`,
-              "image_url": `https://api.marco-app.com/api/image/berlin.jpg`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `MODIFYCITY_BERLIN`
-                },
-              ]
-            }
+            // {
+            //   "title": `🇵🇹🇵🇹 ${i18n.__('lisbon')} 🇵🇹🇵🇹`,
+            //   "image_url": `https://api.marco-app.com/api/image/lisbon.png`,
+            //   "buttons": [
+            //     {
+            //       "type": "postback",
+            //       "title": i18n.__("validate"),
+            //       "payload": `MODIFYCITY_LISBON`
+            //     },
+            //   ]
+            // },
+            // {
+            //   "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
+            //   "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
+            //   "buttons": [
+            //     {
+            //       "type": "postback",
+            //       "title": i18n.__("validate"),
+            //       "payload": `MODIFYCITY_ROMA`
+            //     },
+            //   ]
+            // },
+            // {
+            //   "title": `🇩🇪🇩🇪 ${i18n.__('berlin')} 🇩🇪🇩🇪`,
+            //   "image_url": `https://api.marco-app.com/api/image/berlin.jpg`,
+            //   "buttons": [
+            //     {
+            //       "type": "postback",
+            //       "title": i18n.__("validate"),
+            //       "payload": `MODIFYCITY_BERLIN`
+            //     },
+            //   ]
+            // }
           ]
         }
       }
