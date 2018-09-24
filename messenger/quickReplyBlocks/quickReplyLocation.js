@@ -14,10 +14,10 @@ const queryShop = require("../../graphql/shop/query");
 const queryShow = require("../../graphql/show/query");
 const querySite = require("../../graphql/site/query");
 const apiMessenger = require("../../helpers/apiMessenger");
-const product_data = require("../product_data");
+const MessageData = require("../product_data");
 const helper = require("../../helpers/helper");
 const queryUser = require("../../graphql/user/query");
-const config = require("../../config")
+const config = require("../../config");
 
 const events = {
   "BAR": (id) => queryBar.queryBar(id),
@@ -46,7 +46,8 @@ const sendMessage = (senderID, data, typeMessage) => {
   });
 };
 
-const noLocation = (senderID, eventID, eventName) => {
+const noLocation = (senderID, eventID, eventName, locale) => {
+  const product_data = new MessageData(locale);
   let event = {};
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(events[eventName](eventID))
@@ -126,7 +127,8 @@ const noLocation = (senderID, eventID, eventName) => {
     .catch(err => console.log(err))
 };
 
-const oldLocation = (senderID, eventID, eventName) => {
+const oldLocation = (senderID, eventID, eventName, locale) => {
+  const product_data = new MessageData(locale);
   let event = {};
   let user = {};
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
@@ -211,16 +213,16 @@ const oldLocation = (senderID, eventID, eventName) => {
     })
     .catch(err => console.log(err.response.data))
 };
-module.exports = (payload, senderID) => {
+module.exports = (payload, senderID, locale) => {
   const newPayload = payload.slice(0, payload.indexOf("_"));
   const eventName = payload.slice(payload.indexOf("_") + 1, payload.indexOf(":"));
   const eventID = payload.slice(payload.indexOf(":") + 1);
   let userId = "";
   switch (newPayload) {
     case "NOLOCATIONEVENT":
-      return noLocation(senderID, eventID, eventName);
+      return noLocation(senderID, eventID, eventName, locale);
     case "USEOLDLOCATIONEVENT":
-      return oldLocation(senderID, eventID, eventName);
+      return oldLocation(senderID, eventID, eventName, locale);
     default:
       break;
   }

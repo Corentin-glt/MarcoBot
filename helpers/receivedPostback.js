@@ -7,78 +7,103 @@ const searchHandler = require('../handlers/searchHandler/index');
 const nextPageEventHandler = require('../handlers/nextPageHandler/nextPageEvent');
 const visitHandler = require('../handlers/visitHandler/typeIndex');
 const stopTalkingWithHuman = require('../messenger/quickReplyBlocks/stopTalkingWithHuman');
-const nextPageDiffEventHandler = require('../handlers/nextPageHandler/nextPageDiffEvent');
+const nextPageDiffEventHandler = require('../handlers/nextPageHandler/nextPageIndex');
 const nextPageRecommendationHandler = require('../handlers/nextPageHandler/nextPageRecommendation');
 const nextPageDiffEventRecommendationHandler = require('../handlers/nextPageHandler/nextPageDiffEventRecommendation');
 const laterViewHandler = require('../handlers/laterViewHandler/laterView');
 const helpHandler = require('../handlers/helpHandler/help');
-const unsubscribeHandler = require('../handlers/unsubscribeHandler/unsubscribe');
+const unsubscribeHandler = require('../handlers/subscribeHandler/unsubscribe');
+const subscriptionHandler = require('../handlers/subscribeHandler/subscription');
 const shareHandler = require('../handlers/shareHandler/share');
+const itineraryStartHandler = require('../handlers/itineraryHandler/startItinerary');
+const itineraryNextHandler = require('../handlers/itineraryHandler/nextItinerary');
 const cityHandler = require('../handlers/cityHandler/city');
+const changeMyCityHandler = require('../handlers/cityHandler/changeMyCity');
+const updateCityHandler = require('../handlers/cityHandler/updateCity');
+const newTripHandler = require('../handlers/cityHandler/newTrip');
+
 
 const postbackInteractionWithCard = require('../messenger/postbackBlocks/interactionWithCard');
 const postbackLocation = require('../messenger/quickReplyBlocks/quickReplyLocation');
+
 module.exports = (event) => {
+
   const senderID = event.sender.id;
   const recipientID = event.recipient.id;
+  const locale = event.locale;
   const timeOfMessage = event.timestamp;
   const payload = event.postback.payload;
   const payloadType = payload.split("_");
   const message = event.message ? event.message : null;
   if(payload.includes("GOING") || payload.includes("LATER") || payload.includes("VIEWMORE")){
-    return postbackInteractionWithCard(payload, senderID);
+    return postbackInteractionWithCard(payload, senderID, locale);
   } else {
     switch (payloadType[0]) {
       case 'INIT':
-        initHandler(senderID);
+        initHandler(senderID, locale);
         break;
       case 'TRAVELINGTO':
-        cityHandler(payloadType[1], senderID);
+        cityHandler(payloadType[1], senderID, locale);
         break;
       case 'RESTAURANT':
-        priceHandlerRestaurant(payloadType[1], senderID);
+        priceHandlerRestaurant(payloadType[1], senderID, locale);
         break;
       case 'BAR':
-        priceHandlerBar(payloadType[1], senderID);
+        priceHandlerBar(payloadType[1], senderID, locale);
         break;
       case 'AROUND':
-        aroundDistrictHandler(payload.slice(7), senderID);
+        aroundDistrictHandler(payload.slice(7), senderID, locale);
         break;
       case 'SEARCH':
-        searchHandler(payloadType[1], senderID);
+        searchHandler(payloadType[1], senderID, locale);
         break;
       case 'SITE':
-        visitHandler(payloadType[1], senderID);
+        visitHandler(payloadType[1], senderID, locale);
         break;
       case 'STOPTALKING':
-        stopTalkingWithHuman(senderID);
+        stopTalkingWithHuman(senderID, locale);
         break;
       case 'NEXTPAGEEVENT':
-        nextPageEventHandler(payloadType[1], senderID);
+        nextPageEventHandler(payloadType[1], senderID, locale);
         break;
       case 'NEXTPAGENEO4J':
-        nextPageRecommendationHandler(payloadType[1], payloadType[2], payloadType[3], senderID);
+        nextPageRecommendationHandler(payloadType[1], payloadType[2], payloadType[3], senderID, locale);
         break;
       case 'NEXTPAGEDIFFEVENT':
-        nextPageDiffEventHandler(payload.slice(18), senderID);
+        nextPageDiffEventHandler(payload.slice(18), senderID, locale);
         break;
       case 'NEXTPAGEDIFFEVENTNEO4J':
-        nextPageDiffEventRecommendationHandler(payloadType[1], senderID);
+        nextPageDiffEventRecommendationHandler(payloadType[1], senderID, locale);
         break;
       case 'MYFAVORITE':
-        laterViewHandler(payloadType[1], senderID);
+        laterViewHandler(payloadType[1], senderID, locale);
         break;
       case 'HELP':
-        helpHandler(senderID);
+        helpHandler(senderID, locale);
         break;
-      case  'UNSUBSCRIBE':
-        unsubscribeHandler(senderID);
+      case  'SUBSCRIPTION':
+        subscriptionHandler(senderID, locale);
         break;
-        case  'INVITE':
-        shareHandler(senderID);
+      case  'INVITE':
+        shareHandler(senderID, locale);
+        break;
+      case  'STARTITINERARY':
+        itineraryStartHandler(payloadType[1], senderID, locale);
+        break;
+      case  'ITINERARYNEXT':
+        itineraryNextHandler(payloadType[1], senderID, locale);
+        break;
+      case 'CHANGEMYCITY':
+        changeMyCityHandler(senderID, locale);
+        break;
+      case 'MODIFYCITY':
+        updateCityHandler(payloadType[1], senderID, locale);
+        break;
+      case 'NEWTRIP':
+        newTripHandler(senderID, locale);
         break;
       default :
-        postbackDefault(senderID);
+        postbackDefault(senderID, locale);
         break;
     }
   }

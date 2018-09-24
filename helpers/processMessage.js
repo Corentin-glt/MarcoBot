@@ -4,13 +4,21 @@
 const Config = require('../config');
 const apiAiClient = require("apiai")(Config.clientTokenDialogflow);
 const user = require("../graphql/user/query");
+const userMutation = require("../graphql/user/mutation");
 const ApiGraphql = require('../helpers/apiGraphql');
 const apiMessenger = require('../helpers/apiMessenger');
 const messengerMethods = require('../messenger/messengerMethods');
 const clientControl = require('../controllers/clientControl');
-const product_data = require('../messenger/product_data');
-const config = require("../config")
+const MessageData = require('../messenger/product_data');
+const config = require("../config");
 const stopTalking = require('../messenger/quickReplyBlocks/stopTalkingWithHuman')
+const {Wit, log} = require('node-wit');
+const receiveDurationTravel = require('../helpers/receiveDurationTravel');
+
+const clientWit = new Wit({
+  accessToken: Config.tokenWit,
+  //logger: new log.Logger(log.DEBUG) // optional
+});
 
 const messageToStopTalkingWithHuman = [
   "start marco",
@@ -21,6 +29,8 @@ const messageToStopTalkingWithHuman = [
   "start marcobot",
   "stop human",
   "i want marco",
+  "i want marco back",
+  "je veux Marco",
   "stop chat",
 ];
 
@@ -39,9 +49,11 @@ const sendMessage = (senderId, data, typeMessage) => {
 
 module.exports = (event) => {
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
+  const locale = event.locale;
   const senderId = event.sender.id;
   const message = event.message.text;
   const query = user.queryUserByAccountMessenger(senderId);
+  const product_data = new MessageData(locale);
   apiGraphql.sendQuery(query)
     .then(res => {
       if (res.userByAccountMessenger === null) {
@@ -53,22 +65,38 @@ module.exports = (event) => {
       }
       if(res.userByAccountMessenger !== null && res.userByAccountMessenger.isTalkingToHuman){
         if(messageToStopTalkingWithHuman.some(elem => elem.toUpperCase() === message.toUpperCase())) {
-          return stopTalking(senderId);
+          return stopTalking(senderId, locale);
         } else {
-          return null;
+          return apiGraphql.sendMutation(userMutation.updateUserByAccountMessenger(),
+            {PSID: senderId, lastMessageToHuman: new Date()})
+            .catch(err => console.log(err))
         }
       } else {
-        const apiaiSession = apiAiClient.textRequest(message,
-          {sessionId: Config.projectIDDialogflow});
-          apiaiSession.on("response", (response) => {
-            console.log("RESPONSE ===> ", response.result);
-            return clientControl.checkDialogflow(senderId, response)
-          });
-          apiaiSession.on("error", error => {
-            console.log("ERROR dialogflow ===>", error);
-            return sendMessage(senderId, product_data.question1MessageListView, "RESPONSE")
-          });
-          apiaiSession.end();
+        //WORKOUT: WHEN WE RECEIVE THE DURATION FOR A TRIP IN ENGLISH
+        //WE HAVE TO ASK WIT.AI IF THE MESSAGE IS A DURATION !!
+        clientWit.message(message, {})
+          .then((data) => {
+            if (Object.keys(data.entities).length !== 0 && data.entities.duration !== null
+            && typeof data.entities.duration !== "undefined" && data.entities.duration[0].normalized.value
+              && data.entities.duration[0].confidence > 0.8){
+              let newEvent = Object.assign({}, event);
+              newEvent['message']['nlp']['entities'] = data.entities;
+              receiveDurationTravel(newEvent);
+            } else {
+              apiAiClient.language = locale;
+              const apiaiSession = apiAiClient.textRequest(message,
+                {sessionId: Config.projectIDDialogflow, lang: locale});
+              apiaiSession.on("response", (response) => {
+                return clientControl.checkDialogflow(senderId, response, locale)
+              });
+              apiaiSession.on("error", error => {
+                console.log("ERROR dialogflow ===>", error);
+                return sendMessage(senderId, product_data.question1MessageListView, "RESPONSE")
+              });
+              apiaiSession.end();
+            }
+          })
+          .catch(console.error);
       }
     })
     .catch(err => console.log(err));

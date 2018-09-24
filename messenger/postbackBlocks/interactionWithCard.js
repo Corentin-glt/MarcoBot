@@ -16,8 +16,9 @@ const queryShow = require("../../graphql/show/query");
 const querySite = require("../../graphql/site/query");
 const mutationGoing = require("../../graphql/going/mutation");
 const mutationLater = require("../../graphql/later/mutation");
+const mutationUser = require("../../graphql/user/mutation");
 const apiMessenger = require("../../helpers/apiMessenger");
-const product_data = require("../product_data");
+const MessageData = require("../product_data");
 const helper = require("../../helpers/helper");
 const config = require("../../config")
 const LIMIT_HOUR_ASK_LOCATION = 2;
@@ -50,7 +51,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-const _createGoing = (senderID, userID, eventID, eventName, resultat) => {
+const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) => {
+  const product_data = new MessageData(locale);
   const key = `${eventName}s_id`;
   const dataToSend = {
     "users_id": userID,
@@ -59,7 +61,14 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat) => {
   let user = {};
   dataToSend[key] = eventID;
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
-  return apiGraphql.sendMutation(mutationGoing.createGoing(), dataToSend)
+
+  apiGraphql.sendMutation(mutationUser.updateLastEventLocation(),
+    {PSID: senderID, lastEvent: 'itinerary'})
+    .then(res => {
+      if (res.updateLastEventLocation) {
+        return apiGraphql.sendMutation(mutationGoing.createGoing(), dataToSend)
+      }
+    })
     .then(res => {
       if(res.createGoing){
         return apiGraphql.sendQuery(queryUser.queryUser(userID))
@@ -135,7 +144,8 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat) => {
     })
 };
 
-const _createLater = (senderID, userID, eventID, eventName, event) => {
+const _createLater = (senderID, userID, eventID, eventName, locale) => {
+  const product_data = new MessageData(locale);
   const dataToSend = {
     "users_id": userID,
     "eventName": eventName
@@ -175,7 +185,9 @@ const _createLater = (senderID, userID, eventID, eventName, event) => {
     })
 };
 
-const _seeMore = (senderID, eventName, event) => {
+const _seeMore = (senderID, eventName, event, locale) => {
+  console.log(event);
+  const product_data = new MessageData(locale);
   return apiMessenger.sendToFacebook({
     recipient: {id: senderID},
     sender_action: 'typing_on',
@@ -185,12 +197,19 @@ const _seeMore = (senderID, eventName, event) => {
     .then(helper.delayPromise(2000))
     .then(response => {
       if (response.status === 200) {
-        return sendMessage(senderID, product_data.viewMore(event.description, eventName, event.id), "RESPONSE")
+        const description = locale === 'fr' ? event.descriptionFr : event.description;
+        return sendMessage(senderID, product_data.viewMore(description, eventName, event.id), "RESPONSE")
       }
+    })
+    .then(response => {
+      console.log("end view more");
+    })
+    .catch(err => {
+      console.log(err);
     })
 };
 
-module.exports = (payload, senderID) => {
+module.exports = (payload, senderID, locale) => {
   const newPayload = payload.slice(0, payload.indexOf("_"));
   const event = payload.slice(payload.indexOf("_") + 1, payload.indexOf(":"));
   const eventID = payload.slice(payload.indexOf(":") + 1);
@@ -208,11 +227,11 @@ module.exports = (payload, senderID) => {
       const resultat = res[eventName];
       switch (newPayload) {
         case "GOING":
-          return _createGoing(senderID, userId, eventID, eventName, resultat);
+          return _createGoing(senderID, userId, eventID, eventName, resultat, locale);
         case "LATER":
-          return _createLater(senderID, userId, eventID, eventName);
+          return _createLater(senderID, userId, eventID, eventName, locale);
         case "VIEWMORE":
-          return _seeMore(senderID, event, resultat);
+          return _seeMore(senderID, event, resultat, locale);
         default:
           break;
       }

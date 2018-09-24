@@ -10,48 +10,57 @@ const postbackInteractionWithCard = require('../messenger/postbackBlocks/interac
 const backQuestionHandler = require('../handlers/backQuestionHandler/backQuestion');
 const firstTimeCityHandler = require('../handlers/firstTimeCityHandler/firstTimeCity');
 const alreadyInCityHandler = require('../handlers/alreadyInCityHandler/alreadyInCity');
+const unsubscribeHandler = require('../handlers/subscribeHandler/unsubscribe');
+const subscribeHandler = require('../handlers/subscribeHandler/susbcribe');
 
 module.exports = (event) => {
   const senderID = event.sender.id;
   const recipientID = event.recipient.id;
+  const locale = event.locale;
   const timeOfMessage = event.timestamp;
   const payload = event.message.quick_reply.payload;
   const payloadType = payload.split("_");
   if (payload.includes("NOLOCATIONEVENT") || payload.includes("USEOLDLOCATIONEVENT")) {
-    return quickReplyLocation(payload, senderID);
+    return quickReplyLocation(payload, senderID, locale);
   } else if (payload.includes("GOING") || payload.includes("LATER") ) {
-      return postbackInteractionWithCard(payload, senderID)
+      return postbackInteractionWithCard(payload, senderID, locale)
   } else {
     switch (payloadType[0]) {
       case 'EXCITEMENT':
-        excitementHandler(payloadType[1], senderID);
+        excitementHandler(payloadType[1], senderID, locale);
         break;
       case 'TRAVELTYPE':
-        travelTypeHandler(payloadType[1], senderID);
+        travelTypeHandler(payloadType[1], senderID, locale);
         break;
       case 'SEARCH':
-        searchHandler(payloadType[1], senderID);
+        searchHandler(payloadType[1], senderID, locale);
         break;
       case 'NOUPDATELOCATION':
-        noUpdateLocation(senderID);
+        noUpdateLocation(senderID, locale);
         break;
       case 'PRICERESTAURANT':
-        restaurantHandler(payloadType[1], payloadType[2], senderID);
+        restaurantHandler(payloadType[1], payloadType[2], senderID, locale);
         break;
       case 'PRICEBAR':
-        barHandler(payloadType[1], payloadType[2], senderID);
+        barHandler(payloadType[1], payloadType[2], senderID, locale);
         break;
       case 'CATEGORY':
-        backQuestionHandler(payloadType[1], senderID);
+        backQuestionHandler(payloadType[1], senderID, locale);
         break;
       case 'FIRSTTIME':
-        firstTimeCityHandler(payloadType[1], senderID);
+        firstTimeCityHandler(payloadType[1], senderID, locale);
         break;
       case 'ALREADYINCITY':
-        alreadyInCityHandler(senderID);
+        alreadyInCityHandler(senderID, locale);
+        break;
+      case  'UNSUBSCRIBE':
+        unsubscribeHandler(senderID, locale);
+        break;
+      case 'SUBSCRIBE':
+        subscribeHandler(senderID, locale);
         break;
       default :
-        postbackDefault(senderID);
+        postbackDefault(senderID, locale);
         break;
     }
   }

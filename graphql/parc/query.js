@@ -7,6 +7,7 @@ module.exports = {
     name
     types
     description
+    descriptionFr
     tags
     tips
     priceRange
@@ -47,13 +48,14 @@ module.exports = {
       }
     }
   `,
-  queryParcs: (page) => {
+  queryParcs: (page, city) => {
     return `{
-      parcs(page: ${page}) {
+      parcs(page: ${page}, city: "${city}") {
           id
           name
           types
           description
+          descriptionFr
           tags
           priceRange
           photos
@@ -104,6 +106,7 @@ module.exports = {
           types
           tips
           description
+          descriptionFr
           tags
           priceRange
           photos

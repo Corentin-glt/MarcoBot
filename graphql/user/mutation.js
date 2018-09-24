@@ -14,9 +14,11 @@ module.exports = {
           departureDateToCity,
           arrivalDateToCity,
           isTalkingToHuman,
+          lastMessageToHuman,
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
@@ -24,8 +26,8 @@ module.exports = {
     `
   },
   updateUserByAccountMessenger: () => {
-      return `mutation updateUserByAccountMessenger($PSID: ID!, $firstName: String, $lastName: String, $gender: String, $profilePic: String, $travelType: String, $geoLocation: LocationInput){
-        updateUserByAccountMessenger(PSID: $PSID, firstName: $firstName, lastName: $lastName, gender: $gender, profilePic: $profilePic, travelType: $travelType, geoLocation:$geoLocation) {
+      return `mutation updateUserByAccountMessenger($PSID: ID!, $firstName: String, $lastName: String, $gender: String, $profilePic: String, $travelType: String, $geoLocation: LocationInput, $lastMessageToHuman: String){
+        updateUserByAccountMessenger(PSID: $PSID, firstName: $firstName, lastName: $lastName, gender: $gender, profilePic: $profilePic, travelType: $travelType, geoLocation:$geoLocation, lastMessageToHuman: $lastMessageToHuman) {
            id
           firstName,
           lastName,
@@ -39,9 +41,11 @@ module.exports = {
           arrivalDateToCity,
           travelType,
           isTalkingToHuman,
+          lastMessageToHuman,
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
@@ -64,9 +68,11 @@ module.exports = {
           arrivalDateToCity,
           travelType,
           isTalkingToHuman,
+          lastMessageToHuman,
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           }
         }
@@ -86,11 +92,13 @@ module.exports = {
           cityTraveling,
           isItFirstTimeCity,
           isTalkingToHuman,
+          lastMessageToHuman,
           arrivalDateToCity,
           departureDateToCity,
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           },
           categories {
@@ -111,6 +119,7 @@ module.exports = {
           profilePic,
           cityTraveling,
           isTalkingToHuman,
+          lastMessageToHuman,
           arrivalDateToCity,
           departureDateToCity,
           PSID,
@@ -119,6 +128,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           },
           categories {
@@ -139,6 +149,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           travelType,
           arrivalDateToCity,
@@ -147,6 +158,7 @@ module.exports = {
           geoLocation {
             lat,
             lng,
+            lastEvent,
             lastUpdated
           },
           categories {
@@ -167,6 +179,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           arrivalDateToCity,
           departureDateToCity,
@@ -175,7 +188,8 @@ module.exports = {
           geoLocation {
             lat,
             lng,
-            lastUpdated
+            lastEvent,
+            lastUpdated,
           },
           categories {
           name,
@@ -195,6 +209,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           arrivalDateToCity,
           departureDateToCity,
@@ -203,7 +218,38 @@ module.exports = {
           geoLocation {
             lat,
             lng,
-            lastUpdated
+            lastEvent,
+            lastUpdated,
+          },
+          categories {
+          name,
+          weight
+        }
+      }
+     }
+    `
+  },
+  updateArrivalDateToNow: () => {
+      return `mutation updateArrivalDateToNow($PSID: ID!, $arrivalDateToCity: String) {
+        updateArrivalDateToNow(PSID: $PSID, arrivalDateToCity: $arrivalDateToCity) {
+           id
+          firstName,
+          lastName,
+          cityTraveling,
+          gender,
+          profilePic,
+          isTalkingToHuman,
+          lastMessageToHuman,
+          PSID,
+          arrivalDateToCity,
+          departureDateToCity,
+          travelType,
+          isItFirstTimeCity,
+          geoLocation {
+            lat,
+            lng,
+            lastEvent,
+            lastUpdated,
           },
           categories {
           name,
@@ -223,6 +269,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          lastMessageToHuman,
           PSID,
           arrivalDateToCity,
           departureDateToCity,
@@ -231,7 +278,8 @@ module.exports = {
           geoLocation {
             lat,
             lng,
-            lastUpdated
+            lastEvent,
+            lastUpdated,
           },
           categories {
           name,
@@ -240,5 +288,35 @@ module.exports = {
       }
      }
     `
-  }
+  },
+  updateLastEventLocation: () => {
+      return `mutation updateLastEventLocation($PSID: ID!, $lastEvent: String) {
+        updateLastEventLocation(PSID: $PSID, lastEvent: $lastEvent) {
+           id
+          firstName,
+          lastName,
+          cityTraveling,
+          gender,
+          profilePic,
+          isTalkingToHuman,
+          lastMessageToHuman,
+          PSID,
+          arrivalDateToCity,
+          departureDateToCity,
+          travelType,
+          isItFirstTimeCity,
+          geoLocation {
+            lat,
+            lng,
+            lastEvent,
+            lastUpdated,
+          },
+          categories {
+          name,
+          weight
+        }
+      }
+     }
+    `
+  },
 };

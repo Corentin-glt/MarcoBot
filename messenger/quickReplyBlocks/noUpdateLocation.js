@@ -2,7 +2,7 @@
  * Created by corentin on 18/05/2018.
  */
 const apiMessenger = require("../../helpers/apiMessenger");
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const helper = require("../../helpers/helper");
 
 const sendMessage = (senderId, data, typeMessage) => {
@@ -18,7 +18,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (senderID) => {
+module.exports = (senderID, locale) => {
+  const product_data = new MessageData(locale);
   return apiMessenger.sendToFacebook({
     recipient: {id: senderID},
     sender_action: 'typing_on',

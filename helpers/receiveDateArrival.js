@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 07/08/2018.
  */
-const product_data = require("../messenger/product_data");
+const MessageData = require("../messenger/product_data");
 const apiMessenger = require("./apiMessenger");
 const userQuery = require("../graphql/user/query");
 const userMutation = require("../graphql/user/mutation");
@@ -24,9 +24,10 @@ const sendMessage = (senderId, data, typeMessage) => {
 };
 
 module.exports = (event) => {
+  const locale = event.locale;
+  const product_data = new MessageData(locale);
   const senderID = event.sender.id;
   const dateArrival = event.message.nlp.entities.datetime[0].value;
-  console.log('ARRIVE AT ', dateArrival);
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(senderID))
     .then(res => {
@@ -36,8 +37,7 @@ module.exports = (event) => {
           {PSID: senderID, arrivalDateToCity: dateArrival})
           .then(res => {
             if(res.updateArrivalDate) {
-              const city = res.updateArrivalDate.cityTraveling.charAt(0).toUpperCase()
-                + res.updateArrivalDate.cityTraveling.slice(1);
+              const city = res.updateArrivalDate.cityTraveling;
               return sendMessage(senderID, product_data.howManyDayAreStaying(city), "RESPONSE")
             }
           })

@@ -7,6 +7,7 @@ module.exports = {
        _id
     name
     description
+    descriptionFr
     photos
     tags
     types

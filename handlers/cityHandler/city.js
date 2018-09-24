@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 07/08/2018.
  */
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const userQuery = require("../../graphql/user/query");
 const userMutation = require("../../graphql/user/mutation");
@@ -23,8 +23,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (payload, senderID) => {
-  let dataToSend = {};
+module.exports = (payload, senderID, locale) => {
+  const product_data = new MessageData(locale);
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(senderID))
     .then(res => {
@@ -34,7 +34,7 @@ module.exports = (payload, senderID) => {
       }
     })
     .then(res => {
-      const city = payload.charAt(0) + payload.slice(1).toLowerCase();
+      const city = payload.toLowerCase();
       if(res.updateCityTraveling) {
         return sendMessage(senderID, product_data.isItFirstTime(city), "RESPONSE")
       }

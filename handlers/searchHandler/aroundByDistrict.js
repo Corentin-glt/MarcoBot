@@ -2,12 +2,14 @@
  * Created by corentin on 11/06/2018.
  */
 const async = require("async");
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const ApiGraphql = require("../../helpers/apiGraphql");
 const indexLocationQuery = require("../../graphql/indexLocation/query");
+const queryUser = require('../../graphql/user/query');
+
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {
@@ -22,7 +24,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (_district, senderID) => {
+module.exports = (_district, senderID, locale) => {
+  const product_data = new MessageData(locale);
   let dataToSend = {};
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(indexLocationQuery.findByDistrict(_district, 0))
@@ -48,7 +51,7 @@ module.exports = (_district, senderID) => {
             .then(result => {
               if (result) {
                 dataToSend = Object.assign({}, result);
-                return sendMessage(senderID, {text: "Good choice, I love this district! 😉"}, "RESPONSE")
+                return sendMessage(senderID, product_data.selectionDistrictChoice, "RESPONSE")
               }
             })
             .then((response) => {
@@ -81,7 +84,15 @@ module.exports = (_district, senderID) => {
             })
         })
       } else {
-        return sendMessage(senderID, product_data.jokeMarco2(), "RESPONSE")
+        apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID))
+          .then(res => {
+            if (res.userByAccountMessenger) {
+              const city = res.userByAccountMessenger.cityTraveling.length > 0 ?
+                res.userByAccountMessenger.cityTraveling : "paris";
+              return sendMessage(senderID, product_data.jokeMarco2(city), "RESPONSE")
+            }
+          })
+          .catch(err => console.log(err))
       }
     })
     .catch(err => console.log(err))

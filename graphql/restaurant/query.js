@@ -8,6 +8,7 @@ module.exports = {
       types
       tips
       description
+      descriptionFr
       tags
       priceRange
       photos
@@ -47,14 +48,15 @@ module.exports = {
         }
       } 
   `,
-  queryRestaurants: (page) => {
+  queryRestaurants: (page, city) => {
     return `{
-      restaurants(page: ${page}) {
+      restaurants(page: ${page}, city: "${city}") {
           id
           name
           types
           tips
           description
+          descriptionFr
           tags
           priceRange
           photos
@@ -103,6 +105,7 @@ module.exports = {
        _id
     name
     description
+    descriptionFr
     photos
     tags
     types
@@ -155,6 +158,7 @@ module.exports = {
           types
           tips
           description
+          descriptionFr
           tags
           priceRange
           photos

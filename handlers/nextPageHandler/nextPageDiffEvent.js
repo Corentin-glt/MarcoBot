@@ -2,12 +2,14 @@
  * Created by corentin on 13/06/2018.
  */
 const async = require("async");
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const ApiGraphql = require("../../helpers/apiGraphql");
-const indexLocationQuery = require("../../graphql/indexLocation/query")
+const indexLocationQuery = require("../../graphql/indexLocation/query");
+const queryUser = require('../../graphql/user/query');
+
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {
@@ -22,12 +24,12 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (payload, senderID) => {
+module.exports = (payload, senderID, locale) => {
+  const product_data = new MessageData(locale);
   const newPayload = payload.split(':');
   const _district = newPayload[0];
   const page = newPayload[1];
   let dataToSend = {};
-  console.log(_district, ' ', page);
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(indexLocationQuery.findByDistrict(_district, page))
     .then((response) => {
@@ -81,9 +83,16 @@ module.exports = (payload, senderID) => {
             })
         })
       } else {
-        return sendMessage(senderID, product_data.jokeMarco2(), "RESPONSE")
+       apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID))
+          .then(res => {
+            if (res.userByAccountMessenger) {
+              const city = res.userByAccountMessenger.cityTraveling.length > 0 ?
+                res.userByAccountMessenger.cityTraveling : "paris";
+              return sendMessage(senderID, product_data.jokeMarco2(city), "RESPONSE")
+            }
+          })
+         .catch(err => console.log(err))
       }
     })
-
     .catch(err => console.log(err))
 };

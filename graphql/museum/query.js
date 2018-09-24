@@ -7,6 +7,7 @@ module.exports = {
     name
     types
     description
+    descriptionFr
     tags
     tips
     priceRange
@@ -47,13 +48,14 @@ module.exports = {
       }
     }
   `,
-  queryMuseums: (page) => {
+  queryMuseums: (page, city) => {
     return `{
-      museums(page: ${page}) {
+      museums(page: ${page}, city: "${city}") {
           id
           name
           types
           description
+          descriptionFr
           tags
           priceRange
           tips
@@ -103,6 +105,7 @@ module.exports = {
           name
           types
           description
+          descriptionFr
           tags
           priceRange
           tips

@@ -7,6 +7,7 @@ module.exports = {
     name
     types
     description
+    descriptionFr
     tags
     tips
     priceRange
@@ -47,13 +48,14 @@ module.exports = {
       }
     }
   `,
-  querySites: (page) => {
+  querySites: (page, city) => {
     return `{
-      sites(page: ${page}) {
+      sites(page: ${page}, city: "${city}") {
           id
           name
           types
           description
+          descriptionFr
           tags
           tips
           priceRange
@@ -103,6 +105,7 @@ module.exports = {
           name
           types
           description
+          descriptionFr
           tags
           tips
           priceRange

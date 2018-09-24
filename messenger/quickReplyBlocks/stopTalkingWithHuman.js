@@ -1,4 +1,4 @@
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const helper = require("../../helpers/helper");
 const ApiGraphql = require("../../helpers/apiGraphql");
@@ -18,7 +18,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (senderID) => {
+module.exports = (senderID, locale) => {
+  const product_data = new MessageData(locale);
   let dataToSend = {};
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendMutation(userMutation.updateIsTalkingWithHuman(),

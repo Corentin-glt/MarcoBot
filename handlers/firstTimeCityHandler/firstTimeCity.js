@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 07/08/2018.
  */
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const userQuery = require("../../graphql/user/query");
 const userMutation = require("../../graphql/user/mutation");
@@ -23,7 +23,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (payload, senderID) => {
+module.exports = (payload, senderID, locale) => {
+  const product_data = new MessageData(locale);
   const isItFirstTime = (payload === "YES");
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(senderID))
@@ -35,9 +36,13 @@ module.exports = (payload, senderID) => {
     })
     .then(res => {
       if(res.updateFirstTimeCity) {
-        const city = res.updateFirstTimeCity.cityTraveling.charAt(0).toUpperCase()
-          + res.updateFirstTimeCity.cityTraveling.slice(1);
-        return sendMessage(senderID, product_data.whenAreYouArriving(isItFirstTime, city), "RESPONSE")
+        return sendMessage(senderID, product_data.whenAreYouArriving(isItFirstTime, res.updateFirstTimeCity.cityTraveling), "RESPONSE")
       }
+    })
+    .then(res => {
+      console.log("end arriving");
+    })
+    .catch(err => {
+      console.log(err);
     })
 };

@@ -1,6 +1,7 @@
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
-module.exports = (event, senderID) => {
+module.exports = (event, senderID, locale) => {
+  const product_data = new MessageData(locale);
   let messageData = {
     recipient: {
       id: senderID

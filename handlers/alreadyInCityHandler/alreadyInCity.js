@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 07/08/2018.
  */
-const product_data = require("../../messenger/product_data");
+const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
 const userQuery = require("../../graphql/user/query");
 const userMutation = require("../../graphql/user/mutation");
@@ -23,21 +23,20 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (senderID) => {
+module.exports = (senderID, locale) => {
+  const product_data = new MessageData(locale);
   const dateArrival = new Date();
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(senderID))
     .then(res => {
       if (res.userByAccountMessenger) {
-        return apiGraphql.sendMutation(userMutation.updateArrivalDate(),
+        return apiGraphql.sendMutation(userMutation.updateArrivalDateToNow(),
           {PSID: senderID, arrivalDateToCity: dateArrival})
       }
     })
     .then(res => {
-      if(res.updateArrivalDate) {
-        const city = res.updateArrivalDate.cityTraveling.charAt(0).toUpperCase()
-          + res.updateArrivalDate.cityTraveling.slice(1);
-        return sendMessage(senderID, product_data.howManyDayAreStaying(city), "RESPONSE")
+      if(res.updateArrivalDateToNow) {
+        return sendMessage(senderID, product_data.howManyDayAreStaying(res.updateArrivalDateToNow.cityTraveling), "RESPONSE")
       }
     })
 };

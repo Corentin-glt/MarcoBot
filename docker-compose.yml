@@ -8,11 +8,15 @@ services:
       - "4000:4000"
     volumes:
       - $HOME/Marco/MarcoBot:/usr/src/api
+<<<<<<< HEAD
     network_mode: "env-net"
+=======
+    network_mode: "dockerenvironment_env-net"
+>>>>>>> development
     external_links:
       - "api:api"
       - "recommendation_api:recommendation_api"
 networks:
   default:
     external:
-      name: env-net
+      name: dockerenvironment_env-net

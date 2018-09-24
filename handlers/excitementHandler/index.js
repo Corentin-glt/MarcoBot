@@ -1,12 +1,12 @@
 const confirm = require('./confirm');
 const cancel = require('./cancel');
 
-module.exports = (payload, senderID) => {
+module.exports = (payload, senderID, locale) => {
   switch (payload) {
     case 'CONFIRM':
-      confirm(senderID);
+      confirm(senderID, locale);
       break;
     case 'CANCEL':
-      cancel(senderID);
+      cancel(senderID, locale);
   }
 };
