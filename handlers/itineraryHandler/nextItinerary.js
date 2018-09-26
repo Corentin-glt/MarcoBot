@@ -89,6 +89,21 @@ module.exports = (parameters, senderId, locale) => {
                             product_data.shareOrFindUrlMedium, "RESPONSE")
                       })
                   })
+                  .then(response => {
+                    if (response.status === 200 && numberDay < programToSend.url_articles.length){
+                      return apiMessenger.sendToFacebook({
+                        recipient: {id: senderId},
+                        sender_action: 'typing_on',
+                        messaging_types: "RESPONSE",
+                        message: ""
+                      })
+                        .then(helper.delayPromise(2000))
+                        .then(() => {
+                          return sendMessage(senderId,
+                            product_data.tomorrowImHere, "RESPONSE")
+                        })
+                    }
+                  })
               }
             })
             .catch(err => console.log(err.response.data.error))
