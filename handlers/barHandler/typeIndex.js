@@ -8,11 +8,7 @@ module.exports = (payload, price, senderID, locale) => {
       priceIndex(price, `atypical`, senderID, locale);
       break;
     case 'HIGHCLASS':
-<<<<<<< HEAD
-      priceIndex(price, `highclass`, senderID);
-=======
       priceIndex(price, `high_class`, senderID, locale);
->>>>>>> development
       break;
     case 'PUB':
       priceIndex(price, `pub`, senderID, locale);

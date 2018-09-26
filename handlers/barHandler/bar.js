@@ -39,10 +39,6 @@ module.exports = (type, price, senderID, locale) => {
     })
     .then(res => {
       if (res.barsByPriceAndType.length > 0 && res.barsByPriceAndType !== null ) {
-<<<<<<< HEAD
-        return product_data.templateList(res.barsByPriceAndType, "BAR", 0,
-          "neo4j", type, price)
-=======
         product_data.templateList(res.barsByPriceAndType, "BAR", 0, "neo4j", type, price)
           .then(result => {
             delete messageData.sender_action;
@@ -61,7 +57,6 @@ module.exports = (type, price, senderID, locale) => {
           .catch(err => {
             console.log(err.response.data.error);
           });
->>>>>>> development
       } else {
         apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID))
           .then(res => {

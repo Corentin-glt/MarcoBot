@@ -23,11 +23,6 @@ module.exports = (params, senderID) => {
   const recommandationApi = new ApiGraphql(
     config.category[config.indexCategory].recommendationApilUrl,
     config.accessTokenRecommendationApi);
-<<<<<<< HEAD
-  console.log(visit.queryVisitsByPriceAndType(senderID, type, page));
-=======
-
->>>>>>> development
   recommandationApi.sendQuery(
     visit.queryVisitsByPriceAndType(senderID, type, page))
     .then(res => {
