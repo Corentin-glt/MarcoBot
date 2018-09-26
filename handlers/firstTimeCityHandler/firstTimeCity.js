@@ -24,6 +24,7 @@ const sendMessage = (senderId, data, typeMessage) => {
 };
 
 module.exports = (payload, senderID, locale) => {
+
   const product_data = new MessageData(locale);
   const isItFirstTime = (payload === "YES");
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
