@@ -1,5 +1,10 @@
 const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/apiMessenger");
+const userQuery = require("../../graphql/user/query");
+const helper = require("../../helpers/helper");
+const ApiGraphql = require("../../helpers/apiGraphql");
+const config = require("../../config");
+
 module.exports = (event, senderID, locale) => {
   const product_data = new MessageData(locale);
   let messageData = {
@@ -23,12 +28,19 @@ module.exports = (event, senderID, locale) => {
       dataType = '';
       break;
   }
-  messageData.message = product_data[dataType];
-  apiMessenger.sendToFacebook(messageData)
+  const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
+  return apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(senderID))
+    .then(res => {
+      if(res.userByAccountMessenger && res.userByAccountMessenger.cityTraveling) {
+        event === "VISIT" ?
+          messageData.message = product_data[dataType](res.userByAccountMessenger.cityTraveling)
+          : messageData.message = product_data[dataType];
+        return apiMessenger.sendToFacebook(messageData)
+      }
+    })
     .then(response => {
       console.log(response);
     })
-    .catch(err => {
-      console.log(err);
-    });
+    .catch(err => console.log(err))
+
 };

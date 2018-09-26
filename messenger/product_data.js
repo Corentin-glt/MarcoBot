@@ -10,6 +10,7 @@ const numberDayString = ['', 'first', 'second', 'third', 'fourth', 'fifth'];
 const numberDayStringFR = ['', 'premier', 'deuxième', 'troisième', 'quatrième', 'cinquième'];
 const indexElementDistrict = require('../variableApp/district/index');
 const limitPageDistrict = require('../variableApp/district/limit');
+const indexCategoryVisit = require('../variableApp/categoryVisit/index');
 
 const i18n = require('i18n');
 
@@ -703,7 +704,7 @@ class MessageData {
   isItFirstTime(city) {
     const cityAttribute = city.toLowerCase();
     return {
-      "text": `${i18n.__("isItFirstTime")} ${i18n.__(cityAttribute)}`,
+      "text": `${i18n.__("isItFirstTime")} ${i18n.__(cityAttribute)} ?`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -865,27 +866,27 @@ class MessageData {
         },
         {
           "content_type": "text",
-          "title": `📸 ${i18n.__("visit")}`,
+          "title": `${i18n.__("visit")}`,
           "payload": "SEARCH_VISIT",
         },
         {
           "content_type": "text",
-          "title": `🍽 ${i18n.__("eat")}`,
+          "title": `${i18n.__("eat")}`,
           "payload": "SEARCH_RESTAURANT",
         },
         {
           "content_type": "text",
-          "title": `🍸 ${i18n.__("drink")}`,
+          "title": `${i18n.__("drink")}`,
           "payload": "SEARCH_BAR",
         },
         {
           "content_type": "text",
-          "title": `🚶‍️ ${i18n.__("walkAround")}`,
+          "title": `${i18n.__("walkAround")}`,
           "payload": "SEARCH_DISTRICT",
         },
         {
           "content_type": "text",
-          "title": `🗣 ${i18n.__("chat")}`,
+          "title": `${i18n.__("chat")}`,
           "payload": "SEARCH_HUMAN",
         }
       ]
@@ -1454,74 +1455,14 @@ class MessageData {
     }
   }
 
-  get selectionSiteType() {
+  selectionSiteType(city) {
+    const elementCategoryVisit = indexCategoryVisit(city, i18n);
     return {
       "attachment": {
         "type": "template",
         "payload": {
           "template_type": "generic",
-          "elements": [
-            {
-              "title": i18n.__("historical"),
-              "image_url": "https://api.marco-app.com/api/image/minArc.jpg",
-              "subtitle": i18n.__("historicalSub"),
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("historical"),
-                  "payload": "SITE_HISTORICAL"
-                }
-              ]
-            },
-            {
-              "title": i18n.__("secret"),
-              "image_url": "https://api.marco-app.com/api/image/minGalery.jpg",
-              "subtitle": i18n.__("secretSub"),
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("secret"),
-                  "payload": "SITE_SECRET"
-                }
-              ]
-            },
-            {
-              "title": i18n.__("mustSee"),
-              "image_url": "https://api.marco-app.com/api/image/minTourEiffel.jpg",
-              "subtitle": i18n.__("mustSeeSub"),
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("mustSee"),
-                  "payload": "SITE_FAMOUS"
-                }
-              ]
-            },
-            {
-              "title": i18n.__("cultural"),
-              "image_url": "https://api.marco-app.com/api/image/minLouvre.jpg",
-              "subtitle": i18n.__("culturalSub"),
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("cultural"),
-                  "payload": "SITE_CULTURAL"
-                }
-              ]
-            },
-            {
-              "title": i18n.__("other"),
-              "image_url": "https://api.marco-app.com/api/image/minStChap.jpg",
-              "subtitle": i18n.__("otherSub"),
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("other"),
-                  "payload": "SITE_OTHER"
-                }
-              ]
-            },
-          ]
+          "elements": elementCategoryVisit
         }
       }
     }
@@ -1736,7 +1677,6 @@ class MessageData {
   }
 
   selectionDistrictType(city, page) {
-    console.log(i18n);
     const elementsDistrict = indexElementDistrict(city, parseInt(page), i18n);
     const buttonsDistrict =
       limitPageDistrict(city) <= page ? null :
@@ -2279,7 +2219,7 @@ class MessageData {
 
   textBeforeShare(url) {
     return {
-      "text": `${i18n.__("textBeforeShare")}${url}\n\n${i18n.__("textBeforeShare2")}\n${i18n.__("textBeforeShare3")}`,
+      "text": `${i18n.__("textBeforeShare")}${url}\n\n${i18n.__("textBeforeShare3")}`,
     }
   }
 
@@ -2330,6 +2270,44 @@ class MessageData {
           ]
         }
       }
+    }
+  }
+
+  get tomorrowImHere(){
+    return {
+      "text": `${i18n.__("comeBackTomorrow")}`,
+      "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("visit"),
+          "payload": "SEARCH_VISIT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("eat"),
+          "payload": "SEARCH_RESTAURANT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("drink"),
+          "payload": "SEARCH_BAR",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("walkAround"),
+          "payload": "SEARCH_DISTRICT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("chat"),
+          "payload": "SEARCH_HUMAN",
+        }
+      ]
     }
   }
 
