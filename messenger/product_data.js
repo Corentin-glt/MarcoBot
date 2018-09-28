@@ -223,7 +223,7 @@ class MessageData {
                   "payload": "HELP"
                 },
                 {
-                  "title": "Abonnement",
+                  "title": "Notifications",
                   "type": "postback",
                   "payload": "SUBSCRIPTION"
                 },
