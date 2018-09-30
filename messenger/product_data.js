@@ -743,7 +743,7 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
-          "title": `${i18n.__("WhenAreYouArrivingPart8")}${i18n.__(cityAttribute)}`,
+          "title": `${i18n.__("whenAreYouArrivingPart8")}${i18n.__(cityAttribute)}`,
           "payload": "ALREADYINCITY",
         },
       ]
