@@ -57,7 +57,7 @@ const _handlingEvent = (event, user) => {
       } else {
         if (event.postback) {
           if (event.postback.referral) {
-            axios.post('https://graph.facebook.com/224098718181615/activities', {
+            axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].pageId + '/activities', {
               event: 'CUSTOM_APP_EVENTS',
               custom_events: JSON.stringify([
                 {
