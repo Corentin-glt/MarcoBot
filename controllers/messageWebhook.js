@@ -20,7 +20,8 @@ const _handlingEvent = (event, user) => {
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   const senderId = event.sender.id;
   const queryAccount = accountMessenger.queryPSID(senderId);
-  apiGraphql.sendQuery(queryAccount)
+  console.log(event);
+apiGraphql.sendQuery(queryAccount)
     .then(response => {
       event.locale = response.accountMessenger.locale.split("_")[0];
       if (event.message && event.message.text) {
@@ -34,6 +35,8 @@ const _handlingEvent = (event, user) => {
           processMessage(event);
         }
       } else if (event.referral) {
+        console.log("referral event");
+	console.log(event.referral);
         axios.post('https://graph.facebook.com/224098718181615/activities', {
           event: 'CUSTOM_APP_EVENTS',
           custom_events: JSON.stringify([
@@ -48,7 +51,7 @@ const _handlingEvent = (event, user) => {
           page_scoped_user_id: event.sender.id
         })
           .then(response => {
-            console.log("post");
+            console.log(response.data);
           })
           .catch(err => {
             console.log(err);
@@ -57,6 +60,8 @@ const _handlingEvent = (event, user) => {
       } else {
         if (event.postback) {
           if (event.postback.referral) {
+	    console.log("event postback");
+	    console.log(event.postback);
             axios.post('https://graph.facebook.com/224098718181615/activities', {
               event: 'CUSTOM_APP_EVENTS',
               custom_events: JSON.stringify([
