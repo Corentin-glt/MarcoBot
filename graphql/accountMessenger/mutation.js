@@ -4,7 +4,7 @@
 module.exports = {
   //PSID, locale, timezone
   createAccountMessenger: () => {
-    return `mutation createAccountMessenger($PSID: ID!, $locale: String, $timezone: Int){
+    return `mutation createAccountMessenger($PSID: ID!, $locale: String, $timezone: Float){
         createAccountMessenger(PSID: $PSID, locale: $locale, timezone: $timezone) {
           PSID,
           id
