@@ -16,7 +16,6 @@ module.exports = (params, senderID) => {
     },
     message: ''
   };
-  console.log(params);
   const tempParam = params.split(':');
   const type = tempParam[0];
   const page = tempParam[1];
