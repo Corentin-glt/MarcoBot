@@ -61,10 +61,19 @@ module.exports = (parameters, senderId, locale) => {
           })
           .then(helper.delayPromise(2000))
           .then(res => {
-            return sendMessage(senderId,
-              product_data.itineraryNotifications(`${locale === 'fr' ? 
-                  itineraryToSend.descriptionFr : itineraryToSend.description}`,
-                numberDay, 1, idProgram), "RESPONSE")
+            let locationsGoogleMap = itineraryToSend.locations.length > 1 ?
+              'dir' : 'place';
+            async.each(itineraryToSend.locations, (location, callback) => {
+              const nameOfLocation = location.name.split(' ').join('+');
+              locationsGoogleMap = `${locationsGoogleMap}/${nameOfLocation}`;
+              callback();
+            }, (err) => {
+              if(err) console.log(err);
+              return sendMessage(senderId,
+                product_data.itineraryNotifications(`${locale === 'fr' ?
+                    itineraryToSend.descriptionFr : itineraryToSend.description}`,
+                  numberDay, 1, idProgram, locationsGoogleMap), "RESPONSE")
+            });
           })
           .catch(err => console.log(err.response.data))
       })

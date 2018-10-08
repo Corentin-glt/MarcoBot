@@ -90,9 +90,9 @@ module.exports = (event) => {
       case  'STARTITINERARY':
         itineraryStartHandler(payloadType[1], senderID, locale);
         break;
-      case  'ITINERARYNEXT':
-        itineraryNextHandler(payloadType[1], senderID, locale);
-        break;
+      // case  'ITINERARYNEXT':
+      //   itineraryNextHandler(payloadType[1], senderID, locale);
+        //break;
       case 'CHANGEMYCITY':
         changeMyCityHandler(senderID, locale);
         break;

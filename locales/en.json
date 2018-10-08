@@ -229,6 +229,10 @@
  "aroundMeChoice": "There's always plenty of things happening around you 😉, here's what I found for you: ",
  "switchCity": "🔄 Switch city",
  "noAroundMe": "Uh oh ... I didn't find anything around you ... 😢 If you are not in a city that I know I will have a hard time helping you.\n\nThough, if you simply forgot to tell me you are traveling somewhere else than ",
- "noAroundMe2": ", you can change city by clicking below. 👇"
+ "noAroundMe2": ", you can change city by clicking below. 👇",
+ "stepMap": "📍 See on map",
+ "clickHere": "🗺 Click here",
+ "seeMenu": "How can I help you ? 😊",
+ "next": "⏩ Next"
 
 }
