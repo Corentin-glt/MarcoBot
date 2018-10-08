@@ -12,6 +12,9 @@ const firstTimeCityHandler = require('../handlers/firstTimeCityHandler/firstTime
 const alreadyInCityHandler = require('../handlers/alreadyInCityHandler/alreadyInCity');
 const unsubscribeHandler = require('../handlers/subscribeHandler/unsubscribe');
 const subscribeHandler = require('../handlers/subscribeHandler/susbcribe');
+const itineraryNextHandler = require('../handlers/itineraryHandler/nextItinerary');
+const itineraryOnMap = require('../handlers/mapsHandler/itineraryOnMap');
+const seeMenu = require('../handlers/menuHandler/menu');
 
 module.exports = (event) => {
   const senderID = event.sender.id;
@@ -22,8 +25,8 @@ module.exports = (event) => {
   const payloadType = payload.split("_");
   if (payload.includes("NOLOCATIONEVENT") || payload.includes("USEOLDLOCATIONEVENT")) {
     return quickReplyLocation(payload, senderID, locale);
-  } else if (payload.includes("GOING") || payload.includes("LATER") ) {
-      return postbackInteractionWithCard(payload, senderID, locale)
+  } else if (payload.includes("GOING") || payload.includes("LATER")) {
+    return postbackInteractionWithCard(payload, senderID, locale)
   } else {
     switch (payloadType[0]) {
       case 'EXCITEMENT':
@@ -58,6 +61,15 @@ module.exports = (event) => {
         break;
       case 'SUBSCRIBE':
         subscribeHandler(senderID, locale);
+        break;
+      case  'ITINERARYNEXT':
+        itineraryNextHandler(payloadType[1], senderID, locale);
+        break;
+      case  'SEEITINERARYONMAP':
+        itineraryOnMap(payloadType[1], senderID, locale);
+        break;
+      case  'SEEMENU':
+        seeMenu(senderID, locale);
         break;
       default :
         postbackDefault(senderID, locale);

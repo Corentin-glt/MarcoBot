@@ -634,17 +634,17 @@ class MessageData {
                 },
               ]
             },
-            // {
-            //   "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
-            //   "image_url": `https://api.marco-app.com/api/image/london.jpg`,
-            //   "buttons": [
-            //     {
-            //       "type": "postback",
-            //       "title": i18n.__("validate"),
-            //       "payload": `TRAVELINGTO_LONDON`
-            //     },
-            //   ]
-            // },
+            {
+              "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
+              "image_url": `https://api.marco-app.com/api/image/london.jpg`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `TRAVELINGTO_LONDON`
+                },
+              ]
+            },
             {
               "title": `🇪🇸🇪🇸 ${i18n.__('barcelona')} 🇪🇸🇪🇸`,
               "image_url": `https://api.marco-app.com/api/image/barcelona.jpg`,
@@ -780,17 +780,17 @@ class MessageData {
                 },
               ]
             },
-            // {
-            //   "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
-            //   "image_url": `https://api.marco-app.com/api/image/london.jpg`,
-            //   "buttons": [
-            //     {
-            //       "type": "postback",
-            //       "title": i18n.__("validate"),
-            //       "payload": `MODIFYCITY_LONDON`
-            //     },
-            //   ]
-            // },
+            {
+              "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
+              "image_url": `https://api.marco-app.com/api/image/london.jpg`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `MODIFYCITY_LONDON`
+                },
+              ]
+            },
             {
               "title": `🇪🇸🇪🇸 ${i18n.__('barcelona')} 🇪🇸🇪🇸`,
               "image_url": `https://api.marco-app.com/api/image/barcelona.jpg`,
@@ -1394,7 +1394,7 @@ class MessageData {
             {
               "type": "web_url",
               "url": `https://www.google.com/maps/dir/${origin.lat},${origin.lng}/${destination.lat},${destination.lng}/`,
-              "title": i18n.__("itinéraire"),
+              "title": i18n.__("itinerary"),
               "webview_height_ratio": "full",
               "messenger_extensions": "false",
             }
@@ -2145,23 +2145,48 @@ class MessageData {
     }
   }
 
-  itineraryNotifications(description, numberDay, page, programs_id) {
+  // itineraryNotifications(description, numberDay, page, programs_id) {
+  //   return {
+  //     "attachment": {
+  //       "type": "template",
+  //       "payload": {
+  //         "template_type": "button",
+  //         "text": `${description}`,
+  //         "buttons": [
+  //           {
+  //             "type": "postback",
+  //             "title": "Next !",
+  //             "payload": `ITINERARYNEXT_${programs_id}:${parseInt(
+  //               numberDay)}:${parseInt(page) + 1}`
+  //           }
+  //         ]
+  //       }
+  //     }
+  //   }
+  // }
+
+  itineraryNotifications(description, numberDay, page, programs_id, locationsGoogleMap) {
     return {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "button",
-          "text": `${description}`,
-          "buttons": [
-            {
-              "type": "postback",
-              "title": "Next !",
-              "payload": `ITINERARYNEXT_${programs_id}:${parseInt(
-                numberDay)}:${parseInt(page) + 1}`
-            }
-          ]
+      "text": `${description}`,
+      "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("next"),
+          "payload": `ITINERARYNEXT_${programs_id}:${parseInt(
+            numberDay)}:${parseInt(page) + 1}`,
+        },
+        {
+          "content_type": "text",
+          "payload": `SEEITINERARYONMAP_${locationsGoogleMap}:${programs_id}:${parseInt(
+            numberDay)}:${parseInt(page)}`,
+          "title": i18n.__("stepMap")
+        },
+        {
+          "content_type": "text",
+          "payload": `SEEMENU_`,
+          "title": `📃 Menu`
         }
-      }
+      ]
     }
   }
 
@@ -2174,6 +2199,44 @@ class MessageData {
           "is_reusable":true,
         }
       }
+    }
+  }
+  clickOnItinerary(locationsGoogleMap) {
+    return {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "button",
+          "text": i18n.__("sendLocation"),
+          "buttons": [
+            {
+              "type": "web_url",
+              "url": `https://www.google.com/maps/${locationsGoogleMap}`,
+              "title": i18n.__("clickHere"),
+              "webview_height_ratio": "full",
+              "messenger_extensions": "false",
+            }
+          ]
+        }
+      }
+    }
+  }
+  menuOrNextItinerary(idProgram, numberDay, page) {
+    return {
+      "text": i18n.__('question1MessageAfterGeoLocation'),
+      "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("next"),
+          "payload": `ITINERARYNEXT_${idProgram}:${parseInt(
+            numberDay)}:${parseInt(page) + 1}`,
+        },
+        {
+          "content_type": "text",
+          "payload": `SEEMENU_`,
+          "title": `📃 Menu`
+        }
+      ]
     }
   }
 
@@ -2276,6 +2339,44 @@ class MessageData {
   get tomorrowImHere(){
     return {
       "text": `${i18n.__("comeBackTomorrow")}`,
+      "quick_replies": [
+        {
+          "content_type": "text",
+          "title": i18n.__("geolocation"),
+          "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("visit"),
+          "payload": "SEARCH_VISIT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("eat"),
+          "payload": "SEARCH_RESTAURANT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("drink"),
+          "payload": "SEARCH_BAR",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("walkAround"),
+          "payload": "SEARCH_DISTRICT",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__("chat"),
+          "payload": "SEARCH_HUMAN",
+        }
+      ]
+    }
+  }
+
+  get seeMenuTransition(){
+    return {
+      "text": `${i18n.__("seeMenu")}`,
       "quick_replies": [
         {
           "content_type": "text",
