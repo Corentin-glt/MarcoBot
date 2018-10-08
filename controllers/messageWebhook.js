@@ -35,9 +35,7 @@ apiGraphql.sendQuery(queryAccount)
           processMessage(event);
         }
       } else if (event.referral) {
-        console.log("referral event");
-	console.log(event.referral);
-        axios.post('https://graph.facebook.com/224098718181615/activities', {
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].pageId + '/activities', {
           event: 'CUSTOM_APP_EVENTS',
           custom_events: JSON.stringify([
             {
@@ -60,9 +58,7 @@ apiGraphql.sendQuery(queryAccount)
       } else {
         if (event.postback) {
           if (event.postback.referral) {
-	    console.log("event postback");
-	    console.log(event.postback);
-            axios.post('https://graph.facebook.com/224098718181615/activities', {
+            axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].pageId + '/activities', {
               event: 'CUSTOM_APP_EVENTS',
               custom_events: JSON.stringify([
                 {
