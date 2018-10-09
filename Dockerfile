@@ -8,5 +8,5 @@ RUN rm -rf node_modules
 RUN yarn cache clean
 RUN npm install
 #RUN yarn global add nodemon
-EXPOSE 4000
+EXPOSE 4005
 CMD ["yarn", "start"]

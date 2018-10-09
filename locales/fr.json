@@ -1,5 +1,5 @@
 {
-	"initialMessage": "Hello ",
+        "initialMessage": "Hello ",
 	"initialMessageBis": "Moi c'est Marco, ton assistant personnel de voyage. Je suis là pour faire en sorte que ton voyage soit le plus authentique possible, en te faisant des propositions personalisées recommendées par des locaux. Mon objectif est de m'assurer que tu ne rates rien d'extraordinaire tout en restant loin des pièges à touristes. 🙂",
 	"initialMessage2": "💭 J'en ai eu marre de passer des heures à planifier mes visites, à trouver un restaurant de qualité et à chercher le bar le plus branché de la ville…",
 	"initialMessage3": "📆 Du coup, tous les jours, je t'envoie un message avec toutes les visites que tu dois faire dans la journée, quoi manger sur le pouce à midi et des suggestions de soirées incroyables dans la ville où tu voyages.",
@@ -237,6 +237,6 @@
 	"stepMap": "📍 Map",
 	"clickHere": "🗺 Clique ici",
 	"seeMenu": "Comment je peux t'aider ? 😊",
-	"next": "⏩ Suivant"",
-        "itinerary": "Itinéraire"
+	"next": "⏩ Suivant",
+	"itinerary2": "Itinéraire"
 }

@@ -1,3 +1,4 @@
+
 {
  "initialMessage": "Hi ",
  "initialMessageBis": "I’m Marco your own personal travel assistant. My goal is to make your trip an authentic experience by giving you the best insider tips, making sure you don’t miss out on anything and stay away from tourist traps. 🙂",
@@ -233,6 +234,7 @@
  "stepMap": "📍 See on map",
  "clickHere": "🗺 Click here",
  "seeMenu": "How can I help you ? 😊",
- "next": "⏩ Next"",
- "itinerary": "Itinerary"
+ "next": "⏩ Next",
+ "itinerary2": "Itinerary"
+
 }

@@ -1394,7 +1394,7 @@ class MessageData {
             {
               "type": "web_url",
               "url": `https://www.google.com/maps/dir/${origin.lat},${origin.lng}/${destination.lat},${destination.lng}/`,
-              "title": i18n.__("itinerary"),
+              "title": i18n.__("itinerary2"),
               "webview_height_ratio": "full",
               "messenger_extensions": "false",
             }
