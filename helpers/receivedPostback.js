@@ -21,6 +21,8 @@ const cityHandler = require('../handlers/cityHandler/city');
 const changeMyCityHandler = require('../handlers/cityHandler/changeMyCity');
 const updateCityHandler = require('../handlers/cityHandler/updateCity');
 const newTripHandler = require('../handlers/cityHandler/newTrip');
+const axios = require("axios");
+const config = require("../config");
 
 
 const postbackInteractionWithCard = require('../messenger/postbackBlocks/interactionWithCard');
@@ -43,6 +45,25 @@ module.exports = (event) => {
         initHandler(senderID, locale);
         break;
       case 'TRAVELINGTO':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'city_travel',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         cityHandler(payloadType[1], senderID, locale);
         break;
       case 'RESTAURANT':
@@ -76,6 +97,25 @@ module.exports = (event) => {
         nextPageDiffEventRecommendationHandler(payloadType[1], senderID, locale);
         break;
       case 'MYFAVORITE':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'my_favorites',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         laterViewHandler(payloadType[1], senderID, locale);
         break;
       case 'HELP':
@@ -85,10 +125,48 @@ module.exports = (event) => {
         subscriptionHandler(senderID, locale);
         break;
       case  'INVITE':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'invite_friend',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         shareHandler(senderID, locale);
         break;
       case  'STARTITINERARY':
-        itineraryStartHandler(payloadType[1], senderID, locale);
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'startItinerary',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: recipientID,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
+        itineraryStartHandler(payloadType[1], senderID, locale, recipientID);
         break;
       // case  'ITINERARYNEXT':
       //   itineraryNextHandler(payloadType[1], senderID, locale);
@@ -100,6 +178,25 @@ module.exports = (event) => {
         updateCityHandler(payloadType[1], senderID, locale);
         break;
       case 'NEWTRIP':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'new_trip',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         newTripHandler(senderID, locale);
         break;
       default :

@@ -7,7 +7,7 @@ const config = require("../config");
 const indexLocationQuery = require("../graphql/indexLocation/query");
 const async = require("async");
 const queryUser = require('../graphql/user/query');
-
+const axios = require('axios');
 
 
 const sendMessage = (senderID, data, typeMessage) => {
@@ -37,6 +37,25 @@ module.exports = (_event) => {
     lastUpdated: nowDate
   };
   let userObject = {};
+  axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+    event: 'CUSTOM_APP_EVENTS',
+    custom_events: JSON.stringify([
+      {
+        _eventName: 'around_me',
+      }
+    ]),
+    advertiser_tracking_enabled: 1,
+    application_tracking_enabled: 1,
+    extinfo: JSON.stringify(['mb1']),
+    page_id: config.category[config.indexCategory].pageId,
+    page_scoped_user_id: senderID
+  })
+    .then(response => {
+      console.log("SUCCESS event start");
+    })
+    .catch(err => {
+      console.log(err.response.data.error);
+    });
   return apiGraphql.sendMutation(mutationUser.updateLocationByAccountMessenger(),
     {PSID: senderID, geoLocation: geoLocation})
     .then(res => {

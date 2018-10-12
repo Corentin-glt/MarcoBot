@@ -9,6 +9,7 @@ const ApiGraphql = require('../../helpers/apiGraphql');
 const helper = require("../../helpers/helper");
 const apiMessenger = require('../../helpers/apiMessenger');
 const async = require("async");
+const axios = require("axios");
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {
@@ -56,7 +57,7 @@ module.exports = (parameters, senderId, locale) => {
                 sender_action: 'typing_on',
                 messaging_types: "RESPONSE",
                 message: ""
-              })
+              });
             }
           })
           .then(helper.delayPromise(2000))
