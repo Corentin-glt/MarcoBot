@@ -88,7 +88,7 @@ module.exports = (event) => {
         shareHandler(senderID, locale);
         break;
       case  'STARTITINERARY':
-        itineraryStartHandler(payloadType[1], senderID, locale);
+        itineraryStartHandler(payloadType[1], senderID, locale, recipientID);
         break;
       // case  'ITINERARYNEXT':
       //   itineraryNextHandler(payloadType[1], senderID, locale);

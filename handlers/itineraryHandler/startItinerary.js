@@ -9,6 +9,7 @@ const ApiGraphql = require('../../helpers/apiGraphql');
 const helper = require("../../helpers/helper");
 const apiMessenger = require('../../helpers/apiMessenger');
 const async = require("async");
+const axios = require("axios");
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {
@@ -23,7 +24,7 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (parameters, senderId, locale) => {
+module.exports = (parameters, senderId, locale, recipientId) => {
   const product_data = new MessageData(locale);
   const paramatersArray = parameters.split(':');
   const idProgram = paramatersArray[0];
@@ -51,13 +52,28 @@ module.exports = (parameters, senderId, locale) => {
           })
           .then(res => {
             if (res.status === 200) {
-              return apiMessenger.sendToFacebook({
-                recipient: {id: senderId},
-                sender_action: 'typing_on',
-                messaging_types: "RESPONSE",
-                message: ""
+              return axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].pageId + '/activities', {
+                event: 'CUSTOM_APP_EVENTS',
+                custom_events: JSON.stringify([
+                  {
+                    _eventName: 'startItinerary',
+                  }
+                ]),
+                advertiser_tracking_enabled: 1,
+                application_tracking_enabled: 1,
+                extinfo: JSON.stringify(['mb1']),
+                page_id: recipientId,
+                page_scoped_user_id: senderId
               })
             }
+          })
+          .then(response => {
+            return apiMessenger.sendToFacebook({
+              recipient: {id: senderId},
+              sender_action: 'typing_on',
+              messaging_types: "RESPONSE",
+              message: ""
+            });
           })
           .then(helper.delayPromise(2000))
           .then(res => {
