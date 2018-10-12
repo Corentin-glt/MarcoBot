@@ -315,7 +315,7 @@ class MessageData {
                             "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
                             "default_action": {
                               "type": "web_url",
-                              "url": "https://www.messenger.com/t/marco.bot.paris",
+                              "url": "https://www.messenger.com/t/meethellomarco?ref=share_card",
 
                             },
                             "buttons": [
@@ -421,7 +421,7 @@ class MessageData {
                             "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
                             "default_action": {
                               "type": "web_url",
-                              "url": "https://www.messenger.com/t/marco.bot.paris",
+                              "url": "https://www.messenger.com/t/meethellomarco?ref=share_card",
 
                             },
                             "buttons": [
@@ -528,7 +528,7 @@ class MessageData {
                             "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
                             "default_action": {
                               "type": "web_url",
-                              "url": "https://www.messenger.com/t/marco.bot.paris",
+                              "url": "https://www.messenger.com/t/meethellomarco?ref=share_card",
 
                             },
                             "buttons": [
@@ -2083,7 +2083,7 @@ class MessageData {
                             "subtitle": i18n.__("shareSubtitle"),
                             "buttons": [{
                               "type": "web_url",
-                              "url": "https://m.me/meethellomarco",
+                              "url": "https://m.me/meethellomarco?ref=share",
                               "title": i18n.__("shareButton")
                             }
                             ]
@@ -2312,7 +2312,7 @@ class MessageData {
                             "image_url": `https://api.marco-app.com/api/image/marcoSharePhoto.jpg`,
                             "default_action": {
                               "type": "web_url",
-                              "url": "https://www.messenger.com/t/meethellomarco",
+                              "url": "https://www.messenger.com/t/meethellomarco?ref=share",
 
                             },
                             "buttons": [

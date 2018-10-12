@@ -85,7 +85,7 @@ class CronMethods {
                                   idProgram), "RESPONSE")
                                 .then(() => {
                                   axios.post('https://graph.facebook.com/' +
-                                    config.category[config.indexCategory].pageId +
+                                    config.category[config.indexCategory].appId +
                                     '/activities', {
                                     event: 'CUSTOM_APP_EVENTS',
                                     custom_events: JSON.stringify([
@@ -99,12 +99,13 @@ class CronMethods {
                                     page_id: config.category[config.indexCategory].pageId,
                                     page_scoped_user_id: PSID
                                   })
-                                    .then(resp => console.log('event success'))
+                                    .then(resp => {
+                                      console.log('event success');
+                                      return callback();
+                                    })
                                     .catch(err => {
-                                      console.log(err.data.response.error);
+                                      console.log(err.response.data.error);
                                     });
-
-                                  return callback();
                                 })
                                 .catch(err => {
                                   callback();
@@ -151,8 +152,9 @@ class CronMethods {
                         product_data.messageForTomorrow(user.user.firstName,
                           trip.cityTraveling), "RESPONSE")
                         .then(() => {
+                          console.log("MESSAGE FOR TOMORROW");
                           axios.post('https://graph.facebook.com/' +
-                            config.category[config.indexCategory].pageId +
+                            config.category[config.indexCategory].appId +
                             '/activities', {
                             event: 'CUSTOM_APP_EVENTS',
                             custom_events: JSON.stringify([
@@ -205,7 +207,7 @@ class CronMethods {
               })
               .catch(err => callback(err))
           }, (err) => {
-            if (err) console.log(err)
+            if (err) console.log(err);
             console.log('cron check last Message done! ')
           })
         }

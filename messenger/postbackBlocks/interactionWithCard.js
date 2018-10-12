@@ -20,7 +20,8 @@ const mutationUser = require("../../graphql/user/mutation");
 const apiMessenger = require("../../helpers/apiMessenger");
 const MessageData = require("../product_data");
 const helper = require("../../helpers/helper");
-const config = require("../../config")
+const config = require("../../config");
+const axios = require('axios');
 const LIMIT_HOUR_ASK_LOCATION = 2;
 
 const events = {
@@ -227,6 +228,25 @@ module.exports = (payload, senderID, locale) => {
       const resultat = res[eventName];
       switch (newPayload) {
         case "GOING":
+          axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+            event: 'CUSTOM_APP_EVENTS',
+            custom_events: JSON.stringify([
+              {
+                _eventName: 'lets_go',
+              }
+            ]),
+            advertiser_tracking_enabled: 1,
+            application_tracking_enabled: 1,
+            extinfo: JSON.stringify(['mb1']),
+            page_id: config.category[config.indexCategory].pageId,
+            page_scoped_user_id: senderID
+          })
+            .then(response => {
+              console.log("SUCCESS event start");
+            })
+            .catch(err => {
+              console.log(err.response.data.error);
+            });
           return _createGoing(senderID, userId, eventID, eventName, resultat, locale);
         case "LATER":
           return _createLater(senderID, userId, eventID, eventName, locale);

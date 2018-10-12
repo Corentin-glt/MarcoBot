@@ -19,6 +19,7 @@ const apiMessenger = require("./apiMessenger");
 const MessageData = require("../messenger/product_data");
 const helper = require("./helper");
 const config = require("../config");
+const axios = require('axios');
 const events = {
   "bar": (id) => queryBar.queryBar(id),
   "activity": (id) => queryActivity.queryActivity(id),
@@ -62,6 +63,25 @@ module.exports = (_event) => {
   let event = "";
   let eventID = "";
   let eventObject = {};
+  axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+    event: 'CUSTOM_APP_EVENTS',
+    custom_events: JSON.stringify([
+      {
+        _eventName: 'location_go',
+      }
+    ]),
+    advertiser_tracking_enabled: 1,
+    application_tracking_enabled: 1,
+    extinfo: JSON.stringify(['mb1']),
+    page_id: config.category[config.indexCategory].pageId,
+    page_scoped_user_id: senderId
+  })
+    .then(response => {
+      console.log("SUCCESS event start");
+    })
+    .catch(err => {
+      console.log(err.response.data.error);
+    });
   return apiGraphql.sendMutation(mutationUser.updateLocationByAccountMessenger(),
     {PSID: senderId, geoLocation: geoLocation})
     .then(res => {
