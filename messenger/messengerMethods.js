@@ -34,14 +34,14 @@ module.exports = {
                     .then(userSaved=> {
                       return resolve(userSaved);
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => console.log(err.response.data.error));
                 }
 
               })
-              .catch(err =>  reject(err));
+              .catch(err =>  reject(err.response.data.error));
           }
         })
-        .catch(err => reject(err));
+        .catch(err => reject(err.response.data.error));
     });
   },
 };

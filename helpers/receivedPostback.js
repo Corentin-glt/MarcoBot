@@ -42,6 +42,25 @@ module.exports = (event) => {
   } else {
     switch (payloadType[0]) {
       case 'INIT':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'bot_started',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         initHandler(senderID, locale);
         break;
       case 'TRAVELINGTO':
