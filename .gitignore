@@ -11,3 +11,7 @@ docker-compose.yml
 Dockerfile
 
 .tern-project
+
+docker-compose.yml
+
+Dockerfile
