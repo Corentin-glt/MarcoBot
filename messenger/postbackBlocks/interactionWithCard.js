@@ -36,7 +36,6 @@ const events = {
   "SHOP": (id) => queryShop.queryShop(id),
   "SHOW": (id) => queryShow.queryShow(id),
   "SITE": (id) => querySite.querySite(id),
-  "VISIT": (id) => q
 };
 
 const sendMessage = (senderId, data, typeMessage) => {
@@ -187,7 +186,6 @@ const _createLater = (senderID, userID, eventID, eventName, locale) => {
 };
 
 const _seeMore = (senderID, eventName, event, locale) => {
-  console.log(event);
   const product_data = new MessageData(locale);
   return apiMessenger.sendToFacebook({
     recipient: {id: senderID},
