@@ -13,7 +13,7 @@ module.exports = (payload, price, senderID, locale) => {
       priceIndex(price, `brunch`, senderID, locale);
       break;
     case 'STREET':
-      priceIndex(price, `street_food`, senderID, locale);
+      priceIndex(price, `streetfood`, senderID, locale);
       break;
     case 'TRADITIONAL':
       priceIndex(price, `traditional`,senderID, locale);

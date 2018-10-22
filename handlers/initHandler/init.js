@@ -29,7 +29,7 @@ module.exports = (senderID, locale) => {
           })
         }
       })
-      .then(helper.delayPromise(1000))
+      .then(helper.delayPromise(7000))
       .then(response => {
         messageData.message = product_data.initialMessage2;
         if (response.status === 200)
@@ -45,7 +45,7 @@ module.exports = (senderID, locale) => {
           })
         }
       })
-      .then(helper.delayPromise(1000))
+      .then(helper.delayPromise(3000))
       .then(response => {
         messageData.message = product_data.initialMessage3;
         if (response.status === 200)
@@ -61,7 +61,7 @@ module.exports = (senderID, locale) => {
           })
         }
       })
-      .then(helper.delayPromise(1000))
+      .then(helper.delayPromise(6000))
       .then(response => {
         messageData.message = product_data.excitementMessage;
         if (response.status === 200)

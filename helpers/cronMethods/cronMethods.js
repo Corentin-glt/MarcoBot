@@ -13,10 +13,13 @@ const userMutation = require('../../graphql/user/mutation');
 const queryAccountMessenger = require('../../graphql/accountMessenger/query');
 const MessageData = require("../../messenger/product_data");
 const numberDayProgramByCity = require('../../variableApp/limitCityProgram');
+const axios = require("axios");
 
 class CronMethods {
   constructor() {
-    this.apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
+    this.apiGraphql =
+      new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl,
+        config.accessTokenMarcoApi);
   }
 
   static sendMessage(senderId, data, typeMessage) {
@@ -45,29 +48,65 @@ class CronMethods {
         async.each(trips.getTrips, (trip, callback) => {
           const dayArrival = new Date(trip.arrivalDateToCity);
           const dayDeparture = new Date(trip.departureDateToCity);
-          const numberDayAlreadyDone = CronMethods.diffDayBetween2Date(dayArrival, new Date()) + 1;
+          const numberDayAlreadyDone = CronMethods.diffDayBetween2Date(
+            dayArrival, new Date()) + 1;
           const numberDayIsStaying =
-            CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) >= numberDayProgramByCity[trip.cityTraveling] ?
-              numberDayProgramByCity[trip.cityTraveling] : CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) + 1;
-          console.log('VILLE: ', trip.cityTraveling,'\nNOMBRE DE JOUR FAIT: ',numberDayAlreadyDone, '\nNUMBRE DE JOUR QU\'IL RESTE DANS LA VILLE : ',numberDayIsStaying,'\n\n');
+            CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) >=
+            numberDayProgramByCity[trip.cityTraveling] ?
+              numberDayProgramByCity[trip.cityTraveling] :
+              CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) + 1;
+          console.log('VILLE: ', trip.cityTraveling, '\nNOMBRE DE JOUR FAIT: ',
+            numberDayAlreadyDone,
+            '\nNUMBRE DE JOUR QU\'IL RESTE DANS LA VILLE : ',
+            numberDayIsStaying, '\n\n');
           if (numberDayAlreadyDone <= numberDayIsStaying) {
-            return this.apiGraphql.sendQuery(queryProgram.getOneProgram(trip.cityTraveling, numberDayIsStaying))
+            return this.apiGraphql.sendQuery(
+              queryProgram.getOneProgram(trip.cityTraveling,
+                numberDayIsStaying))
               .then(program => {
                 if (program.getOneProgram) {
                   const idProgram = program.getOneProgram.id;
-                  return this.apiGraphql.sendQuery(queryUser.queryUser(trip.users_id))
+                  return this.apiGraphql.sendQuery(
+                    queryUser.queryUser(trip.users_id))
                     .then(user => {
                       if (user.user) {
                         const PSID = user.user.PSID;
-                        return this.apiGraphql.sendQuery(queryAccountMessenger.queryPSID(PSID))
+                        return this.apiGraphql.sendQuery(
+                          queryAccountMessenger.queryPSID(PSID))
                           .then(accountMessenger => {
-                            const locale =  accountMessenger.accountMessenger.locale.split("_")[0];
+                            const locale = accountMessenger.accountMessenger.locale.split(
+                              "_")[0];
                             const product_data = new MessageData(locale);
-                            if (accountMessenger.accountMessenger.subscribe){
+                            if (accountMessenger.accountMessenger.subscribe) {
                               return CronMethods.sendMessage(PSID,
-                                product_data.messageOfItineraryNotification(user.user.firstName,
-                                  trip.cityTraveling, numberDayAlreadyDone, idProgram), "RESPONSE")
-                                .then(() => callback())
+                                product_data.messageOfItineraryNotification(
+                                  user.user.firstName,
+                                  trip.cityTraveling, numberDayAlreadyDone,
+                                  idProgram), "RESPONSE")
+                                .then(() => {
+                                  axios.post('https://graph.facebook.com/' +
+                                    config.category[config.indexCategory].appId +
+                                    '/activities', {
+                                    event: 'CUSTOM_APP_EVENTS',
+                                    custom_events: JSON.stringify([
+                                      {
+                                        _eventName: 'notificationItinerarySent',
+                                      }
+                                    ]),
+                                    advertiser_tracking_enabled: 1,
+                                    application_tracking_enabled: 1,
+                                    extinfo: JSON.stringify(['mb1']),
+                                    page_id: config.category[config.indexCategory].pageId,
+                                    page_scoped_user_id: PSID
+                                  })
+                                    .then(resp => {
+                                      console.log('event success');
+                                      return callback();
+                                    })
+                                    .catch(err => {
+                                      console.log(err.response.data.error);
+                                    });
+                                })
                                 .catch(err => {
                                   callback();
                                   console.log(err.response.data);
@@ -102,15 +141,40 @@ class CronMethods {
             .then(user => {
               if (user.user) {
                 const PSID = user.user.PSID;
-                return this.apiGraphql.sendQuery(queryAccountMessenger.queryPSID(PSID))
+                return this.apiGraphql.sendQuery(
+                  queryAccountMessenger.queryPSID(PSID))
                   .then(accountMessenger => {
-                    const locale =  accountMessenger.accountMessenger.locale.split("_")[0];
+                    const locale = accountMessenger.accountMessenger.locale.split(
+                      "_")[0];
                     const product_data = new MessageData(locale);
-                    if (accountMessenger.accountMessenger.subscribe){
+                    if (accountMessenger.accountMessenger.subscribe) {
                       return CronMethods.sendMessage(PSID,
                         product_data.messageForTomorrow(user.user.firstName,
                           trip.cityTraveling), "RESPONSE")
-                        .then(() => callback())
+                        .then(() => {
+                          console.log("MESSAGE FOR TOMORROW");
+                          axios.post('https://graph.facebook.com/' +
+                            config.category[config.indexCategory].appId +
+                            '/activities', {
+                            event: 'CUSTOM_APP_EVENTS',
+                            custom_events: JSON.stringify([
+                              {
+                                _eventName: 'notificationDayBeforeSent',
+                              }
+                            ]),
+                            advertiser_tracking_enabled: 1,
+                            application_tracking_enabled: 1,
+                            extinfo: JSON.stringify(['mb1']),
+                            page_id: config.category[config.indexCategory].pageId,
+                            page_scoped_user_id: PSID
+                          })
+                            .then(resp => console.log('event success'))
+                            .catch(err => {
+                              console.log(err.data.response.error);
+                            });
+
+                          return callback()
+                        })
                         .catch(err => {
                           callback();
                           console.log(err.response.data);
@@ -133,16 +197,17 @@ class CronMethods {
   checkLastMessageToHuman() {
     return this.apiGraphql.sendQuery(queryUser.usersByLastMessageToHuman())
       .then(res => {
-        if(res.usersByLastMessageToHuman){
+        if (res.usersByLastMessageToHuman) {
           async.each(res.usersByLastMessageToHuman, (user, callback) => {
-            return this.apiGraphql.sendMutation(userMutation.updateIsTalkingWithHuman(),
+            return this.apiGraphql.sendMutation(
+              userMutation.updateIsTalkingWithHuman(),
               {PSID: user.PSID, isTalkingToHuman: false})
               .then((response) => {
                 callback()
               })
               .catch(err => callback(err))
           }, (err) => {
-            if(err) console.log(err)
+            if (err) console.log(err);
             console.log('cron check last Message done! ')
           })
         }

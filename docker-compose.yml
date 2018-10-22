@@ -5,14 +5,14 @@ services:
     restart: always
     build: .
     ports:
-      - "4000:4000"
+      - "4005:4005"
     volumes:
-      - $HOME/Marco/MarcoBot:/usr/src/api
-    network_mode: "dockerenvironment_env-net"
+      - /etc/api/MarcoBot:/usr/src/api
+    network_mode: "env-net"
     external_links:
       - "api:api"
       - "recommendation_api:recommendation_api"
 networks:
   default:
     external:
-      name: dockerenvironment_env-net
+      name: env-net

@@ -24,6 +24,7 @@ const sendMessage = (senderId, data, typeMessage) => {
 };
 
 module.exports = (senderID, locale) => {
+
   const product_data = new MessageData(locale);
   const dateArrival = new Date();
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);

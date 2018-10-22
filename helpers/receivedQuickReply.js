@@ -15,6 +15,8 @@ const subscribeHandler = require('../handlers/subscribeHandler/susbcribe');
 const itineraryNextHandler = require('../handlers/itineraryHandler/nextItinerary');
 const itineraryOnMap = require('../handlers/mapsHandler/itineraryOnMap');
 const seeMenu = require('../handlers/menuHandler/menu');
+const axios = require('axios');
+const config = require('../config');
 
 module.exports = (event) => {
   const senderID = event.sender.id;
@@ -51,9 +53,47 @@ module.exports = (event) => {
         backQuestionHandler(payloadType[1], senderID, locale);
         break;
       case 'FIRSTTIME':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'first_second_time',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         firstTimeCityHandler(payloadType[1], senderID, locale);
         break;
       case 'ALREADYINCITY':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'arrival_date',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         alreadyInCityHandler(senderID, locale);
         break;
       case  'UNSUBSCRIBE':
@@ -63,12 +103,69 @@ module.exports = (event) => {
         subscribeHandler(senderID, locale);
         break;
       case  'ITINERARYNEXT':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'next_itinerary',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         itineraryNextHandler(payloadType[1], senderID, locale);
         break;
       case  'SEEITINERARYONMAP':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'map_itinerary',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         itineraryOnMap(payloadType[1], senderID, locale);
         break;
       case  'SEEMENU':
+        axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
+          event: 'CUSTOM_APP_EVENTS',
+          custom_events: JSON.stringify([
+            {
+              _eventName: 'menu_itinerary',
+            }
+          ]),
+          advertiser_tracking_enabled: 1,
+          application_tracking_enabled: 1,
+          extinfo: JSON.stringify(['mb1']),
+          page_id: config.category[config.indexCategory].pageId,
+          page_scoped_user_id: senderID
+        })
+          .then(response => {
+            console.log("SUCCESS event start");
+          })
+          .catch(err => {
+            console.log(err.response.data.error);
+          });
         seeMenu(senderID, locale);
         break;
       default :
