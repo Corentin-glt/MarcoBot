@@ -12,6 +12,8 @@ module.exports = {
     tips
     priceRange
     photos
+    url
+    note
     affiliations {
       url
     }
@@ -61,6 +63,8 @@ module.exports = {
           descriptionFr
           tags
           tips
+          url
+          note
           priceRange
           photos
           affiliations {
@@ -114,6 +118,8 @@ module.exports = {
           descriptionFr
           tags
           tips
+          note
+          url
           priceRange
           photos
           affiliations {

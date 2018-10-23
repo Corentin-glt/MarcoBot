@@ -53,7 +53,7 @@ class MessageData {
       }
       let schedule = "🕐 ";
       const daySchedule = (elem.schedule &&
-        elem.schedule[ARRAYDAY[TODAY.getDay()]] !== null) ?
+      elem.schedule[ARRAYDAY[TODAY.getDay()]] !== null) ?
         elem.schedule[ARRAYDAY[TODAY.getDay()]] : [];
       if (daySchedule.length > 0) {
         daySchedule.map((day, i) => {
@@ -251,7 +251,7 @@ class MessageData {
       "quick_replies": [
         {
           "content_type": "text",
-          "title": `${i18n.__("subscribe")} 👍` ,
+          "title": `${i18n.__("subscribe")} 👍`,
           "payload": "SUBSCRIBE_",
         },
         {
@@ -283,7 +283,6 @@ class MessageData {
 
   templateList(list, kindElement, page, whichApi, category = '',
                price = 0) {
-    console.log(list, kindElement, page, whichApi, category, price);
     return new Promise((resolve, reject) => {
       const TODAY = new Date();
       const arrayOfElement = [];
@@ -291,10 +290,42 @@ class MessageData {
         this.generateSubtitle(elem, TODAY)
           .then(res => {
             const elemLocationGoogleMap = elem.location.name.replace(" ", "+");
+            const globalNote = elem.note && elem.note !== null && typeof elem.note !== 'undefined' ?
+              `🌟${elem.note}` : '';
+            let globalTypes = '';
+            elem.types.map((elem, index) => {
+              index === 0 ?
+                globalTypes = `${elem}`
+                :
+                globalTypes = `${globalTypes}, ${elem}`
+            });
+            globalTypes.length > 30 ?
+              globalTypes = globalTypes.slice(0, 30) + '...'
+              : null;
+            let globalUrl = elem.url;
+            globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
+            let isAffiliate = elem.affiliations.length > 0 ?
+              {
+                "type": "web_url",
+                "url": `${elem.affiliations[0].url}`,
+                "title": i18n.__("reservationTemplate")
+              }
+              :
+              {
+                "type": "postback",
+                "title": i18n.__("tellMore"),
+                "payload": `VIEWMORE_${kindElement}:${elem.id || elem._id}`
+              }
+            ;
+
             const element = {
-              "title": `${elem.name}`,
+              "title": `${elem.name}${globalNote}`,
               "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
-              "subtitle": `📍 ${elem.location.name} \n${res.money}\n ${res.schedule}`,
+              "subtitle": `${globalTypes}\n${res.money}\n ${res.schedule}`,
+              "default_action": {
+                "type": "web_url",
+                "url": `${globalUrl}`,
+              },
               "buttons": [
                 {
                   "type": "postback",
@@ -331,11 +362,7 @@ class MessageData {
                     }
                   }
                 },
-                {
-                  "type": "postback",
-                  "title": i18n.__("tellMore"),
-                  "payload": `VIEWMORE_${kindElement}:${elem.id || elem._id}`
-                },
+                isAffiliate,
               ]
             };
             arrayOfElement.push(element);
@@ -397,10 +424,41 @@ class MessageData {
         this.generateSubtitle(elem, TODAY)
           .then(res => {
             const elemLocationGoogleMap = elem.location.name.replace(" ", "+")
+            const globalNote = elem.note && elem.note !== null && typeof elem.note !== 'undefined' ?
+              `🌟${elem.note}` : '';
+            let globalTypes = '';
+            elem.types.map((elem, index) => {
+              index === 0 ?
+                globalTypes = `${elem}`
+                :
+                globalTypes = `${globalTypes}, ${elem}`
+            });
+            globalTypes.length > 30 ?
+              globalTypes = globalTypes.slice(0, 30) + '...'
+              : null;
+            let globalUrl = elem.url;
+            globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
+            let isAffiliate = elem.affiliations.length > 0 ?
+              {
+                "type": "web_url",
+                "url": `${elem.affiliations[0].url}`,
+                "title": i18n.__("reservationTemplate")
+              }
+              :
+              {
+                "type": "postback",
+                "title": i18n.__("tellMore"),
+                "payload": `VIEWMORE_${elem.kindElement}:${elem.id || elem._id}`
+              }
+            ;
             const element = {
-              "title": `${elem.name}`,
+              "title": `${elem.name}${globalNote}`,
               "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
-              "subtitle": `📍 ${elem.location.name} \n${res.money}\n ${res.schedule}`,
+              "subtitle": `${globalTypes}\n${res.money}\n ${res.schedule}`,
+              "default_action": {
+                "type": "web_url",
+                "url": `${globalUrl}`,
+              },
               "buttons": [
                 {
                   "type": "postback",
@@ -437,18 +495,13 @@ class MessageData {
                     }
                   }
                 },
-                {
-                  "type": "postback",
-                  "title": i18n.__("tellMore"),
-                  "payload": `VIEWMORE_${elem.kindElement}:${elem.id ||
-                  elem._id}`
-                },
+                isAffiliate,
               ]
             };
             arrayOfElement.push(element);
             callback()
           })
-          .catch(() => callback("AILLE"))
+          .catch(() => callback("NIKE AILLE"))
       }, (err) => {
         if (err) return reject(err);
         if (arrayOfElement.length === 5) {
@@ -504,10 +557,41 @@ class MessageData {
         this.generateSubtitle(elem, TODAY)
           .then(res => {
             const elemLocationGoogleMap = elem.location.name.replace(" ", "+");
+            const globalNote = elem.note && elem.note !== null && typeof elem.note !== 'undefined' ?
+              `🌟${elem.note}` : '';
+            let globalTypes = '';
+            elem.types.map((elem, index) => {
+              index === 0 ?
+                globalTypes = `${elem}`
+                :
+                globalTypes = `${globalTypes}, ${elem}`
+            });
+            globalTypes.length > 30 ?
+              globalTypes = globalTypes.slice(0, 30) + '...'
+              : null;
+            let globalUrl = elem.url;
+            globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
+            let isAffiliate = elem.affiliations.length > 0 ?
+              {
+                "type": "web_url",
+                "url": `${elem.affiliations[0].url}`,
+                "title": i18n.__("reservationTemplate")
+              }
+              :
+              {
+                "type": "postback",
+                "title": i18n.__("tellMore"),
+                "payload": `VIEWMORE_${kindElement}:${elem.id || elem._id}`
+              }
+            ;
             const element = {
-              "title": `${elem.name}`,
+              "title": `${elem.name}${globalNote}`,
               "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
-              "subtitle": `📍 ${elem.location.name} \n${res.money}\n ${res.schedule}`,
+              "subtitle": `${globalTypes}\n${res.money}\n ${res.schedule}`,
+              "default_action": {
+                "type": "web_url",
+                "url": `${globalUrl}`,
+              },
               "buttons": [
                 {
                   "type": "postback",
@@ -544,12 +628,7 @@ class MessageData {
                     }
                   }
                 },
-                {
-                  "type": "postback",
-                  "title": i18n.__("tellMore"),
-                  "payload": `VIEWMORE_${elem.kindElement}:${elem.id ||
-                  elem._id}`
-                },
+                isAffiliate,
               ]
             };
             arrayOfElement.push(element);
@@ -600,7 +679,7 @@ class MessageData {
 
   get initialMessage3() {
     return {
-     "text": i18n.__('initialMessage3')
+      "text": i18n.__('initialMessage3')
     };
   }
 
@@ -719,6 +798,7 @@ class MessageData {
       ]
     };
   }
+
   whenAreYouArriving(boolean, city) {
     const cityAttribute = city.toLowerCase();
     return {
@@ -753,15 +833,17 @@ class MessageData {
   howManyDayAreStaying(city) {
     const cityAttribute = city.toLowerCase();
     return {
-    "text": `${i18n.__("howManyDayAreStaying1")} ${i18n.__(cityAttribute)} ${i18n.__("howManyDayAreStaying2")}`,
+      "text": `${i18n.__("howManyDayAreStaying1")} ${i18n.__(cityAttribute)} ${i18n.__("howManyDayAreStaying2")}`,
     }
   }
+
   updateCityDone(city) {
     const lowerCity = city.toLowerCase();
     return {
       "text": `${i18n.__("updateCityDone")} ${i18n.__(lowerCity)} ✅`,
     }
   }
+
   get changeMyCity() {
     return {
       "attachment": {
@@ -848,6 +930,7 @@ class MessageData {
       "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)}${i18n.__("noMoreCityInTrip2")}`
     }
   }
+
   yourCityActual(city) {
     const cityToUpper = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToUpper.toLowerCase();
@@ -855,6 +938,7 @@ class MessageData {
       "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)} ${i18n.__("yourCityActual")} `
     }
   }
+
   get arrivalLater() {
     return {
       "text": i18n.__("arrivalLater"),
@@ -897,6 +981,7 @@ class MessageData {
       ]
     }
   }
+
   get isHereNow() {
     return {
       "text": i18n.__("isHereNow")
@@ -976,13 +1061,13 @@ class MessageData {
     }
   }
 
-  get letsGoMessage(){
+  get letsGoMessage() {
     return {
       "text": i18n.__("letsGoMessage")
     }
   }
 
-  get letsGoMessage2(){
+  get letsGoMessage2() {
     return {
       "text": i18n.__("letsGoMessage2")
     }
@@ -1433,7 +1518,7 @@ class MessageData {
     }
   }
 
-  sendItinerary(origin, destination)  {
+  sendItinerary(origin, destination) {
     return {
       "attachment": {
         "type": "template",
@@ -1747,7 +1832,6 @@ class MessageData {
       }
     }
   }
-
 
 
   get nothingInThisDistrict() {
@@ -2177,7 +2261,7 @@ class MessageData {
   }
 
   messageOfItineraryNotification(name, city, numberDay, programs_id) {
-    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay]:numberDayString[numberDay];
+    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay] : numberDayString[numberDay];
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToLowerCase.toLowerCase();
     return {
@@ -2199,7 +2283,7 @@ class MessageData {
   }
 
   messageOfItineraryNotification2(city, numberDay, programs_id) {
-    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay]:numberDayString[numberDay];
+    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay] : numberDayString[numberDay];
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToLowerCase.toLowerCase();
     return {
@@ -2267,15 +2351,16 @@ class MessageData {
 
   sendPhotoItinerary(photo) {
     return {
-      "attachment":{
-        "type":"image",
-        "payload":{
+      "attachment": {
+        "type": "image",
+        "payload": {
           "url": `https://api.marco-app.com/api/image/${photo}`,
-          "is_reusable":true,
+          "is_reusable": true,
         }
       }
     }
   }
+
   clickOnItinerary(locationsGoogleMap) {
     return {
       "attachment": {
@@ -2296,6 +2381,7 @@ class MessageData {
       }
     }
   }
+
   menuOrNextItinerary(idProgram, numberDay, page) {
     return {
       "text": i18n.__('question1MessageAfterGeoLocation'),
@@ -2416,7 +2502,7 @@ class MessageData {
     }
   }
 
-  get tomorrowImHere(){
+  get tomorrowImHere() {
     return {
       "text": `${i18n.__("comeBackTomorrow")}`,
       "quick_replies": [
@@ -2459,7 +2545,7 @@ class MessageData {
     }
   }
 
-  get seeMenuTransition(){
+  get seeMenuTransition() {
     return {
       "text": `${i18n.__("seeMenu")}`,
       "quick_replies": [
@@ -2515,18 +2601,18 @@ class MessageData {
     }
   }
 
- noAroundMe(city) {
+  noAroundMe(city) {
     return {
-      "attachment":{
-        "type":"template",
-        "payload":{
+      "attachment": {
+        "type": "template",
+        "payload": {
           "template_type": "button",
           "text": `${i18n.__("noAroundMe")}${i18n.__(city)}${i18n.__("noAroundMe2")}`,
-          "buttons":[
+          "buttons": [
             {
-              "type":"postback",
+              "type": "postback",
               "title": i18n.__("switchCity"),
-              "payload":"CHANGEMYCITY"
+              "payload": "CHANGEMYCITY"
             }
           ]
         }
@@ -2534,16 +2620,22 @@ class MessageData {
     }
   }
 
-  ticketingModel(listTicketing, page){
+  ticketingModel(listTicketing, page) {
     return new Promise((resolve, reject) => {
       let arrayElement = [];
       async.each(listTicketing, (affiliation, callback) => {
         const kindElement = Object.keys(affiliation).find(elem =>
-          elem.includes('s_id') && affiliation[elem] !== null);
+        elem.includes('s_id') && affiliation[elem] !== null);
+        let globalUrl = affiliation.url;
+        globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
         const element = {
           "title": `${affiliation.name}`,
           "image_url": `https://api.marco-app.com/api/image/${affiliation[kindElement].photos[0]}`,
           "subtitle": `📍 ${affiliation[kindElement].location.name} \n${affiliation.price} €`,
+          "default_action": {
+            "type": "web_url",
+            "url": `${affiliation.url}`,
+          },
           "buttons": [
             {
               "type": "element_share",
@@ -2565,7 +2657,7 @@ class MessageData {
                         "buttons": [
                           {
                             "type": "web_url",
-                            "url": `${affiliation.url}`,
+                            "url": `${globalUrl}`,
                             "title": i18n.__("buyShare")
                           },
                         ]
@@ -2577,7 +2669,7 @@ class MessageData {
             },
             {
               "type": "web_url",
-              "url": `${affiliation.url}`,
+              "url": `${globalUrl}`,
               "title": i18n.__("buyShare")
             },
           ]
@@ -2585,7 +2677,7 @@ class MessageData {
         arrayElement.push(element);
         callback()
       }, (err) => {
-        if (err) return reject (err);
+        if (err) return reject(err);
         if (arrayElement.length === 5) {
           const morePage = {
             "title": i18n.__("seeMore"),
