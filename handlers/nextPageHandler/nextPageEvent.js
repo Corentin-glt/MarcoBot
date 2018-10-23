@@ -18,6 +18,7 @@ const queryShop = require("../../graphql/shop/query");
 const queryShow = require("../../graphql/show/query");
 const querySite = require("../../graphql/site/query");
 const queryUser = require("../../graphql/user/query");
+const queryAffiliation = require("../../graphql/affiliation/query");
 const ApiGraphql = require("../../helpers/apiGraphql");
 
 const sendMessage = (senderId, data, typeMessage) => {
@@ -44,7 +45,8 @@ const events = {
   "RESTAURANT": (page, city) => queryRestaurant.queryRestaurants(page, city),
   "SHOP": (page, city) => queryShop.queryShops(page, city),
   "SHOW": (page, city) => queryShow.queryShows(page, city),
-  "SITE": (page, city) => querySite.querySites(page, city)
+  "SITE": (page, city) => querySite.querySites(page, city),
+  "TICKETING": (page, city) => queryAffiliation.affiliations(page, city)
 };
 
 module.exports = (payload, senderID, locale) => {
@@ -54,38 +56,64 @@ module.exports = (payload, senderID, locale) => {
   const page = newPayload[1];
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   let dataToSend = {};
-  return apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderId))
+  return apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID))
     .then(res => {
       if (res.userByAccountMessenger) {
         const city = res.userByAccountMessenger.cityTraveling.length > 0
           ? res.userByAccountMessenger.cityTraveling : "paris";
         apiGraphql.sendQuery(events[eventName](page, city))
           .then((res) => {
-            let eventsNames = eventName === "ACTIVITY" ?
-              "activities" : eventName.toLocaleLowerCase() + 's';
-            const resultat = res[eventsNames];
-            if(resultat !== null || resultat.length > 0){
-              return product_data.templateList(resultat, eventName, page, "mongo")
-                .then(result => {
-                  dataToSend = Object.assign({}, result);
-                  return sendMessage(senderID, dataToSend, "RESPONSE")
-                })
-                .then((response) => {
-                  if (response.status === 200)
-                    return apiMessenger.sendToFacebook({
-                      recipient: {id: senderID},
-                      sender_action: 'typing_on',
-                      messaging_types: "RESPONSE",
-                      message: ""
-                    })
-                })
-                .then(helper.delayPromise(2000))
-                .then((response) => {
-                  if (response.status === 200)
-                    return sendMessage(senderID, product_data.question1MessageListView, "RESPONSE")
-                })
+            if (eventName === 'TICKETING') {
+              if(res.affiliations !== null && res.affiliations.length > 0){
+                return product_data.ticketingModel(res.affiliations, page)
+                  .then(result => {
+                    dataToSend = Object.assign({}, result);
+                    return sendMessage(senderID, dataToSend, "RESPONSE")
+                  })
+                  .then((response) => {
+                    if (response.status === 200)
+                      return apiMessenger.sendToFacebook({
+                        recipient: {id: senderID},
+                        sender_action: 'typing_on',
+                        messaging_types: "RESPONSE",
+                        message: ""
+                      })
+                  })
+                  .then(helper.delayPromise(2000))
+                  .then((response) => {
+                    if (response.status === 200)
+                      return sendMessage(senderID, product_data.question1MessageListView, "RESPONSE")
+                  })
+              } else {
+                return sendMessage(senderID, product_data.jokeMarco2(city), "RESPONSE")
+              }
             } else {
-              return sendMessage(senderID, product_data.jokeMarco2(city), "RESPONSE")
+              let eventsNames = eventName === "ACTIVITY" ?
+                "activities" : eventName.toLocaleLowerCase() + 's';
+              const resultat = res[eventsNames];
+              if(resultat !== null || resultat.length > 0){
+                return product_data.templateList(resultat, eventName, page, "mongo")
+                  .then(result => {
+                    dataToSend = Object.assign({}, result);
+                    return sendMessage(senderID, dataToSend, "RESPONSE")
+                  })
+                  .then((response) => {
+                    if (response.status === 200)
+                      return apiMessenger.sendToFacebook({
+                        recipient: {id: senderID},
+                        sender_action: 'typing_on',
+                        messaging_types: "RESPONSE",
+                        message: ""
+                      })
+                  })
+                  .then(helper.delayPromise(2000))
+                  .then((response) => {
+                    if (response.status === 200)
+                      return sendMessage(senderID, product_data.question1MessageListView, "RESPONSE")
+                  })
+              } else {
+                return sendMessage(senderID, product_data.jokeMarco2(city), "RESPONSE")
+              }
             }
           })
       }

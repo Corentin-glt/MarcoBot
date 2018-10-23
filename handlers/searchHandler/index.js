@@ -5,6 +5,7 @@ const searchBar = require('./searchBar');
 const searchTalkingWithHuman = require('./talkWithHuman');
 const searchVisit = require('./searchVisit');
 const searchGeolocation = require('./searchGeolocation');
+const searchTicketing = require('./searchTicketing');
 const axios = require('axios');
 const config = require('../../config');
 
@@ -52,6 +53,9 @@ module.exports = (payload, senderID, locale) => {
       break;
     case 'OTHERDISTRICT':
       searchDistrictAt(senderID, 1, locale);
+      break;
+    case 'TICKETING':
+      searchTicketing(senderID, locale);
       break;
     default:
       break;

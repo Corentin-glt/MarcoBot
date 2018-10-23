@@ -12,6 +12,9 @@ module.exports = {
     tags
     priceRange
     photos
+    affiliations {
+      url
+    }
     location{
       lat
       lng
@@ -60,6 +63,9 @@ module.exports = {
           tags
           priceRange
           photos
+          affiliations {
+      url
+    }
           location{
             lat
             lng
@@ -110,6 +116,9 @@ module.exports = {
     tags
     types
     priceRange
+    affiliations {
+      url
+    }
     location {
       name
       lat
@@ -162,6 +171,9 @@ module.exports = {
           tags
           priceRange
           photos
+          affiliations {
+      url
+    }
           location{
             lat
             lng

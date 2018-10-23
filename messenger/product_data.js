@@ -866,6 +866,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": `${i18n.__("visit")}`,
           "payload": "SEARCH_VISIT",
         },
@@ -906,6 +911,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -1035,6 +1045,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1078,6 +1093,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1113,6 +1133,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -1154,6 +1179,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1189,6 +1219,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -1235,6 +1270,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1265,6 +1305,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -1303,6 +1348,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -1716,6 +1766,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1746,6 +1801,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -1861,6 +1921,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -1899,6 +1964,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -2027,6 +2097,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -2253,6 +2328,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -2347,6 +2427,11 @@ class MessageData {
         },
         {
           "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
+        },
+        {
+          "content_type": "text",
           "title": i18n.__("visit"),
           "payload": "SEARCH_VISIT",
         },
@@ -2382,6 +2467,11 @@ class MessageData {
           "content_type": "text",
           "title": i18n.__("geolocation"),
           "payload": "SEARCH_GEOLOCATION",
+        },
+        {
+          "content_type": "text",
+          "title": i18n.__('ticketing'),
+          "payload": "SEARCH_TICKETING"
         },
         {
           "content_type": "text",
@@ -2442,6 +2532,86 @@ class MessageData {
         }
       }
     }
+  }
+
+  ticketingModel(listTicketing, page){
+    return new Promise((resolve, reject) => {
+      let arrayElement = [];
+      async.each(listTicketing, (affiliation, callback) => {
+        const kindElement = Object.keys(affiliation).find(elem =>
+          elem.includes('s_id') && affiliation[elem] !== null);
+        const element = {
+          "title": `${affiliation.name}`,
+          "image_url": `https://api.marco-app.com/api/image/${affiliation[kindElement].photos[0]}`,
+          "subtitle": `📍 ${affiliation[kindElement].location.name} \n${affiliation.price} €`,
+          "buttons": [
+            {
+              "type": "element_share",
+              "share_contents": {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "generic",
+                    "elements": [
+                      {
+                        "title": `${affiliation.name}`,
+                        "subtitle": `📍 ${affiliation[kindElement].location.name} \n${affiliation.price} €`,
+                        "image_url": `https://api.marco-app.com/api/image/${affiliation[kindElement].photos[0]}`,
+                        "default_action": {
+                          "type": "web_url",
+                          "url": "https://www.messenger.com/t/meethellomarco?ref=share_card",
+
+                        },
+                        "buttons": [
+                          {
+                            "type": "web_url",
+                            "url": `${affiliation.url}`,
+                            "title": i18n.__("buyShare")
+                          },
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "web_url",
+              "url": `${affiliation.url}`,
+              "title": i18n.__("buyShare")
+            },
+          ]
+        };
+        arrayElement.push(element);
+        callback()
+      }, (err) => {
+        if (err) return reject (err);
+        if (arrayElement.length === 5) {
+          const morePage = {
+            "title": i18n.__("seeMore"),
+            "subtitle": i18n.__("seeMoreSub"),
+            "image_url": `https://api.marco-app.com/api/image/FBProfileRe.png`,
+            "buttons": [
+              {
+                "type": "postback",
+                "title": i18n.__("seeMoreButton"),
+                "payload": `NEXTPAGEEVENT_TICKETING:${parseInt(page) + 1}`
+              },
+            ]
+          };
+          arrayElement.push(morePage)
+        }
+        return resolve({
+          "attachment": {
+            "type": "template",
+            "payload": {
+              "template_type": "generic",
+              "elements": arrayElement
+            }
+          }
+        });
+      })
+    })
   }
 
 }

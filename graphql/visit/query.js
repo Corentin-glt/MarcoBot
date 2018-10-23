@@ -13,6 +13,9 @@ module.exports = {
     types
     kindElement
     priceRange
+    affiliations {
+      {url}
+    }
     location {
       name
       lat
