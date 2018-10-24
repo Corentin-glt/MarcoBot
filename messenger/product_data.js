@@ -304,6 +304,20 @@ class MessageData {
               : null;
             let globalUrl = elem.url;
             globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
+
+            let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
+            || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
+              {
+                "type": "postback",
+                "title": i18n.__("tellMore"),
+                "payload": `VIEWMORE_${kindElement}:${elem.id || elem._id}`
+              }
+              :
+              {
+                "title": i18n.__("tellMore"),
+                "type": "web_url",
+                "url": `${globalUrl}`,
+              };
             let isAffiliate = elem.affiliations.length > 0 ?
               {
                 "type": "web_url",
@@ -311,13 +325,7 @@ class MessageData {
                 "title": i18n.__("reservationTemplate")
               }
               :
-              {
-                "type": "postback",
-                "title": i18n.__("tellMore"),
-                "payload": `VIEWMORE_${kindElement}:${elem.id || elem._id}`
-              }
-            ;
-
+              hasDescription;
             const element = {
               "title": `${elem.name}${globalNote}`,
               "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
@@ -438,6 +446,19 @@ class MessageData {
               : null;
             let globalUrl = elem.url;
             globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
+            let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
+            || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
+              {
+                "type": "postback",
+                "title": i18n.__("tellMore"),
+                "payload": `VIEWMORE_${elem.kindElement}:${elem.id || elem._id}`
+              }
+              :
+              {
+                "title": i18n.__("tellMore"),
+                "type": "web_url",
+                "url": `${globalUrl}`,
+              };
             let isAffiliate = elem.affiliations.length > 0 ?
               {
                 "type": "web_url",
@@ -445,12 +466,7 @@ class MessageData {
                 "title": i18n.__("reservationTemplate")
               }
               :
-              {
-                "type": "postback",
-                "title": i18n.__("tellMore"),
-                "payload": `VIEWMORE_${elem.kindElement}:${elem.id || elem._id}`
-              }
-            ;
+              hasDescription;
             const element = {
               "title": `${elem.name}${globalNote}`,
               "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
@@ -571,6 +587,19 @@ class MessageData {
               : null;
             let globalUrl = elem.url;
             globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
+            let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
+            || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
+              {
+                "type": "postback",
+                "title": i18n.__("tellMore"),
+                "payload": `VIEWMORE_${elem.kindElement}:${elem.id || elem._id}`
+              }
+              :
+              {
+                "title": i18n.__("tellMore"),
+                "type": "web_url",
+                "url": `${globalUrl}`,
+              };
             let isAffiliate = elem.affiliations.length > 0 ?
               {
                 "type": "web_url",
@@ -578,12 +607,7 @@ class MessageData {
                 "title": i18n.__("reservationTemplate")
               }
               :
-              {
-                "type": "postback",
-                "title": i18n.__("tellMore"),
-                "payload": `VIEWMORE_${kindElement}:${elem.id || elem._id}`
-              }
-            ;
+              hasDescription;
             const element = {
               "title": `${elem.name}${globalNote}`,
               "image_url": `https://api.marco-app.com/api/image/${elem.photos[0]}`,
