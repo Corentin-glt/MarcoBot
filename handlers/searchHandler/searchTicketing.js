@@ -37,29 +37,32 @@ module.exports = (senderID, locale) => {
       }
     })
     .then(res => {
-      if(res.affiliations){
+      if(res.affiliations && res.affiliations.length > 0){
         return product_data.ticketingModel(res.affiliations, 0)
+          .then(res => {
+            if (res){
+              return sendMessage(senderID, res, "RESPONSE")
+            }
+          })
+          .then((response) => {
+            if (response.status === 200)
+              return apiMessenger.sendToFacebook({
+                recipient: {id: senderID},
+                sender_action: 'typing_on',
+                messaging_types: "RESPONSE",
+                message: ""
+              })
+          })
+          .then(helper.delayPromise(2000))
+          .then((response) => {
+            if (response.status === 200)
+              return sendMessage(senderID, product_data.question1MessageListView, "RESPONSE")
+          })
+      } else {
+        return sendMessage(senderID, product_data.jokeMarco2(user.cityTraveling), "RESPONSE")
       }
     })
-    .then(res => {
-      if (res){
-        return sendMessage(senderID, res, "RESPONSE")
-      }
-    })
-    .then((response) => {
-      if (response.status === 200)
-        return apiMessenger.sendToFacebook({
-          recipient: {id: senderID},
-          sender_action: 'typing_on',
-          messaging_types: "RESPONSE",
-          message: ""
-        })
-    })
-    .then(helper.delayPromise(2000))
-    .then((response) => {
-      if (response.status === 200)
-        return sendMessage(senderID, product_data.question1MessageListView, "RESPONSE")
-    })
+
     .catch(err => console.log(err.response.errors || err))
 
 };
