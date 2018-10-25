@@ -57,8 +57,7 @@ module.exports = (type, senderID, locale) => {
              console.log('end visit');
            })
            .catch(err => {
-             console.log(err);
-             console.log(err.response.data.error);
+             console.log(err || err.response.data.error);
            });
       } else {
         const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
@@ -90,7 +89,7 @@ module.exports = (type, senderID, locale) => {
       }
     })
     .catch(err => {
-      console.log(err.response.data.error);
+      console.log(err);
 
     })
 

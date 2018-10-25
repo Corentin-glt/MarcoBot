@@ -519,7 +519,7 @@ class MessageData {
             arrayOfElement.push(element);
             callback()
           })
-          .catch(() => callback("NIKE AILLE"))
+          .catch(err => callback(err))
       }, (err) => {
         if (err) return reject(err);
         if (arrayOfElement.length === 5) {

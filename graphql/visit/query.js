@@ -10,11 +10,13 @@ module.exports = {
     descriptionFr
     photos
     tags
+    url
+    note
     types
     kindElement
     priceRange
     affiliations {
-      {url}
+      url
     }
     location {
       name
