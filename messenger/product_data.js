@@ -303,6 +303,7 @@ class MessageData {
               globalTypes = globalTypes.slice(0, 30) + '...'
               : null;
             let globalUrl = elem.url;
+            globalUrl.includes('http://') ? globalUrl = globalUrl.split('http://').join('') : null;
             globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
 
             let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
@@ -445,6 +446,7 @@ class MessageData {
               globalTypes = globalTypes.slice(0, 30) + '...'
               : null;
             let globalUrl = elem.url;
+            globalUrl.includes('http://') ? globalUrl = globalUrl.split('http://').join('') : null;
             globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
             let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
             || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
@@ -586,6 +588,7 @@ class MessageData {
               globalTypes = globalTypes.slice(0, 30) + '...'
               : null;
             let globalUrl = elem.url;
+            globalUrl.includes('http://') ? globalUrl = globalUrl.split('http://').join('') : null;
             globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
             let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
             || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
@@ -2651,6 +2654,7 @@ class MessageData {
         const kindElement = Object.keys(affiliation).find(elem =>
         elem.includes('s_id') && affiliation[elem] !== null);
         let globalUrl = affiliation.url;
+        globalUrl.includes('http://') ? globalUrl = globalUrl.split('http://').join('') : null;
         globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
         const element = {
           "title": `${affiliation.name}`,
