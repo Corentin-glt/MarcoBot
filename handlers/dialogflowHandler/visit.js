@@ -22,11 +22,12 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-module.exports = (parameters, senderId) => {
+module.exports = (parameters, senderId, locale) => {
+  console.log(parameters);
   if (typeof parameters.visiting !== "undefined" && parameters.visiting !== null
     && parameters.visiting.length > 0 && parameters.visiting[0] !== 'visiting') {
-    return typeIndexVisit(parameters.visiting, senderId);
+    return typeIndexVisit(parameters.visiting, senderId, locale);
   } else {
-    return searchDistrict(senderId);
+    return searchDistrict(senderId, locale);
   }
 };

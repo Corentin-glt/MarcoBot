@@ -4,6 +4,7 @@
 const categoryParis = require('./paris/index');
 const categoryLondon = require('./london/index');
 const categoryBarcelona = require('./barcelona/index');
+const categoryRome = require('./rome/index');
 
 const index = (city, trans) => {
   switch (city) {
@@ -13,6 +14,8 @@ const index = (city, trans) => {
       return categoryLondon(trans);
     case 'barcelona':
       return categoryBarcelona(trans);
+    case 'rome':
+      return categoryRome(trans);
     default:
       break;
   }

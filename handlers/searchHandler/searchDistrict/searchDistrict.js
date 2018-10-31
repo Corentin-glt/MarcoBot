@@ -31,25 +31,26 @@ module.exports = (senderID, locale) => {
           .then(helper.delayPromise(2000))
           .then(resp => {
             delete messageData.sender_action;
-            messageData.message = product_data.selectionDistrict2;
+            messageData.message = product_data.selectionSiteType(city);
             if(resp.status === 200) {
               return apiMessenger.sendToFacebook(messageData)
             }
           })
-          .then(response => {
-            delete messageData.message;
-            messageData.sender_action = 'typing_on';
-            if (response.status === 200)
-              return apiMessenger.sendToFacebook(messageData);
-          })
-          .then(helper.delayPromise(2000))
-          .then(resp => {
-            delete messageData.sender_action;
-            messageData.message = product_data.selectionDistrictType(city, 1);
-            if(resp.status === 200) {
-              return apiMessenger.sendToFacebook(messageData)
-            }
-          })
+          // .then(response => {
+          //   delete messageData.message;
+          //   messageData.sender_action = 'typing_on';
+          //   if (response.status === 200)
+          //     return apiMessenger.sendToFacebook(messageData);
+          // })
+          // .then(helper.delayPromise(2000))
+          // .then(resp => {
+          //   delete messageData.sender_action;
+          //   messageData.message = product_data.selectionDistrictType(city, 1);
+          //   if(resp.status === 200) {
+          //     return apiMessenger.sendToFacebook(messageData)
+          //   }
+          // })
+          .then(() => console.log("end dialogflow visit"))
           .catch(err => {
             console.log(err.response.data);
           });
