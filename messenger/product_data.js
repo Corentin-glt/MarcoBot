@@ -2433,7 +2433,7 @@ class MessageData {
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToLowerCase.toLowerCase();
     return {
-      "text": `Hey ${name}${i18n.__("messageForTomorrow")}${cityToLowerCase} ${i18n.__("messageForTomorrow2")}\n${i18n.__("messageForTomorrow3")}${i18n.__(lowerCity)}`,
+      "text": `Hey ${name}${i18n.__("messageForTomorrow")}${i18n.__(lowerCity)} ${i18n.__("messageForTomorrow2")}\n${i18n.__("messageForTomorrow3")}`,
       "quick_replies": [
         {
           "content_type": "text",
