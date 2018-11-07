@@ -18,6 +18,9 @@ const hoursCron = require('./variableApp/hoursCron');
 const Sentry = require('@sentry/node');
 Sentry.init({ dsn: Config.category[Config.indexCategory].dsnSentry});
 
+//Sentry.init({ dsn: Config.dsnSentry});
+
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
