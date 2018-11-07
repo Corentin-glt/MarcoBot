@@ -14,13 +14,12 @@ const messengerMethods = require('../messenger/messengerMethods');
 const user = require("../graphql/user/query");
 const accountMessenger = require('../graphql/accountMessenger/query');
 const config = require('../config');
+const Sentry = require('@sentry/node');
 
-
-const _handlingEvent = (event, user) => {
+const _handling = (event, user) => {
   const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
   const senderId = event.sender.id;
   const queryAccount = accountMessenger.queryPSID(senderId);
-  console.log(event);
   apiGraphql.sendQuery(queryAccount)
     .then(response => {
       event.locale = response.accountMessenger.locale.split("_")[0];
@@ -109,14 +108,13 @@ module.exports = (req, res) => {
             if (res.userByAccountMessenger === null) {
               messengerMethods.createUser(senderId)
                 .then(res => {
-                  console.log(res);
                   const user = res.createUser;
-                  _handlingEvent(event, user);
+                  _handling(event, user);
                 })
                 .catch(err => console.log("Error to create USER: ", err));
             } else {
               const user = res.userByAccountMessenger;
-              _handlingEvent(event, user);
+              _handling(event, user);
             }
           })
           .catch(err => {

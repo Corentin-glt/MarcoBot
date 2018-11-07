@@ -15,7 +15,8 @@ const axios = require('axios');
 const CronJob = require('cron').CronJob;
 const cronMethods = require('./helpers/cronMethods/cronMethods');
 const hoursCron = require('./variableApp/hoursCron');
-
+const Sentry = require('@sentry/node');
+Sentry.init({ dsn: Config.dsnSentry});
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
