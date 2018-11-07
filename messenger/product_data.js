@@ -730,17 +730,6 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": `🇫🇷🇫🇷 ${i18n.__('paris')} 🇫🇷🇫🇷`,
-              "image_url": `https://api.marco-app.com/api/image/paris.jpg`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `TRAVELINGTO_PARIS`
-                },
-              ]
-            },
-            {
               "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
               "image_url": `https://api.marco-app.com/api/image/london.jpg`,
               "buttons": [
@@ -762,6 +751,28 @@ class MessageData {
                 },
               ]
             },
+            {
+              "title": `🇫🇷🇫🇷 ${i18n.__('paris')} 🇫🇷🇫🇷`,
+              "image_url": `https://api.marco-app.com/api/image/paris.jpg`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `TRAVELINGTO_PARIS`
+                },
+              ]
+            },
+            {
+              "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
+              "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `TRAVELINGTO_ROME`
+                },
+              ]
+            }
             // {
             //   "title": `🇵🇹🇵🇹 ${i18n.__('lisbon')} 🇵🇹🇵🇹`,
             //   "image_url": `https://api.marco-app.com/api/image/lisbon.png`,
@@ -770,17 +781,6 @@ class MessageData {
             //       "type": "postback",
             //       "title": i18n.__("validate"),
             //       "payload": `TRAVELINGTO_LISBON`
-            //     },
-            //   ]
-            // },
-            // {
-            //   "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
-            //   "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
-            //   "buttons": [
-            //     {
-            //       "type": "postback",
-            //       "title": i18n.__("validate"),
-            //       "payload": `TRAVELINGTO_ROME`
             //     },
             //   ]
             // },
@@ -879,17 +879,6 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": `🇫🇷🇫🇷 ${i18n.__('paris')} 🇫🇷🇫🇷`,
-              "image_url": `https://api.marco-app.com/api/image/paris.jpg`,
-              "buttons": [
-                {
-                  "type": "postback",
-                  "title": i18n.__("validate"),
-                  "payload": `MODIFYCITY_PARIS`
-                },
-              ]
-            },
-            {
               "title": `🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`,
               "image_url": `https://api.marco-app.com/api/image/london.jpg`,
               "buttons": [
@@ -911,6 +900,28 @@ class MessageData {
                 },
               ]
             },
+            {
+              "title": `🇫🇷🇫🇷 ${i18n.__('paris')} 🇫🇷🇫🇷`,
+              "image_url": `https://api.marco-app.com/api/image/paris.jpg`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `MODIFYCITY_PARIS`
+                },
+              ]
+            },
+            {
+              "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
+              "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": i18n.__("validate"),
+                  "payload": `MODIFYCITY_ROME`
+                },
+              ]
+            },
             // {
             //   "title": `🇵🇹🇵🇹 ${i18n.__('lisbon')} 🇵🇹🇵🇹`,
             //   "image_url": `https://api.marco-app.com/api/image/lisbon.png`,
@@ -922,17 +933,7 @@ class MessageData {
             //     },
             //   ]
             // },
-            // {
-            //   "title": `🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`,
-            //   "image_url": `https://api.marco-app.com/api/image/roma.jpg`,
-            //   "buttons": [
-            //     {
-            //       "type": "postback",
-            //       "title": i18n.__("validate"),
-            //       "payload": `MODIFYCITY_ROMA`
-            //     },
-            //   ]
-            // },
+
             // {
             //   "title": `🇩🇪🇩🇪 ${i18n.__('berlin')} 🇩🇪🇩🇪`,
             //   "image_url": `https://api.marco-app.com/api/image/berlin.jpg`,
@@ -995,11 +996,11 @@ class MessageData {
           "title": `${i18n.__("drink")}`,
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": `${i18n.__("walkAround")}`,
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": `${i18n.__("walkAround")}`,
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": `${i18n.__("chat")}`,
@@ -1044,11 +1045,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -1175,11 +1176,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -1223,11 +1224,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -1266,11 +1267,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -1309,11 +1310,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -1352,11 +1353,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -1438,11 +1439,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -1481,11 +1482,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -1933,11 +1934,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -2050,11 +2051,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -2096,11 +2097,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -2229,11 +2230,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -2432,7 +2433,7 @@ class MessageData {
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToLowerCase.toLowerCase();
     return {
-      "text": `Hey ${name}${i18n.__("messageForTomorrow")}${cityToLowerCase} ${i18n.__("messageForTomorrow2")}\n${i18n.__("messageForTomorrow3")}${i18n.__(lowerCity)}`,
+      "text": `Hey ${name}${i18n.__("messageForTomorrow")}${i18n.__(lowerCity)} ${i18n.__("messageForTomorrow2")}\n${i18n.__("messageForTomorrow3")}`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -2459,11 +2460,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -2558,11 +2559,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
@@ -2601,11 +2602,11 @@ class MessageData {
           "title": i18n.__("drink"),
           "payload": "SEARCH_BAR",
         },
-        {
-          "content_type": "text",
-          "title": i18n.__("walkAround"),
-          "payload": "SEARCH_DISTRICT",
-        },
+        // {
+        //   "content_type": "text",
+        //   "title": i18n.__("walkAround"),
+        //   "payload": "SEARCH_DISTRICT",
+        // },
         {
           "content_type": "text",
           "title": i18n.__("chat"),
