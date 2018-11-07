@@ -41,6 +41,58 @@ class CronMethods {
     return Math.round((second - first) / (1000 * 60 * 60 * 24));
   };
 
+  sendGroupInvitation() {
+    return this.apiGraphql.sendQuery(queryTrip.getPastTrips())
+      .then(trips => {
+        console.log(trips);
+        return async.each(trips.getPastTrips, (trip, callback) => {
+          const days = CronMethods.diffDayBetween2Date(trip.departureDateToCity, new Date());
+          console.log(days);
+          console.log(trip);
+          if (days === 1 && trip.started) {
+            this.apiGraphql.sendQuery(queryUser.queryUser(trip.users_id))
+              .then(user => {
+                if (!user.groupInvitation) {
+                  const PSID = user.user.PSID;
+                  return this.apiGraphql.sendQuery(
+                    queryAccountMessenger.queryPSID(PSID))
+                    .then(accountMessenger => {
+                      const locale = accountMessenger.accountMessenger.locale.split(
+                        "_")[0];
+                      const product_data = new MessageData(locale);
+                      return CronMethods.sendMessage(PSID,
+                        product_data.groupInvitation, "RESPONSE")
+                        .then(() => {
+                          console.log("invitaion sent");
+                          callback();
+                        })
+                        .catch(err => {
+                          callback(err);
+                          console.log(err);
+                        })
+                    })
+                    .catch(err => {
+                      callback(err);
+                      console.log(err);
+                    })
+                } else {
+
+                  callback();
+                }
+              })
+              .catch(err => {
+                callback(err);
+                console.log(err);
+              })
+          } else {
+            callback();
+          }
+        }, err => {
+          if (err) console.log(err);
+        })
+      })
+      .catch(err => console.log(err));
+  }
 
   sendProgram() {
     return this.apiGraphql.sendQuery(queryTrip.getTrips())

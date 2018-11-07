@@ -25,6 +25,7 @@ apiGraphql.sendQuery(queryAccount)
     .then(response => {
       event.locale = response.accountMessenger.locale.split("_")[0];
       if (event.message && event.message.text) {
+        console.log(event.message);
         if(event.message.quick_reply) {
           receivedQuickReply(event);
         } else if (event.message.nlp.entities.datetime && event.message.nlp.entities.datetime[0].confidence > 0.8) {

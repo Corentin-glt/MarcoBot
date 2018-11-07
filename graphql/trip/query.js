@@ -22,6 +22,19 @@ module.exports = {
       }    
     }`
   },
+  getPastTrips: () => {
+    return `{
+      getPastTrips{
+        id
+        users_id
+        cityTraveling
+        arrivalDateToCity
+        departureDateToCity
+        isItFirstTimeCity
+        started
+      }    
+    }`
+  },
   getTripsStartTomorrow: () => {
     return `{
       getTripsStartTomorrow{
