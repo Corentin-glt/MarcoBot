@@ -21,16 +21,15 @@ const _handlingEvent = (event, user) => {
   const senderId = event.sender.id;
   const queryAccount = accountMessenger.queryPSID(senderId);
   console.log(event);
-apiGraphql.sendQuery(queryAccount)
+  apiGraphql.sendQuery(queryAccount)
     .then(response => {
       event.locale = response.accountMessenger.locale.split("_")[0];
       if (event.message && event.message.text) {
-        console.log(event.message);
-        if(event.message.quick_reply) {
+        if (event.message.quick_reply) {
           receivedQuickReply(event);
         } else if (event.message.nlp.entities.datetime && event.message.nlp.entities.datetime[0].confidence > 0.8) {
           receiveDateArrival(event);
-        } else if(event.message.nlp.entities.duration && event.message.nlp.entities.duration[0].normalized.value && event.message.nlp.entities.duration[0].confidence > 0.8){
+        } else if (event.message.nlp.entities.duration && event.message.nlp.entities.duration[0].normalized.value && event.message.nlp.entities.duration[0].confidence > 0.8) {
           receiveDurationTravel(event);
         } else {
           processMessage(event);
@@ -78,7 +77,7 @@ apiGraphql.sendQuery(queryAccount)
           }
           receivedPostback(event);
         } else if (event.message.attachments && event.message.attachments[0].type === 'location') {
-          switch(user.geoLocation.lastEvent) {
+          switch (user.geoLocation.lastEvent) {
             case "itinerary":
               receiveLocationItinerary(event);
               break;
@@ -97,8 +96,8 @@ apiGraphql.sendQuery(queryAccount)
     });
 };
 
-module.exports = (req, res) =>  {
-  if (req.body.object === "page"){
+module.exports = (req, res) => {
+  if (req.body.object === "page") {
     req.body.entry.forEach(entry => {
       entry.messaging.forEach(event => {
         const senderId = event.sender.id;
