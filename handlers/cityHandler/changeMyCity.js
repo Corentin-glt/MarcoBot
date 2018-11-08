@@ -2,11 +2,11 @@
  * Created by corentin on 28/08/2018.
  */
 const MessageData = require("../../messenger/product_data");
-const apiMessenger = require("../../helpers/apiMessenger");
+const apiMessenger = require("../../helpers/Api/apiMessenger");
 const userQuery = require("../../graphql/user/query");
 const tripQuery = require("../../graphql/trip/query");
 const userMutation = require("../../graphql/user/mutation");
-const ApiGraphql = require("../../helpers/apiGraphql");
+const ApiGraphql = require("../../helpers/Api/apiGraphql");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const async = require('async');

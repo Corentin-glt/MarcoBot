@@ -5,9 +5,9 @@ const queryBar = require('../../graphql/bar/query');
 const queryUser = require('../../graphql/user/query');
 const MessageData = require("../../messenger/product_data");
 const config = require("../../config");
-const ApiGraphql = require('../../helpers/apiGraphql');
+const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const helper = require("../../helpers/helper");
-const apiMessenger = require('../../helpers/apiMessenger');
+const apiMessenger = require('../../helpers/Api/apiMessenger');
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {

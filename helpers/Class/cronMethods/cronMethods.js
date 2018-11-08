@@ -1,19 +1,20 @@
 /**
  * Created by corentin on 20/08/2018.
  */
-const ApiGraphql = require('../apiGraphql');
-const apiMessenger = require('../apiMessenger');
-const config = require("../../config");
+const ApiGraphql = require('../../Api/apiGraphql');
+const apiMessenger = require('../../Api/apiMessenger');
+const config = require("../../../config");
 const async = require("async");
-const queryTrip = require('../../graphql/trip/query');
-const queryProgram = require('../../graphql/program/query');
-const queryItinerary = require('../../graphql/itinerary/query');
-const queryUser = require('../../graphql/user/query');
-const userMutation = require('../../graphql/user/mutation');
-const queryAccountMessenger = require('../../graphql/accountMessenger/query');
-const MessageData = require("../../messenger/product_data");
-const numberDayProgramByCity = require('../../variableApp/limitCityProgram');
+const queryTrip = require('../../../graphql/trip/query');
+const queryProgram = require('../../../graphql/program/query');
+const queryItinerary = require('../../../graphql/itinerary/query');
+const queryUser = require('../../../graphql/user/query');
+const userMutation = require('../../../graphql/user/mutation');
+const queryAccountMessenger = require('../../../graphql/accountMessenger/query');
+const MessageData = require("../../../messenger/product_data");
+const numberDayProgramByCity = require('../../../variableApp/limitCityProgram');
 const axios = require("axios");
+const ApiReferral = require('../../Api/apiReferral');
 
 class CronMethods {
   constructor() {
@@ -141,28 +142,7 @@ class CronMethods {
                                   trip.cityTraveling, numberDayAlreadyDone,
                                   idProgram), "RESPONSE")
                                 .then(() => {
-                                  axios.post('https://graph.facebook.com/' +
-                                    config.category[config.indexCategory].appId +
-                                    '/activities', {
-                                    event: 'CUSTOM_APP_EVENTS',
-                                    custom_events: JSON.stringify([
-                                      {
-                                        _eventName: 'notificationItinerarySent',
-                                      }
-                                    ]),
-                                    advertiser_tracking_enabled: 1,
-                                    application_tracking_enabled: 1,
-                                    extinfo: JSON.stringify(['mb1']),
-                                    page_id: config.category[config.indexCategory].pageId,
-                                    page_scoped_user_id: PSID
-                                  })
-                                    .then(resp => {
-                                      console.log('event success');
-                                      return callback();
-                                    })
-                                    .catch(err => {
-                                      console.log(err.response.data.error);
-                                    });
+                                  ApiReferral.sendReferral("notificationItinerarySent", PSID)
                                 })
                                 .catch(err => {
                                   callback();
@@ -209,27 +189,7 @@ class CronMethods {
                         product_data.messageForTomorrow(user.user.firstName,
                           trip.cityTraveling), "RESPONSE")
                         .then(() => {
-                          console.log("MESSAGE FOR TOMORROW");
-                          axios.post('https://graph.facebook.com/' +
-                            config.category[config.indexCategory].appId +
-                            '/activities', {
-                            event: 'CUSTOM_APP_EVENTS',
-                            custom_events: JSON.stringify([
-                              {
-                                _eventName: 'notificationDayBeforeSent',
-                              }
-                            ]),
-                            advertiser_tracking_enabled: 1,
-                            application_tracking_enabled: 1,
-                            extinfo: JSON.stringify(['mb1']),
-                            page_id: config.category[config.indexCategory].pageId,
-                            page_scoped_user_id: PSID
-                          })
-                            .then(resp => console.log('event success'))
-                            .catch(err => {
-                              console.log(err.data.response.error);
-                            });
-
+                          ApiReferral.sendReferral("notificationDayBeforeSent", PSID)
                           return callback()
                         })
                         .catch(err => {

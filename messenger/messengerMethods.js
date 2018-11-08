@@ -1,8 +1,8 @@
 /**
  * Created by corentin on 02/05/2018.
  */
-const apiMessenger = require('../helpers/apiMessenger');
-const GraphqlRequest = require('../helpers/apiGraphql');
+const apiMessenger = require('../helpers/Api/apiMessenger');
+const GraphqlRequest = require('../helpers/Api/apiGraphql');
 const mutationAccountMessenger = require('../graphql/accountMessenger/mutation');
 const mutationUser = require('../graphql/user/mutation');
 const config = require('../config');

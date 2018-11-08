@@ -5,11 +5,12 @@ const queryProgram = require('../../graphql/program/query');
 const queryItinerary = require('../../graphql/itinerary/query');
 const MessageData = require("../../messenger/product_data");
 const config = require("../../config");
-const ApiGraphql = require('../../helpers/apiGraphql');
+const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const helper = require("../../helpers/helper");
-const apiMessenger = require('../../helpers/apiMessenger');
+const apiMessenger = require('../../helpers/Api/apiMessenger');
 const async = require("async");
 const axios = require('axios');
+const ApiReferral = require('../../helpers/Api/apiReferral');
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {
@@ -80,25 +81,7 @@ module.exports = (parameters, senderId, locale) => {
             })
             .catch(err => console.log(err.response.data))
         } else {
-          axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
-            event: 'CUSTOM_APP_EVENTS',
-            custom_events: JSON.stringify([
-              {
-                _eventName: 'end_itinerary',
-              }
-            ]),
-            advertiser_tracking_enabled: 1,
-            application_tracking_enabled: 1,
-            extinfo: JSON.stringify(['mb1']),
-            page_id: config.category[config.indexCategory].pageId,
-            page_scoped_user_id: senderId
-          })
-            .then(response => {
-              console.log("SUCCESS event start");
-            })
-            .catch(err => {
-              console.log(err.response.data.error);
-            });
+          ApiReferral.sendReferral("end_itinerary", senderId);
           return apiGraphql.sendQuery(queryProgram.getProgramById(idProgram))
             .then(program => {
               if (program.getProgramById) {

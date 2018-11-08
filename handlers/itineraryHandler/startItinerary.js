@@ -6,9 +6,9 @@ const queryItinerary = require('../../graphql/itinerary/query');
 const mutationTrip = require('../../graphql/trip/mutation');
 const MessageData = require("../../messenger/product_data");
 const config = require("../../config");
-const ApiGraphql = require('../../helpers/apiGraphql');
+const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const helper = require("../../helpers/helper");
-const apiMessenger = require('../../helpers/apiMessenger');
+const apiMessenger = require('../../helpers/Api/apiMessenger');
 const async = require("async");
 const axios = require("axios");
 

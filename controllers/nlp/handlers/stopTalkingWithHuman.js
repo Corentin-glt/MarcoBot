@@ -1,9 +1,9 @@
-const MessageData = require("../../messenger/product_data");
-const apiMessenger = require("../../helpers/apiMessenger");
-const helper = require("../../helpers/helper");
-const ApiGraphql = require("../../helpers/apiGraphql");
-const userMutation = require("../../graphql/user/mutation");
-const config = require('../../config')
+const MessageData = require("../../../messenger/product_data");
+const apiMessenger = require("../../../helpers/Api/apiMessenger");
+const helper = require("../../../helpers/helper");
+const ApiGraphql = require("../../../helpers/Api/apiGraphql");
+const userMutation = require("../../../graphql/user/mutation");
+const config = require('../../../config')
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {

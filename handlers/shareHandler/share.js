@@ -1,5 +1,5 @@
 const MessageData = require("../../messenger/product_data");
-const apiMessenger = require("../../helpers/apiMessenger");
+const apiMessenger = require("../../helpers/Api/apiMessenger");
 
 module.exports = (senderID, locale) => {
   const product_data = new MessageData(locale);

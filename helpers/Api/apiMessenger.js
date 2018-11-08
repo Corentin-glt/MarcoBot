@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 02/05/2018.
  */
-const Config = require('../config');
+const Config = require('../../config');
 const axios = require('axios');
 const qs = require('qs');
 const request = require('request');

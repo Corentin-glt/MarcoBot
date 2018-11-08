@@ -2,8 +2,8 @@
  * Created by corentin on 13/06/2018.
  */
 const MessageData = require("../../messenger/product_data");
-const apiMessenger = require("../../helpers/apiMessenger");
-const ApiGraphql = require("../../helpers/apiGraphql");
+const apiMessenger = require("../../helpers/Api/apiMessenger");
+const ApiGraphql = require("../../helpers/Api/apiGraphql");
 const visit = require('../../graphql/visit/query');
 const config = require('../../config');
 const queryUser = require('../../graphql/user/query');

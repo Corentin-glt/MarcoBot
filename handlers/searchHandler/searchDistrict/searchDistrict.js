@@ -1,8 +1,8 @@
 const MessageData = require("../../../messenger/product_data");
-const apiMessenger = require("../../../helpers/apiMessenger");
+const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const helper = require("../../../helpers/helper");
 const queryUser = require('../../../graphql/user/query');
-const ApiGraphql = require("../../../helpers/apiGraphql");
+const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const config = require('../../../config');
 
 module.exports = (senderID, locale) => {
@@ -50,7 +50,7 @@ module.exports = (senderID, locale) => {
           //     return apiMessenger.sendToFacebook(messageData)
           //   }
           // })
-          .then(() => console.log("end dialogflow visit"))
+          .then(() => console.log("end nlp visit"))
           .catch(err => {
             console.log(err.response.data);
           });

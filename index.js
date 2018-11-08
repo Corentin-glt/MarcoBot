@@ -9,11 +9,11 @@ const app = express();
 const PORT = Config.category[Config.indexCategory].port;
 const verificationController = require("./controllers/verification");
 const messageWebhookController = require("./controllers/messageWebhook");
-const apiMessenger = require('./helpers/apiMessenger');
+const apiMessenger = require('./helpers/Api/apiMessenger');
 const MessageData = require('./messenger/product_data');
 const axios = require('axios');
 const CronJob = require('cron').CronJob;
-const cronMethods = require('./helpers/cronMethods/cronMethods');
+const cronMethods = require('./helpers/Class/cronMethods/cronMethods');
 const hoursCron = require('./variableApp/hoursCron');
 const Sentry = require('@sentry/node');
 Sentry.init({ dsn: Config.category[Config.indexCategory].dsnSentry});
@@ -65,11 +65,11 @@ axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {clientId: Con
 
 
 //TODO Gros t'es relou à tout le temps décommenter
- axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {clientId: Config.clientId, clientSecret: Config.clientSecret, grantType: 'server'})
-   .then(res => {
-     Config.accessTokenRecommendationApi = res.data.token;
-   })
-   .catch(err => console.log(err));
+//  axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {clientId: Config.clientId, clientSecret: Config.clientSecret, grantType: 'server'})
+//    .then(res => {
+//      Config.accessTokenRecommendationApi = res.data.token;
+//    })
+//    .catch(err => console.log(err));
 
 
 app.get('/setup', (req, res) => {

@@ -3,9 +3,9 @@
  */
 const queryVisit = require('../../graphql/bar/query');
 const config = require("../../config");
-const ApiGraphql = require('../../helpers/apiGraphql');
+const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const helper = require("../../helpers/helper");
-const apiMessenger = require('../../helpers/apiMessenger');
+const apiMessenger = require('../../helpers/Api/apiMessenger');
 const typeIndexVisit = require('../visitHandler/typeIndex');
 const searchDistrict = require('../searchHandler/searchDistrict/searchDistrict');
 
