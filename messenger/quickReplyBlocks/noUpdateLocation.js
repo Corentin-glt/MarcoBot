@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 18/05/2018.
  */
-const apiMessenger = require("../../helpers/apiMessenger");
+const apiMessenger = require("../../helpers/Api/apiMessenger");
 const MessageData = require("../../messenger/product_data");
 const helper = require("../../helpers/helper");
 

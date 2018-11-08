@@ -1,9 +1,9 @@
 const async = require("async");
 const MessageData = require("../../messenger/product_data");
-const apiMessenger = require("../../helpers/apiMessenger");
+const apiMessenger = require("../../helpers/Api/apiMessenger");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
-const ApiGraphql = require("../../helpers/apiGraphql");
+const ApiGraphql = require("../../helpers/Api/apiGraphql");
 const indexLocationQuery = require("../../graphql/indexLocation/query");
 const queryUser = require('../../graphql/user/query');
 

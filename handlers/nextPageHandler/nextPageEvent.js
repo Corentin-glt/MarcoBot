@@ -3,7 +3,7 @@
  */
 const async = require("async");
 const MessageData = require("../../messenger/product_data");
-const apiMessenger = require("../../helpers/apiMessenger");
+const apiMessenger = require("../../helpers/Api/apiMessenger");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const queryBar = require("../../graphql/bar/query");
@@ -19,7 +19,7 @@ const queryShow = require("../../graphql/show/query");
 const querySite = require("../../graphql/site/query");
 const queryUser = require("../../graphql/user/query");
 const queryAffiliation = require("../../graphql/affiliation/query");
-const ApiGraphql = require("../../helpers/apiGraphql");
+const ApiGraphql = require("../../helpers/Api/apiGraphql");
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 14/05/2018.
  */
-const ApiGraphql = require("../../helpers/apiGraphql");
+const ApiGraphql = require("../../helpers/Api/apiGraphql");
 const queryUser = require("../../graphql/user/query");
 const queryBar = require("../../graphql/bar/query");
 const queryActivity = require("../../graphql/activity/query");
@@ -17,12 +17,13 @@ const querySite = require("../../graphql/site/query");
 const mutationGoing = require("../../graphql/going/mutation");
 const mutationLater = require("../../graphql/later/mutation");
 const mutationUser = require("../../graphql/user/mutation");
-const apiMessenger = require("../../helpers/apiMessenger");
+const apiMessenger = require("../../helpers/Api/apiMessenger");
 const MessageData = require("../product_data");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const axios = require('axios');
 const LIMIT_HOUR_ASK_LOCATION = 2;
+const ApiReferral = require('../../helpers/Api/apiReferral');
 
 const events = {
   "BAR": (id) => queryBar.queryBar(id),
@@ -226,25 +227,7 @@ module.exports = (payload, senderID, locale) => {
       const resultat = res[eventName];
       switch (newPayload) {
         case "GOING":
-          axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
-            event: 'CUSTOM_APP_EVENTS',
-            custom_events: JSON.stringify([
-              {
-                _eventName: 'lets_go',
-              }
-            ]),
-            advertiser_tracking_enabled: 1,
-            application_tracking_enabled: 1,
-            extinfo: JSON.stringify(['mb1']),
-            page_id: config.category[config.indexCategory].pageId,
-            page_scoped_user_id: senderID
-          })
-            .then(response => {
-              console.log("SUCCESS event start");
-            })
-            .catch(err => {
-              console.log(err.response.data.error);
-            });
+          ApiReferral.sendReferral("lets_go", senderID);
           return _createGoing(senderID, userId, eventID, eventName, resultat, locale);
         case "LATER":
           return _createLater(senderID, userId, eventID, eventName, locale);

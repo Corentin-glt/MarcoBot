@@ -1,14 +1,14 @@
-const ApiGraphql = require("./apiGraphql");
-const mutationUser = require("../graphql/user/mutation");
-const apiMessenger = require("./apiMessenger");
-const MessageData = require("../messenger/product_data");
-const helper = require("./helper");
-const config = require("../config");
-const indexLocationQuery = require("../graphql/indexLocation/query");
+const ApiGraphql = require("../../../../../../../helpers/Api/apiGraphql");
+const mutationUser = require("../../../../../../../graphql/user/mutation");
+const apiMessenger = require("../../../../../../../helpers/Api/apiMessenger");
+const MessageData = require("../../../../../../../messenger/product_data");
+const helper = require("../../../../../../../helpers/helper");
+const config = require("../../../../../../../config");
+const indexLocationQuery = require("../../../../../../../graphql/indexLocation/query");
 const async = require("async");
-const queryUser = require('../graphql/user/query');
+const queryUser = require('../../../../../../../graphql/user/query');
 const axios = require('axios');
-
+const ApiReferral = require('../../../../../../../helpers/Api/apiReferral');
 
 const sendMessage = (senderID, data, typeMessage) => {
   return new Promise((resolve, reject) => {
@@ -37,25 +37,7 @@ module.exports = (_event) => {
     lastUpdated: nowDate
   };
   let userObject = {};
-  axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
-    event: 'CUSTOM_APP_EVENTS',
-    custom_events: JSON.stringify([
-      {
-        _eventName: 'around_me',
-      }
-    ]),
-    advertiser_tracking_enabled: 1,
-    application_tracking_enabled: 1,
-    extinfo: JSON.stringify(['mb1']),
-    page_id: config.category[config.indexCategory].pageId,
-    page_scoped_user_id: senderID
-  })
-    .then(response => {
-      console.log("SUCCESS event start");
-    })
-    .catch(err => {
-      console.log(err.response.data.error);
-    });
+  ApiReferral.sendReferral("around_me", senderID)
   return apiGraphql.sendMutation(mutationUser.updateLocationByAccountMessenger(),
     {PSID: senderID, geoLocation: geoLocation})
     .then(res => {
@@ -65,7 +47,7 @@ module.exports = (_event) => {
       }
     })
     .then(response => {
-      if(response.findByNearMe !== null && response.findByNearMe.length > 0){
+      if (response.findByNearMe !== null && response.findByNearMe.length > 0) {
         let responses = [...response.findByNearMe];
         let newResponses = [];
         async.each(responses, (elem, callback) => {
@@ -80,7 +62,7 @@ module.exports = (_event) => {
             }
           }
         }, (err) => {
-          if(err) return sendMessage(senderID,
+          if (err) return sendMessage(senderID,
             {text: "Hmmm... I think the machine's gone crazy! Try again later."}, "RESPONSE");
           return product_data.templateListFromDifferentEvent(newResponses, 0, "AROUNDME", "mongo")
             .then(result => {

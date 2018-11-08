@@ -1,25 +1,27 @@
 /**
  * Created by corentin on 17/05/2018.
  */
-const ApiGraphql = require("./apiGraphql");
-const queryGoing = require("../graphql/going/query");
-const mutationUser = require("../graphql/user/mutation");
-const queryBar = require("../graphql/bar/query");
-const queryActivity = require("../graphql/activity/query");
-const queryClub = require("../graphql/club/query");
-const queryEvent = require("../graphql/event/query");
-const queryExhibition = require("../graphql/exhibition/query");
-const queryMuseum = require("../graphql/museum/query");
-const queryParc = require("../graphql/parc/query");
-const queryRestaurant = require("../graphql/restaurant/query");
-const queryShop = require("../graphql/shop/query");
-const queryShow = require("../graphql/show/query");
-const querySite = require("../graphql/site/query");
-const apiMessenger = require("./apiMessenger");
-const MessageData = require("../messenger/product_data");
-const helper = require("./helper");
-const config = require("../config");
+const ApiGraphql = require("../../../../../../../helpers/Api/apiGraphql");
+const queryGoing = require("../../../../../../../graphql/going/query");
+const mutationUser = require("../../../../../../../graphql/user/mutation");
+const queryBar = require("../../../../../../../graphql/bar/query");
+const queryActivity = require("../../../../../../../graphql/activity/query");
+const queryClub = require("../../../../../../../graphql/club/query");
+const queryEvent = require("../../../../../../../graphql/event/query");
+const queryExhibition = require("../../../../../../../graphql/exhibition/query");
+const queryMuseum = require("../../../../../../../graphql/museum/query");
+const queryParc = require("../../../../../../../graphql/parc/query");
+const queryRestaurant = require("../../../../../../../graphql/restaurant/query");
+const queryShop = require("../../../../../../../graphql/shop/query");
+const queryShow = require("../../../../../../../graphql/show/query");
+const querySite = require("../../../../../../../graphql/site/query");
+const apiMessenger = require("../../../../../../../helpers/Api/apiMessenger");
+const MessageData = require("../../../../../../../messenger/product_data");
+const helper = require("../../../../../../../helpers/helper");
+const config = require("../../../../../../../config");
 const axios = require('axios');
+const ApiReferral = require('../../../../../../../helpers/Api/apiReferral');
+
 const events = {
   "bar": (id) => queryBar.queryBar(id),
   "activity": (id) => queryActivity.queryActivity(id),
@@ -63,25 +65,7 @@ module.exports = (_event) => {
   let event = "";
   let eventID = "";
   let eventObject = {};
-  axios.post('https://graph.facebook.com/' + config.category[config.indexCategory].appId + '/activities', {
-    event: 'CUSTOM_APP_EVENTS',
-    custom_events: JSON.stringify([
-      {
-        _eventName: 'location_go',
-      }
-    ]),
-    advertiser_tracking_enabled: 1,
-    application_tracking_enabled: 1,
-    extinfo: JSON.stringify(['mb1']),
-    page_id: config.category[config.indexCategory].pageId,
-    page_scoped_user_id: senderId
-  })
-    .then(response => {
-      console.log("SUCCESS event start");
-    })
-    .catch(err => {
-      console.log(err.response.data.error);
-    });
+  ApiReferral.sendReferral("location_go", senderId);
   return apiGraphql.sendMutation(mutationUser.updateLocationByAccountMessenger(),
     {PSID: senderId, geoLocation: geoLocation})
     .then(res => {

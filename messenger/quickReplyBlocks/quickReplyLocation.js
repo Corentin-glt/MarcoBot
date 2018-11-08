@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 17/05/2018.
  */
-const ApiGraphql = require("../../helpers/apiGraphql");
+const ApiGraphql = require("../../helpers/Api/apiGraphql");
 const queryBar = require("../../graphql/bar/query");
 const queryActivity = require("../../graphql/activity/query");
 const queryClub = require("../../graphql/club/query");
@@ -13,7 +13,7 @@ const queryRestaurant = require("../../graphql/restaurant/query");
 const queryShop = require("../../graphql/shop/query");
 const queryShow = require("../../graphql/show/query");
 const querySite = require("../../graphql/site/query");
-const apiMessenger = require("../../helpers/apiMessenger");
+const apiMessenger = require("../../helpers/Api/apiMessenger");
 const MessageData = require("../product_data");
 const helper = require("../../helpers/helper");
 const queryUser = require("../../graphql/user/query");

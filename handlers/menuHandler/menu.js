@@ -4,7 +4,7 @@
 const MessageData = require("../../messenger/product_data");
 const config = require("../../config");
 const helper = require("../../helpers/helper");
-const apiMessenger = require('../../helpers/apiMessenger');
+const apiMessenger = require('../../helpers/Api/apiMessenger');
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {
