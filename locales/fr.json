@@ -157,7 +157,7 @@
 	"messageOfItineraryNotification": " voici ton programme pour ton ",
 	"messageOfItineraryNotification2": " jour à ",
 	"messageNotification": "Découvre le programme que je t'ai fait pour ton ",
-	"messageForTomorrow": ", prêt pour demain ? ",
+	"messageForTomorrow": ", prêt(e) pour demain ? ",
 	"messageForTomorrow2": "t'attend 🤩.",
 	"messageForTomorrow3": "Je t'enverrai ton programme personnalisé demain matin. Pour le moment, jette un coup d'oeil sur ce que tu pourrais faire. ",
 	"textBeforeShare": "Tu peux retrouver ce programme dans son intégralité ici 👉 ",
@@ -241,5 +241,6 @@
 	"itinerary2": "Itinéraire",
 	"ticketing": "🎟 Billeterie",
 	"buyShare": "🎟 Acheter mon billet",
-	"reservationTemplate": "Réserver"
+	"reservationTemplate": "Réserver",
+	"groupInvitation": "Tu viens d’effectuer ton premier voyage avec Marco et ça se fête! 🎉 Pour te récompenser, on t’invite à rejoindre notre groupe secret sur Facebook 👉 http://bit.ly/marco_community_group Ce groupe est fait pour toi, il te permettra de poser des question et d’influencer le destin de Marco pour qu’il réponde mieux à tes attentes. On poste régulièrement sur quoi nous travaillons et écoutons chaque nouvelle idée ! 🙂"
 }

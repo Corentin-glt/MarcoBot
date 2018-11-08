@@ -45,6 +45,14 @@ const cronEveryHour = new CronJob(hoursCron["everyHour"], () => {
   console.log('cron check lastMessag finished');
 }, true, 'Europe/Paris');
 
+const cronSendInvitation = new CronJob(hoursCron["noon"], () => {
+  const Cron = new cronMethods();
+  Cron.sendGroupInvitation();
+  console.log('cron check invitation');
+}, () => {
+  console.log('cron check lastMessag finished');
+}, true, 'Europe/Paris');
+
 
 app.post("/", messageWebhookController);
 app.get("/", verificationController);

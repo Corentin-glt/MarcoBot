@@ -2735,6 +2735,12 @@ class MessageData {
     })
   }
 
+  get groupInvitation() {
+    return {
+      "text": i18n.__("groupInvitation"),
+    }
+  }
+
 }
 
 module.exports = MessageData;
