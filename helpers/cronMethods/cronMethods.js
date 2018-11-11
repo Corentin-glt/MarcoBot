@@ -44,15 +44,13 @@ class CronMethods {
   sendGroupInvitation() {
     return this.apiGraphql.sendQuery(queryTrip.getPastTrips())
       .then(trips => {
-        console.log(trips);
         return async.each(trips.getPastTrips, (trip, callback) => {
-          const days = CronMethods.diffDayBetween2Date(trip.departureDateToCity, new Date());
-          console.log(days);
-          console.log(trip);
+          const days = CronMethods.diffDayBetween2Date(trip.departureDateToCity,
+            new Date());
           if (days === 1 && trip.started) {
             this.apiGraphql.sendQuery(queryUser.queryUser(trip.users_id))
               .then(user => {
-                if (!user.groupInvitation) {
+                if (!user.user.groupInvitation) {
                   const PSID = user.user.PSID;
                   return this.apiGraphql.sendQuery(
                     queryAccountMessenger.queryPSID(PSID))
@@ -63,8 +61,15 @@ class CronMethods {
                       return CronMethods.sendMessage(PSID,
                         product_data.groupInvitation, "RESPONSE")
                         .then(() => {
-                          console.log("invitaion sent");
-                          callback();
+                          this.apiGraphql.sendMutation(userMutation.updateGroupInvitation(),
+                            {PSID: PSID, groupInvitation: true})
+                            .then(res => {
+                              callback();
+                            })
+                            .catch(err => {
+                              console.log(err);
+                            })
+
                         })
                         .catch(err => {
                           callback(err);

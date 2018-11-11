@@ -10,6 +10,7 @@ module.exports = {
           cityTraveling,
           accountmessengers_id,
           profilePic,
+          groupInvitation,
           isItFirstTimeCity,
           departureDateToCity,
           arrivalDateToCity,
@@ -36,6 +37,7 @@ module.exports = {
           accountmessengers_id,
           PSID,
           cityTraveling,
+          groupInvitation,
           isItFirstTimeCity,
           departureDateToCity,
           arrivalDateToCity,
@@ -63,6 +65,7 @@ module.exports = {
           accountmessengers_id,
           PSID,
           cityTraveling,
+          groupInvitation,
           isItFirstTimeCity,
           departureDateToCity,
           arrivalDateToCity,
@@ -90,6 +93,7 @@ module.exports = {
           PSID,
           travelType,
           cityTraveling,
+          groupInvitation,
           isItFirstTimeCity,
           isTalkingToHuman,
           lastMessageToHuman,
@@ -118,6 +122,7 @@ module.exports = {
           gender,
           profilePic,
           cityTraveling,
+          groupInvitation,
           isTalkingToHuman,
           lastMessageToHuman,
           arrivalDateToCity,
@@ -149,6 +154,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          groupInvitation,
           lastMessageToHuman,
           PSID,
           travelType,
@@ -179,6 +185,7 @@ module.exports = {
           gender,
           profilePic,
           isTalkingToHuman,
+          groupInvitation,
           lastMessageToHuman,
           PSID,
           arrivalDateToCity,
@@ -208,6 +215,7 @@ module.exports = {
           cityTraveling,
           gender,
           profilePic,
+          groupInvitation,
           isTalkingToHuman,
           lastMessageToHuman,
           PSID,
@@ -238,6 +246,7 @@ module.exports = {
           cityTraveling,
           gender,
           profilePic,
+          groupInvitation,
           isTalkingToHuman,
           lastMessageToHuman,
           PSID,
@@ -268,6 +277,7 @@ module.exports = {
           cityTraveling,
           gender,
           profilePic,
+          groupInvitation,
           isTalkingToHuman,
           lastMessageToHuman,
           PSID,
@@ -298,6 +308,7 @@ module.exports = {
           cityTraveling,
           gender,
           profilePic,
+          groupInvitation,
           isTalkingToHuman,
           lastMessageToHuman,
           PSID,
@@ -319,4 +330,36 @@ module.exports = {
      }
     `
   },
+  updateGroupInvitation: () => {
+    return `mutation updateGroupInvitation($PSID: ID!, $groupInvitation: Boolean) {
+        updateGroupInvitation(PSID: $PSID, groupInvitation: $groupInvitation) {
+           id
+          firstName,
+          lastName,
+          cityTraveling,
+          gender,
+          profilePic,
+          groupInvitation,
+          isTalkingToHuman,
+          lastMessageToHuman,
+          PSID,
+          arrivalDateToCity,
+          departureDateToCity,
+          travelType,
+          isItFirstTimeCity,
+          geoLocation {
+            lat,
+            lng,
+            lastEvent,
+            lastUpdated,
+          },
+          categories {
+          name,
+          weight
+        }
+      }
+     }
+    `
+
+  }
 };

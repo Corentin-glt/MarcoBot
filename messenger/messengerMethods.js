@@ -29,12 +29,15 @@ module.exports = {
             graphqlRequest.sendMutation(mutationCreateAccount, userToSave)
               .then(accountSaved => {
                 if (accountSaved) {
+                  console.log(accountSaved);
+                  console.log(mutationCreateUser);
+                  console.log(userToSave);
                   userToSave.accountmessengers_id = accountSaved.createAccountMessenger.id;
                   graphqlRequest.sendMutation(mutationCreateUser, userToSave)
                     .then(userSaved=> {
                       return resolve(userSaved);
                     })
-                    .catch(err => console.log(err.response.data.error));
+                    .catch(err => console.log(err));
                 }
 
               })
