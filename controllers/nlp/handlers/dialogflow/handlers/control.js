@@ -1,12 +1,12 @@
 /**
  * Created by corentin on 08/11/2018.
  */
-const visitHandler = require("../../../../handlers/dialogflowHandler/visit");
-const eatHandler = require("../../../../handlers/dialogflowHandler/eat");
-const drinkHandler = require("../../../../handlers/dialogflowHandler/drink");
-const ApiGraphql = require('../../../../helpers/Api/apiGraphql');
-const queryBar = require('../../../../graphql/bar/query');
-const config = require("../../../../config");
+const visitHandler = require("../../../../../handlers/dialogflowHandler/visit");
+const eatHandler = require("../../../../../handlers/dialogflowHandler/eat");
+const drinkHandler = require("../../../../../handlers/dialogflowHandler/drink");
+const ApiGraphql = require('../../../../../helpers/Api/apiGraphql');
+const queryBar = require('../../../../../graphql/bar/query');
+const config = require("../../../../../config");
 const Message = require('../../../../../helpers/Class/Message/message');
 const helper = require('../../../../../helpers/helper');
 

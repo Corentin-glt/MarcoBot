@@ -6,7 +6,7 @@ const MessageData = require("../../../../messenger/product_data");
 const config = require("../../../../config");
 const helper = require("../../../../helpers/helper");
 const apiAiClient = require("apiai")(config.clientTokenDialogflow);
-const control = require('./control');
+const control = require('./handlers/control');
 const Sentry = require('@sentry/node');
 const Message = require('../../../../helpers/Class/Message/message');
 
