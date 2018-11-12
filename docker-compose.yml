@@ -16,3 +16,4 @@ networks:
   default:
     external:
       name: docker-environment_env-net
+
