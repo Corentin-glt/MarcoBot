@@ -1,14 +1,16 @@
 /**
  * Created by corentin on 08/11/2018.
  */
-const visitHandler = require("../../../../../handlers/dialogflowHandler/visit");
-const eatHandler = require("../../../../../handlers/dialogflowHandler/eat");
-const drinkHandler = require("../../../../../handlers/dialogflowHandler/drink");
-const ApiGraphql = require('../../../../../helpers/Api/apiGraphql');
-const queryBar = require('../../../../../graphql/bar/query');
-const config = require("../../../../../config");
-const Message = require('../../../../../helpers/Class/Message/message');
-const helper = require('../../../../../helpers/helper');
+const visitHandler = require("../../handlers/dialogflowHandler/visit");
+const eatHandler = require("../../handlers/dialogflowHandler/eat");
+const drinkHandler = require("../../handlers/dialogflowHandler/drink");
+const ApiGraphql = require('../../helpers/Api/apiGraphql');
+const queryBar = require('../../graphql/bar/query');
+const config = require("../../config");
+const Message = require('../../helpers/Class/Message/message');
+const helper = require('../../helpers/helper');
+const MessageData = require("../../messenger/product_data");
+
 
 module.exports = (senderId, response, locale) => {
   const product_data = new MessageData(locale);
@@ -35,7 +37,7 @@ module.exports = (senderId, response, locale) => {
           return messageObject.sendMessage(product_data.question1MessageListView)
         });
     default:
-      return sendMessage({"text": response.result.fulfillment.speech})
+      return messageObject.sendMessage({"text": response.result.fulfillment.speech})
         .then((response) => {
           if (response.status === 200)
             return messageObject.sendWaitingMessage()
@@ -45,4 +47,4 @@ module.exports = (senderId, response, locale) => {
           return messageObject.sendMessage(product_data.question1MessageListView)
         })
   }
-}
+};

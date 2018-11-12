@@ -1,6 +1,6 @@
-const mutationAccountMessenger = require('../graphql/accountMessenger/mutation');
-const ApiGraphql = require('../helpers/Api/apiGraphql');
-const config = require('../config');
+const mutationAccountMessenger = require('../../graphql/accountMessenger/mutation');
+const ApiGraphql = require('../../helpers/Api/apiGraphql');
+const config = require('../../config');
 
 
 class Account {

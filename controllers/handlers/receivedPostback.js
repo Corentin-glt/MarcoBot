@@ -1,39 +1,38 @@
-const postbackDefault = require('../../../messenger/postbackBlocks/default');
-const initHandler = require('../../../handlers/initHandler/init');
-const priceHandlerRestaurant = require('../../../handlers/priceHandler/restaurantIndex');
-const priceHandlerBar = require('../../../handlers/priceHandler/barIndex');
-const aroundDistrictHandler = require('../../../handlers/searchHandler/aroundByDistrict');
-const searchHandler = require('../../../handlers/searchHandler/index');
-const nextPageEventHandler = require('../../../handlers/nextPageHandler/nextPageEvent');
-const visitHandler = require('../../../handlers/visitHandler/typeIndex');
-const stopTalkingWithHuman = require('../../nlp/handlers/stopTalkingWithHuman');
-const nextPageDiffEventHandler = require('../../../handlers/nextPageHandler/nextPageIndex');
-const nextPageRecommendationHandler = require('../../../handlers/nextPageHandler/nextPageRecommendation');
-const nextPageDiffEventRecommendationHandler = require('../../../handlers/nextPageHandler/nextPageDiffEventRecommendation');
-const laterViewHandler = require('../../../handlers/laterViewHandler/laterView');
-const helpHandler = require('../../../handlers/helpHandler/help');
-const unsubscribeHandler = require('../../../handlers/subscribeHandler/unsubscribe');
-const subscriptionHandler = require('../../../handlers/subscribeHandler/subscription');
-const shareHandler = require('../../../handlers/shareHandler/share');
-const itineraryStartHandler = require('../../../handlers/itineraryHandler/startItinerary');
-const itineraryNextHandler = require('../../../handlers/itineraryHandler/nextItinerary');
-const cityHandler = require('../../../handlers/cityHandler/city');
-const changeMyCityHandler = require('../../../handlers/cityHandler/changeMyCity');
-const updateCityHandler = require('../../../handlers/cityHandler/updateCity');
-const newTripHandler = require('../../../handlers/cityHandler/newTrip');
+const postbackDefault = require('../../messenger/postbackBlocks/default');
+const initHandler = require('../../handlers/initHandler/init');
+const priceHandlerRestaurant = require('../../handlers/priceHandler/restaurantIndex');
+const priceHandlerBar = require('../../handlers/priceHandler/barIndex');
+const aroundDistrictHandler = require('../../handlers/searchHandler/aroundByDistrict');
+const searchHandler = require('../../handlers/searchHandler/index');
+const nextPageEventHandler = require('../../handlers/nextPageHandler/nextPageEvent');
+const visitHandler = require('../../handlers/visitHandler/typeIndex');
+const stopTalkingWithHuman = require('./stopTalkingWithHuman');
+const nextPageDiffEventHandler = require('../../handlers/nextPageHandler/nextPageIndex');
+const nextPageRecommendationHandler = require('../../handlers/nextPageHandler/nextPageRecommendation');
+const nextPageDiffEventRecommendationHandler = require('../../handlers/nextPageHandler/nextPageDiffEventRecommendation');
+const laterViewHandler = require('../../handlers/laterViewHandler/laterView');
+const helpHandler = require('../../handlers/helpHandler/help');
+const unsubscribeHandler = require('../../handlers/subscribeHandler/unsubscribe');
+const subscriptionHandler = require('../../handlers/subscribeHandler/subscription');
+const shareHandler = require('../../handlers/shareHandler/share');
+const itineraryStartHandler = require('../../handlers/itineraryHandler/startItinerary');
+const itineraryNextHandler = require('../../handlers/itineraryHandler/nextItinerary');
+const cityHandler = require('../../handlers/cityHandler/city');
+const changeMyCityHandler = require('../../handlers/cityHandler/changeMyCity');
+const updateCityHandler = require('../../handlers/cityHandler/updateCity');
+const newTripHandler = require('../../handlers/cityHandler/newTrip');
 const axios = require("axios");
-const config = require("../../../config");
-const ApiReferral = require('../../../helpers/Api/apiReferral');
+const config = require("../../config");
+const ApiReferral = require('../../helpers/Api/apiReferral');
 
-const postbackInteractionWithCard = require('../../../messenger/postbackBlocks/interactionWithCard');
-const postbackLocation = require('../../../messenger/quickReplyBlocks/quickReplyLocation');
+const postbackInteractionWithCard = require('../../messenger/postbackBlocks/interactionWithCard');
+const postbackLocation = require('../../messenger/quickReplyBlocks/quickReplyLocation');
 
 module.exports = (event) => {
 
-  const senderID = event.sender.id;
-  const recipientID = event.recipient.id;
+  const senderID = event.senderId;
+  const recipientID = event.recipientId;
   const locale = event.locale;
-  const timeOfMessage = event.timestamp;
   const payload = event.postback.payload;
   const payloadType = payload.split("_");
   const message = event.message ? event.message : null;
@@ -90,11 +89,11 @@ module.exports = (event) => {
         subscriptionHandler(senderID, locale);
         break;
       case  'INVITE':
-        ApiReferral.sendReferral("invite_friend", senderID)
+        ApiReferral.sendReferral("invite_friend", senderID);
         shareHandler(senderID, locale);
         break;
       case  'STARTITINERARY':
-        ApiReferral.sendReferral("startItinerary", senderID)
+        ApiReferral.sendReferral("startItinerary", senderID);
         itineraryStartHandler(payloadType[1], senderID, locale, recipientID);
         break;
       // case  'ITINERARYNEXT':

@@ -16,7 +16,7 @@ const CronJob = require('cron').CronJob;
 const cronMethods = require('./helpers/Class/cronMethods/cronMethods');
 const hoursCron = require('./variableApp/hoursCron');
 const Sentry = require('@sentry/node');
-Sentry.init({ dsn: Config.category[Config.indexCategory].dsnSentry}
+Sentry.init({ dsn: Config.category[Config.indexCategory].dsnSentry});
 //Sentry.init({ dsn: Config.dsnSentry});
 
 
@@ -66,7 +66,7 @@ axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {clientId: Con
   .catch(err => console.log(err));
 
 
-//TODO Gros t'es relou à tout le temps décommenter
+//TODO Gros t'es relou à tout le temps commenter
  axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {clientId: Config.clientId, clientSecret: Config.clientSecret, grantType: 'server'})
    .then(res => {
      Config.accessTokenRecommendationApi = res.data.token;
