@@ -1,6 +1,6 @@
 const ApiReferral = require('../../helpers/Api/apiReferral');
 const Messenger = require('./Messenger');
-const Nlp = require('../nlp/Nlp');
+const Nlp = require('../nlp2/Nlp');
 
 
 class Event {
