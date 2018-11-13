@@ -106,7 +106,7 @@ module.exports = (event) => {
         updateCityHandler(payloadType[1], senderID, locale);
         break;
       case 'NEWTRIP':
-        ApiReferral.sendReferral("new_trip", senderID)
+        ApiReferral.sendReferral("new_trip", senderID);
         newTripHandler(senderID, locale);
         break;
       default :

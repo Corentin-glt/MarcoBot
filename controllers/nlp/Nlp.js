@@ -49,7 +49,6 @@ class Nlp {
   }
 
   _checkDurationOrTravel() {
-    console.log(this.event);
       if (this.event.message && this.event.message.nlp) {
         this.receivedNLPFromFacebook();
       } else {
@@ -59,7 +58,6 @@ class Nlp {
   }
 
   receivedNLPFromFacebook() {
-
     if (this.event.message.nlp.entities.datetime
       && this.event.message.nlp.entities.datetime[0].confidence > 0.8) {
       receiveDateArrival(this.event);
