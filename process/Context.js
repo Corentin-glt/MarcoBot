@@ -1,9 +1,10 @@
 const ApiGraphql = require("../helpers/Api/apiGraphql");
 const config = require("../config");
+const globalContext = require('../assets/context');
 
 class Context {
-  constructor(payload) {
-    this.payload = payload;
+  constructor(dictContext, dictValue) {
+    this.dictContext = globalContext(dictContext);
   }
 
   createContext() {
