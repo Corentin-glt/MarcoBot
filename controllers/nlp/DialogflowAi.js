@@ -1,9 +1,8 @@
 const config = require("../../config");
 const apiAiClient = require("apiai")(config.clientTokenDialogflow);
 const Sentry = require("@sentry/node");
-const control = require("../handlers/control");
 const MessageData = require("../../messenger/product_data");
-const Message = require("../../helpers/Class/Message/message");
+const Message = require("../../helpers/Class/MessageFacebook/message");
 const visitHandler = require("../../handlers/dialogflowHandler/visit");
 const eatHandler = require("../../handlers/dialogflowHandler/eat");
 const drinkHandler = require("../../handlers/dialogflowHandler/drink");
@@ -23,7 +22,7 @@ class DialogflowAi {
       lang: this.event.locale
     });
     apiaiSession.on("response", response => {
-      return control(response);
+      return this.control(response);
     });
     apiaiSession.on("error", error => {
       Sentry.captureException(error);
