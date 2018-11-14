@@ -1,4 +1,5 @@
 module.exports = {
+  'start': ['START', 'INIT'],
   'eat': ['RESTAURANT', 'PRICERESTAURANT', 'CATEGORY', 'SEARCH', 'eat_out'],
   'drink': ['BAR', 'PRICEBAR', 'CATEGORY', 'SEARCH'],
   'visit': ['SITE', 'VISIT', 'CATEGORY'],

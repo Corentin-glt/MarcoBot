@@ -1072,12 +1072,12 @@ class MessageData {
         {
           "content_type": "text",
           "title": i18n.__("excitementRep1"),
-          "payload": "EXCITEMENT_CONFIRM",
+          "payload": "START_TRUE",
         },
         {
           "content_type": "text",
           "title": i18n.__("excitementRep2"),
-          "payload": "EXCITEMENT_CANCEL",
+          "payload": "START_FALSE",
         }
       ]
     }

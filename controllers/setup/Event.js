@@ -1,5 +1,5 @@
 const ApiReferral = require('../../helpers/Api/apiReferral');
-const Messenger = require('./Messenger');
+const Messenger = require('../messenger/Messenger');
 const Nlp = require('../nlp/Nlp');
 
 
