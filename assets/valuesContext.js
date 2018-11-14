@@ -16,6 +16,8 @@ const valuesTalkingToHuman = require('./values/talkingToHuman')
 const valuesTicket = require('./values/ticket')
 const valuesTrip = require('./values/trip')
 const valuesVisit = require('./values/visit')
+const valuesNext = require('./values/next')
+const valuesMap = require('./values/map')
 
 const values = [
   'eat': valuesEat,
@@ -36,6 +38,8 @@ const values = [
   'ticket': valuesTicket,
   'trip': valuesTrip,
   'visit': valuesVisit,
+  'next': valuesNext,
+  'map': valuesMap,
 ]
 
 module.exports = (context) => {

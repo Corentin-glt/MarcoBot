@@ -17,4 +17,6 @@ module.exports = (object) => {
   'subscribe': object.subscribe,
   'help': object.help,
   'share': object.share,
+  'next': object.next,
+  'map': object.map,
 };
