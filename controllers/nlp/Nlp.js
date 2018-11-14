@@ -69,7 +69,8 @@ class Nlp {
       receiveDurationTravel(this.event);
     } else {
       const dialogflow = new DialogflowAi(this.event);
-      dialogflow.start();    }
+      dialogflow.start();
+    }
   }
 }
 
