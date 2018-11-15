@@ -1,7 +1,7 @@
 module.exports = {
   getUserContext(id) {
     return `{
-      contextsByUser(usersId: "${id}"){
+      contextsByUser(PSID: "${id}"){
         id
         name
         users_id
@@ -9,6 +9,7 @@ module.exports = {
           name
           value
         }
+        modifiedAt
         createAt
       }
     }`
