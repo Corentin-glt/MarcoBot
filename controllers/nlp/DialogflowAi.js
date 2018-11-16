@@ -8,6 +8,7 @@ const eatHandler = require("../../handlers/dialogflowHandler/eat");
 const drinkHandler = require("../../handlers/dialogflowHandler/drink");
 const contextDialogflow = require("./contextDialogflow");
 const context = require("../../assets/context");
+const valuesContext = require("./valuesContextDialogflow");
 
 class DialogflowAi {
   constructor(event) {
@@ -44,39 +45,37 @@ class DialogflowAi {
         ? response.parameters.fields
         : null
       : null;
-    // switch (intent) {
-    //   case "visit_out":
-    //     return visitHandler(parameters, this.event.senderId, this.event.locale);
-    //   case "drink_out":
-    //     return drinkHandler(parameters, this.event.senderId, this.event.locale);
-    //   case "eating_out":
-    //     return eatHandler(parameters, this.event.senderId, this.event.locale);
-    //   case "stop_input":
-    //     return messageObject
-    //       .sendMessage({ text: response.result.fulfillment.speech })
-    //       .then(response => {
-    //         if (response.status === 200)
-    //           return messageObject.sendWaitingMessage();
-    //       })
-    //       .then(helper.delayPromise(2000))
-    //       .then(() => {
-    //         return messageObject.sendMessage(
-    //           product_data.question1MessageListView
-    //         );
-    //       });
-    //   default:
-    //     return messageObject
-    //       .sendMessage({ text: response.result.fulfillment.speech })
-    //       .then(response => {
-    //         if (response.status === 200)
-    //           return messageObject.sendWaitingMessage();
-    //       })
-    //       .then(helper.delayPromise(2000))
-    //       .then(() => {
-    //         return messageObject.sendMessage(
-    //           product_data.question1MessageListView
-    //         );
-    //       });
+    console.log(parameters);
+    console.log(intent);
+    this.checkFunctionValuesOfContext(intent, parameters)
+  }
+
+  checkFunctionValuesOfConstext(context, parameters) {
+    return context === "trip"
+      ? this.getValuesOfContextTrip(parameters)
+      : this.getValuesOfContext(parameters);
+  }
+
+  getValuesOfContextTrip(objectValues) {
+    let newValuesObject = {};
+    objectValues.keys(item => {
+      if (item.stringValue !== "" && item !== "tripDate") {
+        if (item !== "date-period" && item !== "duration") {
+          newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
+        } else {
+          //item === 'date-period' ? this.getDatePeriod(objectValues[item]) :
+        }
+      }
+    });
+  }
+
+  getValuesOfContext(objectValues) {
+    let newValuesObject = {};
+    objectValues.keys(item => {
+      if (item.stringValue !== "") {
+        newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
+      }
+    });
   }
 }
 

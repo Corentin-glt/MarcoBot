@@ -74,7 +74,7 @@ class MessageData {
   get getStartedData() {
     return {
       "get_started": {
-        "payload": "INIT"
+        "payload": "init"
       }
     }
   }
@@ -124,7 +124,7 @@ class MessageData {
                 {
                   "title": "Restart",
                   "type": "postback",
-                  "payload": "INIT"
+                  "payload": "init_isOk:true"
                 }
               ]
             },
@@ -177,7 +177,7 @@ class MessageData {
                 {
                   "title": "Restart",
                   "type": "postback",
-                  "payload": "INIT"
+                  "payload": "init_isOk:true"
                 }
               ]
             },
@@ -230,7 +230,7 @@ class MessageData {
                 {
                   "title": "Recommencer",
                   "type": "postback",
-                  "payload": "INIT"
+                  "payload": "init_isOk:true"
                 }
               ]
             },
@@ -1072,12 +1072,12 @@ class MessageData {
         {
           "content_type": "text",
           "title": i18n.__("excitementRep1"),
-          "payload": "START_TRUE",
+          "payload": "start_isOk:true",
         },
         {
           "content_type": "text",
           "title": i18n.__("excitementRep2"),
-          "payload": "START_FALSE",
+          "payload": "start_isOk:false",
         }
       ]
     }
