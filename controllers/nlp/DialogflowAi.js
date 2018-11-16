@@ -1,14 +1,13 @@
 const config = require("../../config");
-const apiAiClient = require("apiai")(config.clientTokenDialogflow);
+const ApiDialogFlow = require("../../helpers/Api/apiDialogflow");
 const Sentry = require("@sentry/node");
-const control = require("../handlers/control");
 const MessageData = require("../../messenger/product_data");
-const Message = require("../../helpers/Class/Message/message");
+const Message = require("../../helpers/Class/MessageFacebook/message");
 const visitHandler = require("../../handlers/dialogflowHandler/visit");
 const eatHandler = require("../../handlers/dialogflowHandler/eat");
 const drinkHandler = require("../../handlers/dialogflowHandler/drink");
-const contextDialogflow = require('./contextDialogflow');
-const context = require('../../assets/context');
+const contextDialogflow = require("./contextDialogflow");
+const context = require("../../assets/context");
 
 class DialogflowAi {
   constructor(event) {
@@ -16,36 +15,35 @@ class DialogflowAi {
   }
 
   start() {
-    apiAiClient.language = this.event.locale;
     const product_data = new MessageData(this.event.locale);
     const messageObject = new Message(this.event.senderId);
     messageObject.typeMessage = "RESPONSE";
-    const apiaiSession = apiAiClient.textRequest(this.event.message.text, {
-      sessionId: config.projectIDDialogflow,
-      lang: this.event.locale
-    });
-    apiaiSession.on("response", response => {
-      return control(response);
-    });
-    apiaiSession.on("error", error => {
-      Sentry.captureException(error);
-      return messageObject.sendMessage(product_data.question1MessageListView);
-    });
-    apiaiSession.end();
+    const apiDialogFlow = new ApiDialogFlow(this.event.locale);
+    apiDialogFlow
+      .sendTextMessageToDialogFlow(this.event.message.text)
+      .then(response => {
+        return this.control(response);
+      })
+      .catch(err => {
+        Sentry.captureException(err);
+        return messageObject.sendMessage(product_data.question1MessageListView);
+      });
   }
 
   control(response) {
     const product_data = new MessageData(this.event.locale);
     const messageObject = new Message(this.event.senderId);
     messageObject.typeMessage = "RESPONSE";
-    const parameters = response.result.parameters
-      ? response.result.parameters
+    const intent = response.intent
+      ? response.intent.displayName
+        ? response.intent.displayName
+        : null
       : null;
-    const intent =
-      response.result.metadata && response.result.metadata.intentName
-        ? response.result.metadata.intentName
-        : null;
-    
+    const parameters = response.parameters
+      ? response.parameters.fields
+        ? response.parameters.fields
+        : null
+      : null;
     // switch (intent) {
     //   case "visit_out":
     //     return visitHandler(parameters, this.event.senderId, this.event.locale);
@@ -79,9 +77,7 @@ class DialogflowAi {
     //           product_data.question1MessageListView
     //         );
     //       });
-    }
   }
-
 }
 
 module.exports = DialogflowAi;
