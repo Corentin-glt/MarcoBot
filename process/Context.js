@@ -1,23 +1,13 @@
 const ApiGraphql = require("../helpers/Api/apiGraphql");
 const config = require("../config");
-<<<<<<< HEAD
 const contextQuery = require('../helpers/graphql/context/query');
 const contextMutation = require('../helpers/graphql/context/mutation');
 const globalContext = require('../assets/context');
 const dictValue = require('../assets/valuesContext');
 const Sentry = require('@sentry/node');
-// const Template = require('../view/messenger/Template');
 const Message = require('../view/messenger/Message');
 const Text = require('../view/messenger/Text');
 const ChatAction = require('../view/messenger/ChatAction');
-
-=======
-const contextQuery = require("../graphql/context/query");
-const contextMutation = require("../graphql/context/mutation");
-const globalContext = require("../assets/context");
-const dictValue = require("../assets/valuesContext");
-const Sentry = require("@sentry/node");
->>>>>>> e9e6b5b8718a2301ed87f1629e3e42f31a739cd1
 
 class Context {
   constructor(senderId, inputContext, inputValue, dictContext) {
@@ -37,19 +27,7 @@ class Context {
       const elemFound = this.dictContext[key].find(elem => {
         return elem === this.inputContext;
       });
-<<<<<<< HEAD
-      return elemFound !== null && typeof elemFound !== 'undefined';
-    });
-    console.log(context);
-    const values = this.getContextValues(context);
-    console.log(values);
-    this.newContext = Object.assign({}, {
-      name: context,
-      page: 0,
-      values: values
-=======
       return elemFound !== null && typeof elemFound !== "undefined";
->>>>>>> e9e6b5b8718a2301ed87f1629e3e42f31a739cd1
     });
     if(context === 'unknown') {
       console.log('UNKNOWN CONTEXT')
