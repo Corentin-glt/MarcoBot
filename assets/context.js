@@ -17,6 +17,8 @@ module.exports = (object) => {
     'favorite': object.favorite,
     'subscribe': object.subscribe,
     'help': object.help,
-    'share': object.share
+    'share': object.share,
+    'next': object.next,
+    'map': object.map,
   }
 };

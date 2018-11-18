@@ -1,5 +1,6 @@
 const ApiGraphql = require("../helpers/Api/apiGraphql");
 const config = require("../config");
+<<<<<<< HEAD
 const contextQuery = require('../helpers/graphql/context/query');
 const contextMutation = require('../helpers/graphql/context/mutation');
 const globalContext = require('../assets/context');
@@ -10,6 +11,13 @@ const Message = require('../view/messenger/Message');
 const Text = require('../view/messenger/Text');
 const ChatAction = require('../view/messenger/ChatAction');
 
+=======
+const contextQuery = require("../graphql/context/query");
+const contextMutation = require("../graphql/context/mutation");
+const globalContext = require("../assets/context");
+const dictValue = require("../assets/valuesContext");
+const Sentry = require("@sentry/node");
+>>>>>>> e9e6b5b8718a2301ed87f1629e3e42f31a739cd1
 
 class Context {
   constructor(senderId, inputContext, inputValue, dictContext) {
@@ -20,14 +28,16 @@ class Context {
     this.newContext = {};
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
-      config.accessTokenMarcoApi);
-   }
+      config.accessTokenMarcoApi
+    );
+  }
 
   mapContext() {
     const context = Object.keys(this.dictContext).find((key, idx) => {
       const elemFound = this.dictContext[key].find(elem => {
         return elem === this.inputContext;
       });
+<<<<<<< HEAD
       return elemFound !== null && typeof elemFound !== 'undefined';
     });
     console.log(context);
@@ -37,8 +47,27 @@ class Context {
       name: context,
       page: 0,
       values: values
+=======
+      return elemFound !== null && typeof elemFound !== "undefined";
+>>>>>>> e9e6b5b8718a2301ed87f1629e3e42f31a739cd1
     });
-    this.handleContext();
+    if(context === 'unknown') {
+      console.log('UNKNOWN CONTEXT')
+      //TODO: GO DIRECTLY TO CLASS OR
+      //FUNCTION WHICH SEE THE LAST UPDATED CONTEXT IN BDD
+    } else {
+      const values = this.getContextValues(context);
+      console.log(values);
+      this.newContext = Object.assign(
+        {},
+        {
+          name: context,
+          page: 0,
+          values: values
+        }
+      );
+      this.handleContext();
+    }
   }
 
   getContextValues() {
@@ -59,12 +88,18 @@ class Context {
   }
 
   checkContext(userContextArray) {
-    const found = userContextArray.find(itm => itm.name === this.newContext.name);
-    return typeof found !== 'undefined' && found.values.length === dictValue[this.newContext.name].length;
+    const found = userContextArray.find(
+      itm => itm.name === this.newContext.name
+    );
+    return (
+      typeof found !== "undefined" &&
+      found.values.length === dictValue[this.newContext.name].length
+    );
   }
 
   handleContext() {
-    this.apiGraphql.sendQuery(contextQuery.getUserContext(this.senderId))
+    this.apiGraphql
+      .sendQuery(contextQuery.getUserContext(this.senderId))
       .then(res => {
         const userContextArray = res.contextsByUser;
         console.log(this.checkContext(userContextArray));
@@ -72,39 +107,43 @@ class Context {
           console.log('create context');
           this.createContext();
         } else if (this.checkContext(userContextArray)) {
-          console.log('create contexxt');
-            this.createContext();
+          console.log("create contexxt");
+          this.createContext();
         } else {
-          console.log('update context');
+          console.log("update context");
           this.udpateContext(userContextArray);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-        Sentry.captureException(err)});
+        Sentry.captureException(err);
+      });
   }
-
 
   createContext() {
     this.newContext.PSID = this.senderId;
-    this.apiGraphql.sendMutation(contextMutation.createContext(), this.newContext)
+    this.apiGraphql
+      .sendMutation(contextMutation.createContext(), this.newContext)
       .then(res => {
-          console.log(res);
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
-        Sentry.captureException(err)
+        Sentry.captureException(err);
       });
   }
 
   udpateContext(userContextArray) {
-    const contextToUpdate = userContextArray.find(itm => itm.name === this.newContext.name);
+    const contextToUpdate = userContextArray.find(
+      itm => itm.name === this.newContext.name
+    );
     console.log(contextToUpdate);
     const objToUpdate = {
       contextId: contextToUpdate.id,
       values: this.newContext.values
     };
-    this.apiGraphql.sendMutation(contextMutation.updateContext(), objToUpdate)
+    this.apiGraphql
+      .sendMutation(contextMutation.updateContext(), objToUpdate)
       .then(res => {
         console.log(res);
         let messageArray = [];
@@ -124,11 +163,9 @@ class Context {
       })
       .catch(err => {
         console.log(err);
-        Sentry.captureException(err)
+        Sentry.captureException(err);
       });
   }
-
-
 }
 
 module.exports = Context;

@@ -41,4 +41,3 @@ module.exports = {
     'next': valuesNext,
     'map': valuesMap,
   };
-

@@ -1,13 +1,14 @@
 const config = require("../../config");
-const apiAiClient = require("apiai")(config.clientTokenDialogflow);
+const ApiDialogFlow = require("../../helpers/Api/apiDialogflow");
 const Sentry = require("@sentry/node");
 const MessageData = require("../../messenger/product_data");
 const Message = require("../../view/messenger/Message");
 const visitHandler = require("../../handlers/dialogflowHandler/visit");
 const eatHandler = require("../../handlers/dialogflowHandler/eat");
 const drinkHandler = require("../../handlers/dialogflowHandler/drink");
-const contextDialogflow = require('./contextDialogflow');
-const context = require('../../assets/context');
+const contextDialogflow = require("./contextDialogflow");
+const context = require("../../assets/context");
+const valuesContext = require("./valuesContextDialogflow");
 
 class DialogflowAi {
   constructor(event) {
@@ -15,71 +16,67 @@ class DialogflowAi {
   }
 
   start() {
-    apiAiClient.language = this.event.locale;
     const product_data = new MessageData(this.event.locale);
     const messageObject = new Message(this.event.senderId);
     messageObject.typeMessage = "RESPONSE";
-    const apiaiSession = apiAiClient.textRequest(this.event.message.text, {
-      sessionId: config.projectIDDialogflow,
-      lang: this.event.locale
-    });
-    apiaiSession.on("response", response => {
-      return this.control(response);
-    });
-    apiaiSession.on("error", error => {
-      Sentry.captureException(error);
-      return messageObject.sendMessage(product_data.question1MessageListView);
-    });
-    apiaiSession.end();
+    const apiDialogFlow = new ApiDialogFlow(this.event.locale);
+    apiDialogFlow
+      .sendTextMessageToDialogFlow(this.event.message.text)
+      .then(response => {
+        return this.control(response);
+      })
+      .catch(err => {
+        Sentry.captureException(err);
+        return messageObject.sendMessage(product_data.question1MessageListView);
+      });
   }
 
   control(response) {
     const product_data = new MessageData(this.event.locale);
     const messageObject = new Message(this.event.senderId);
     messageObject.typeMessage = "RESPONSE";
-    const parameters = response.result.parameters
-      ? response.result.parameters
+    const intent = response.intent
+      ? response.intent.displayName
+        ? response.intent.displayName
+        : null
       : null;
-    const intent =
-      response.result.metadata && response.result.metadata.intentName
-        ? response.result.metadata.intentName
-        : null;
-    
-    // switch (intent) {
-    //   case "visit_out":
-    //     return visitHandler(parameters, this.event.senderId, this.event.locale);
-    //   case "drink_out":
-    //     return drinkHandler(parameters, this.event.senderId, this.event.locale);
-    //   case "eating_out":
-    //     return eatHandler(parameters, this.event.senderId, this.event.locale);
-    //   case "stop_input":
-    //     return messageObject
-    //       .sendMessage({ text: response.result.fulfillment.speech })
-    //       .then(response => {
-    //         if (response.status === 200)
-    //           return messageObject.sendWaitingMessage();
-    //       })
-    //       .then(helper.delayPromise(2000))
-    //       .then(() => {
-    //         return messageObject.sendMessage(
-    //           product_data.question1MessageListView
-    //         );
-    //       });
-    //   default:
-    //     return messageObject
-    //       .sendMessage({ text: response.result.fulfillment.speech })
-    //       .then(response => {
-    //         if (response.status === 200)
-    //           return messageObject.sendWaitingMessage();
-    //       })
-    //       .then(helper.delayPromise(2000))
-    //       .then(() => {
-    //         return messageObject.sendMessage(
-    //           product_data.question1MessageListView
-    //         );
-    //       });
-    }
+    const parameters = response.parameters
+      ? response.parameters.fields
+        ? response.parameters.fields
+        : null
+      : null;
+    console.log(parameters);
+    console.log(intent);
+    this.checkFunctionValuesOfContext(intent, parameters)
+  }
 
+  checkFunctionValuesOfConstext(context, parameters) {
+    return context === "trip"
+      ? this.getValuesOfContextTrip(parameters)
+      : this.getValuesOfContext(parameters);
+  }
+
+  getValuesOfContextTrip(objectValues) {
+    let newValuesObject = {};
+    objectValues.keys(item => {
+      if (item.stringValue !== "" && item !== "tripDate") {
+        if (item !== "date-period" && item !== "duration") {
+          newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
+        } else {
+          //item === 'date-period' ? this.getDatePeriod(objectValues[item]) :
+        }
+      }
+    });
+  }
+
+  getValuesOfContext(objectValues) {
+    let newValuesObject = {};
+    objectValues.keys(item => {
+      if (item.stringValue !== "") {
+        newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
+      }
+    });
+  }
 }
 
 module.exports = DialogflowAi;
