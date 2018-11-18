@@ -1,8 +1,8 @@
 /**
  * Created by corentin on 14/06/2018.
  */
-const queryBar = require('../../graphql/bar/query');
-const queryUser = require('../../graphql/user/query');
+const queryBar = require('../../helpers/graphql/bar/query');
+const queryUser = require('../../helpers/graphql/user/query');
 const MessageData = require("../../messenger/product_data");
 const config = require("../../config");
 const ApiGraphql = require('../../helpers/Api/apiGraphql');

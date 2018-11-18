@@ -3,13 +3,13 @@
  */
 const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/Api/apiMessenger");
-const userQuery = require("../../graphql/user/query");
-const userMutation = require("../../graphql/user/mutation");
+const userQuery = require("../../helpers/graphql/user/query");
+const userMutation = require("../../helpers/graphql/user/mutation");
 const ApiGraphql = require("../../helpers/Api/apiGraphql");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const async = require('async');
-const queryProgram = require('../../graphql/program/query');
+const queryProgram = require('../../helpers/graphql/program/query');
 const numberDayProgramByCity = require('../../variableApp/limitCityProgram');
 const axios = require('axios');
 const ApiReferral = require('../../helpers/Api/apiReferral');

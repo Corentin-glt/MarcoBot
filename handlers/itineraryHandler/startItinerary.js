@@ -1,9 +1,9 @@
 /**
  * Created by corentin on 21/08/2018.
  */
-const queryProgram = require('../../graphql/program/query');
-const queryItinerary = require('../../graphql/itinerary/query');
-const mutationTrip = require('../../graphql/trip/mutation');
+const queryProgram = require('../../helpers/graphql/program/query');
+const queryItinerary = require('../../helpers/graphql/itinerary/query');
+const mutationTrip = require('../../helpers/graphql/trip/mutation');
 const MessageData = require("../../messenger/product_data");
 const config = require("../../config");
 const ApiGraphql = require('../../helpers/Api/apiGraphql');

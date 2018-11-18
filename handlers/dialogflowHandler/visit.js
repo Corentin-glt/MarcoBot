@@ -1,7 +1,7 @@
 /**
  * Created by corentin on 14/06/2018.
  */
-const queryVisit = require('../../graphql/bar/query');
+const queryVisit = require('../../helpers/graphql/bar/query');
 const config = require("../../config");
 const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const helper = require("../../helpers/helper");

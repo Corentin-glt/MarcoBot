@@ -2,21 +2,21 @@
  * Created by corentin on 17/05/2018.
  */
 const ApiGraphql = require("../../helpers/Api/apiGraphql");
-const queryBar = require("../../graphql/bar/query");
-const queryActivity = require("../../graphql/activity/query");
-const queryClub = require("../../graphql/club/query");
-const queryEvent = require("../../graphql/event/query");
-const queryExhibition = require("../../graphql/exhibition/query");
-const queryMuseum = require("../../graphql/museum/query");
-const queryParc = require("../../graphql/parc/query");
-const queryRestaurant = require("../../graphql/restaurant/query");
-const queryShop = require("../../graphql/shop/query");
-const queryShow = require("../../graphql/show/query");
-const querySite = require("../../graphql/site/query");
+const queryBar = require("../../helpers/graphql/bar/query");
+const queryActivity = require("../../helpers/graphql/activity/query");
+const queryClub = require("../../helpers/graphql/club/query");
+const queryEvent = require("../../helpers/graphql/event/query");
+const queryExhibition = require("../../helpers/graphql/exhibition/query");
+const queryMuseum = require("../../helpers/graphql/museum/query");
+const queryParc = require("../../helpers/graphql/parc/query");
+const queryRestaurant = require("../../helpers/graphql/restaurant/query");
+const queryShop = require("../../helpers/graphql/shop/query");
+const queryShow = require("../../helpers/graphql/show/query");
+const querySite = require("../../helpers/graphql/site/query");
 const apiMessenger = require("../../helpers/Api/apiMessenger");
 const MessageData = require("../product_data");
 const helper = require("../../helpers/helper");
-const queryUser = require("../../graphql/user/query");
+const queryUser = require("../../helpers/graphql/user/query");
 const config = require("../../config");
 
 const events = {

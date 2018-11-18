@@ -1,7 +1,7 @@
 const MessageData = require("../../../messenger/product_data");
 const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const helper = require("../../../helpers/helper");
-const queryUser = require('../../../graphql/user/query');
+const queryUser = require('../../../helpers/graphql/user/query');
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const config = require('../../../config');
 

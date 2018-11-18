@@ -4,7 +4,7 @@
 const Sentry = require('@sentry/node');
 const config = require('../../../../../config');
 const ApiGraphql = require('../../../../../helpers/Api/apiGraphql');
-const user = require("../../../../../graphql/user/query");
+const user = require("../../../../../helpers/graphql/user/query");
 const receiveLocationItinerary = require('./handlers/receiveLocationItinerary');
 const receiveLocationAroundMe = require('./handlers/receiveLocationAroundMe');
 

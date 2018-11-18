@@ -4,8 +4,8 @@ const apiMessenger = require("../../helpers/Api/apiMessenger");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const ApiGraphql = require("../../helpers/Api/apiGraphql");
-const indexLocationQuery = require("../../graphql/indexLocation/query");
-const queryUser = require('../../graphql/user/query');
+const indexLocationQuery = require("../../helpers/graphql/indexLocation/query");
+const queryUser = require('../../helpers/graphql/user/query');
 
 
 const sendMessage = (senderId, data, typeMessage) => {

@@ -1,10 +1,14 @@
 const ApiGraphql = require("../helpers/Api/apiGraphql");
 const config = require("../config");
-const contextQuery = require('../graphql/context/query');
-const contextMutation = require('../graphql/context/mutation');
+const contextQuery = require('../helpers/graphql/context/query');
+const contextMutation = require('../helpers/graphql/context/mutation');
 const globalContext = require('../assets/context');
 const dictValue = require('../assets/valuesContext');
 const Sentry = require('@sentry/node');
+// const Template = require('../view/messenger/Template');
+const Message = require('../view/messenger/Message');
+const Text = require('../view/messenger/Text');
+const ChatAction = require('../view/messenger/ChatAction');
 
 
 class Context {
@@ -26,6 +30,7 @@ class Context {
       });
       return elemFound !== null && typeof elemFound !== 'undefined';
     });
+    console.log(context);
     const values = this.getContextValues(context);
     console.log(values);
     this.newContext = Object.assign({}, {
@@ -63,7 +68,7 @@ class Context {
       .then(res => {
         const userContextArray = res.contextsByUser;
         console.log(this.checkContext(userContextArray));
-        if (userContextArray === null) {
+        if (userContextArray === null || userContextArray.length === 0) {
           console.log('create context');
           this.createContext();
         } else if (this.checkContext(userContextArray)) {
@@ -102,6 +107,20 @@ class Context {
     this.apiGraphql.sendMutation(contextMutation.updateContext(), objToUpdate)
       .then(res => {
         console.log(res);
+        let messageArray = [];
+        const action = new ChatAction('mark_seen');
+      action.get();
+      messageArray.push(action.template);
+        const quickRep = new Text('What\'s your favorite House in Game Of Thrones');
+        quickRep
+          .addQuickReply('Stark', 'STARK')
+          .addQuickReply('Lannister', 'LANNISTER')
+          .addQuickReply('Targaryen', 'TARGARYEN')
+          .addQuickReply('None of the above', 'OTHER')
+          .get();
+        messageArray.push(quickRep.template);
+        const newMessage = new Message(this.senderId, messageArray);
+        newMessage.sendMessage();
       })
       .catch(err => {
         console.log(err);

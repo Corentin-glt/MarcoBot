@@ -4,7 +4,7 @@ const contextMessenger = require('./contextMessenger');
 const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const Sentry = require('@sentry/node');
 const config = require('../../config');
-const contextQuery = require('../../graphql/context/query');
+const contextQuery = require('../../helpers/graphql/context/query');
 const Context = require('../../process/Context');
 const contextValues = require('./handlers/index');
 

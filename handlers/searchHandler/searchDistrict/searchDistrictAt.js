@@ -5,7 +5,7 @@ const MessageData = require("../../../messenger/product_data");
 const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const helper = require("../../../helpers/helper");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
-const queryUser = require('../../../graphql/user/query');
+const queryUser = require('../../../helpers/graphql/user/query');
 const config = require('../../../config');
 
 module.exports = (senderID, page, locale) => {

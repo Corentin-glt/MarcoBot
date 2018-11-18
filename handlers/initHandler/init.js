@@ -1,5 +1,5 @@
 const ApiGraphql = require("../../helpers/Api/apiGraphql");
-const user = require("../../graphql/user/query");
+const user = require("../../helpers/graphql/user/query");
 const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/Api/apiMessenger");
 const helper = require("../../helpers/helper");

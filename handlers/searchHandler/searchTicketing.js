@@ -8,8 +8,8 @@ const apiMessenger = require("../../helpers/Api/apiMessenger");
 const helper = require("../../helpers/helper");
 const config = require("../../config");
 const ApiGraphql = require("../../helpers/Api/apiGraphql");
-const affiliationQuery = require("../../graphql/affiliation/query");
-const queryUser = require('../../graphql/user/query');
+const affiliationQuery = require("../../helpers/graphql/affiliation/query");
+const queryUser = require('../../helpers/graphql/user/query');
 
 const sendMessage = (senderId, data, typeMessage) => {
   return new Promise((resolve, reject) => {

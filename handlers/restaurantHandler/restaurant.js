@@ -1,11 +1,11 @@
 const MessageData = require("../../messenger/product_data");
 const apiMessenger = require("../../helpers/Api/apiMessenger");
 const ApiGraphql = require("../../helpers/Api/apiGraphql");
-const restaurant = require('../../graphql/restaurant/query');
+const restaurant = require('../../helpers/graphql/restaurant/query');
 const helper = require("../../helpers/helper");
-const userMutation = require('../../graphql/user/mutation');
+const userMutation = require('../../helpers/graphql/user/mutation');
 const config = require('../../config');
-const queryUser = require('../../graphql/user/query');
+const queryUser = require('../../helpers/graphql/user/query');
 
 
 module.exports = (type, price, senderID, locale) => {

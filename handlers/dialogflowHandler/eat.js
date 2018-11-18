@@ -1,9 +1,9 @@
 /**
  * Created by corentin on 14/06/2018.
  */
-const queryRestaurant = require('../../graphql/restaurant/query');
+const queryRestaurant = require('../../helpers/graphql/restaurant/query');
 const MessageData = require("../../messenger/product_data");
-const queryUser = require('../../graphql/user/query');
+const queryUser = require('../../helpers/graphql/user/query');
 const config = require("../../config");
 const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const helper = require("../../helpers/helper");

@@ -1,12 +1,12 @@
 const ApiGraphql = require("../../../../../../helpers/Api/apiGraphql");
-const mutationUser = require("../../../../../../graphql/user/mutation");
+const mutationUser = require("../../../../../../helpers/graphql/user/mutation");
 const apiMessenger = require("../../../../../../helpers/Api/apiMessenger");
 const MessageData = require("../../../../../../messenger/product_data");
 const helper = require("../../../../../../helpers/helper");
 const config = require("../../../../../../config");
-const indexLocationQuery = require("../../../../../../graphql/indexLocation/query");
+const indexLocationQuery = require("../../../../../../helpers/graphql/indexLocation/query");
 const async = require("async");
-const queryUser = require('../../../../../../graphql/user/query');
+const queryUser = require('../../../../../../helpers/graphql/user/query');
 const axios = require('axios');
 const ApiReferral = require('../../../../../../helpers/Api/apiReferral');
 

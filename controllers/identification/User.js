@@ -1,4 +1,4 @@
-const mutationUser = require('../../graphql/user/mutation');
+const mutationUser = require('../../helpers/graphql/user/mutation');
 const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const config = require('../../config');
 

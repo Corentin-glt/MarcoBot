@@ -3,8 +3,8 @@
  */
 const apiMessenger = require('../helpers/Api/apiMessenger');
 const GraphqlRequest = require('../helpers/Api/apiGraphql');
-const mutationAccountMessenger = require('../graphql/accountMessenger/mutation');
-const mutationUser = require('../graphql/user/mutation');
+const mutationAccountMessenger = require('../helpers/graphql/accountMessenger/mutation');
+const mutationUser = require('../helpers/graphql/user/mutation');
 const config = require('../config');
 module.exports = {
   createUser: (senderId) => {
