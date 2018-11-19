@@ -18,12 +18,14 @@ class Init {
   handleEntry() {
     this.entry.forEach(item => {
       item.messaging.forEach(event => {
+        console.log(event);
         const mainEvent = new Event(event);
         const apiGraphql = new ApiGraphql(
           config.category[config.indexCategory].apiGraphQlUrl,
           config.accessTokenMarcoApi);
         apiGraphql.sendQuery(accountQuery.queryPSID(mainEvent.senderId))
           .then(res => {
+            console.log(res);
             if (res.accountMessenger === null) {
              this.handleCreation(mainEvent);
             } else {

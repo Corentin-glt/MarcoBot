@@ -74,7 +74,7 @@ class MessageData {
   get getStartedData() {
     return {
       "get_started": {
-        "payload": "INIT"
+        "payload": "start"
       }
     }
   }
@@ -230,7 +230,7 @@ class MessageData {
                 {
                   "title": "Recommencer",
                   "type": "postback",
-                  "payload": "INIT"
+                  "payload": "init_isOk:false"
                 }
               ]
             },

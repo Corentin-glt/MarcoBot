@@ -89,6 +89,8 @@ class Context {
         } else if (this.checkContext(userContextArray)) {
           console.log("create contexxt");
           this.createContext();
+        } else if (!userContextArray.find(itm => itm.name === this.newContext.name)) {
+          this.createContext();
         } else {
           console.log("update context");
           this.udpateContext(userContextArray);
