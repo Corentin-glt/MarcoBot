@@ -4,7 +4,7 @@ const config = require("../../config.js");
 class apiDialogFlow {
   constructor(language) {
     //this.language = language;
-    this.language = "en-US";
+    this.language = language;
     this.projectId = config.projectIDDialogflow;
     this.clientEmail = config.clientEmailDialogflow;
     this.privateKey = config.privateKeyDialogflow;
