@@ -4,6 +4,5 @@ module.exports = {
   'price': 'price',
   'geo-city': 'city',
   'arrival': 'arrival',
-  'departure': 'city',
-  'date': 'city',
+  'departure': 'departure',
 }

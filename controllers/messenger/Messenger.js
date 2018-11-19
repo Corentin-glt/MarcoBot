@@ -75,7 +75,6 @@ class Messenger {
     const splittedPayload = payload.split('_');
     const context = new Context(this.event.senderId, splittedPayload[0],
       this.getContextValues(splittedPayload), contextMessenger);
-    console.log('received Postbakc');
     context.mapContext();
   }
 }
