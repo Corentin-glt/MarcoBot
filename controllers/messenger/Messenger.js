@@ -62,18 +62,16 @@ class Messenger {
   receivedQuickReply() {
     const payload = this.event.message.quick_reply.payload;
     const splittedPayload = payload.split('_');
-    const context = new Context(this.event.senderId, splittedPayload[0],
+    const context = new Context(this.event, splittedPayload[0],
       this.getContextValues(splittedPayload), contextMessenger);
     context.mapContext();
-    // context.getValues();
-    // this.getContextValues(splittedPayload);
   }
 
   receivedPostback() {
     console.log('postback');
     const payload = this.event.postback.payload;
     const splittedPayload = payload.split('_');
-    const context = new Context(this.event.senderId, splittedPayload[0],
+    const context = new Context(this.event, splittedPayload[0],
       this.getContextValues(splittedPayload), contextMessenger);
     context.mapContext();
   }

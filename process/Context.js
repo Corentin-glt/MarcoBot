@@ -5,13 +5,15 @@ const contextMutation = require('../helpers/graphql/context/mutation');
 const globalContext = require('../assets/context');
 const dictValue = require('../assets/valuesContext');
 const Sentry = require('@sentry/node');
-const Message = require('../view/messenger/Message');
-const Text = require('../view/messenger/Text');
-const ChatAction = require('../view/messenger/ChatAction');
+const Process = require('./Process');
+// const Message = require('../view/messenger/Message');
+// const Text = require('../view/messenger/Text');
+// const ChatAction = require('../view/messenger/ChatAction');
+
 
 class Context {
-  constructor(senderId, inputContext, inputValue, dictContext) {
-    this.senderId = senderId;
+  constructor(event, inputContext, inputValue, dictContext) {
+    this.event = event;
     this.dictContext = globalContext(dictContext);
     this.inputContext = inputContext;
     this.inputValue = inputValue;
@@ -77,7 +79,7 @@ class Context {
 
   handleContext() {
     this.apiGraphql
-      .sendQuery(contextQuery.getUserContext(this.senderId))
+      .sendQuery(contextQuery.getUserContext(this.event.senderId))
       .then(res => {
         const userContextArray = res.contextsByUser;
         console.log(this.checkContext(userContextArray));
@@ -99,11 +101,13 @@ class Context {
   }
 
   createContext() {
-    this.newContext.PSID = this.senderId;
+    this.newContext.PSID = this.event.senderId;
     this.apiGraphql
       .sendMutation(contextMutation.createContext(), this.newContext)
       .then(res => {
         console.log(res);
+        const process = new Process(this.event);
+        process.start();
       })
       .catch(err => {
         console.log(err);
@@ -124,20 +128,22 @@ class Context {
       .sendMutation(contextMutation.updateContext(), objToUpdate)
       .then(res => {
         console.log(res);
-        let messageArray = [];
-        const action = new ChatAction('mark_seen');
-      action.get();
-      messageArray.push(action.template);
-        const quickRep = new Text('What\'s your favorite House in Game Of Thrones');
-        quickRep
-          .addQuickReply('Stark', 'STARK')
-          .addQuickReply('Lannister', 'LANNISTER')
-          .addQuickReply('Targaryen', 'TARGARYEN')
-          .addQuickReply('None of the above', 'OTHER')
-          .get();
-        messageArray.push(quickRep.template);
-        const newMessage = new Message(this.senderId, messageArray);
-        newMessage.sendMessage();
+        const process = new Process(this.event);
+        process.start();
+      //   let messageArray = [];
+      //   const action = new ChatAction('mark_seen');
+      // action.get();
+      // messageArray.push(action.template);
+      //   const quickRep = new Text('What\'s your favorite House in Game Of Thrones');
+      //   quickRep
+      //     .addQuickReply('Stark', 'STARK')
+      //     .addQuickReply('Lannister', 'LANNISTER')
+      //     .addQuickReply('Targaryen', 'TARGARYEN')
+      //     .addQuickReply('None of the above', 'OTHER')
+      //     .get();
+      //   messageArray.push(quickRep.template);
+      //   const newMessage = new Message(this.event.senderId, messageArray);
+      //   newMessage.sendMessage();
       })
       .catch(err => {
         console.log(err);
