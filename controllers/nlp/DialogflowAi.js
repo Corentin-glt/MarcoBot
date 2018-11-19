@@ -43,11 +43,11 @@ class DialogflowAi {
         : {}
       : {};
     console.log("INTENT ==> ", intent);
-    //console.log("PARAMETERS ==> ", parameters);
+    console.log("PARAMETERS ==> ", parameters);
     this.checkFunctionValuesOfContext(intent, parameters)
       .then(newValue => {
         const context = new Context(
-          this.event.senderId,
+          this.event,
           intent,
           newValue,
           contextDialogflow
