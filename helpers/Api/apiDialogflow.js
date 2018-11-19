@@ -15,7 +15,10 @@ class apiDialogFlow {
         client_email: this.clientEmail
       }
     };
+    console.log(dialogflow.SessionsClient);
     this.sessionClient = new dialogflow.SessionsClient(this.config);
+    console.log('HOUURRA');
+
   }
 
   sendTextMessageToDialogFlow(textMessage) {

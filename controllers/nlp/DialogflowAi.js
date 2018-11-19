@@ -16,18 +16,21 @@ class DialogflowAi {
   }
 
   start() {
-    const product_data = new MessageData(this.event.locale);
-    const messageObject = new Message(this.event.senderId);
-    messageObject.typeMessage = "RESPONSE";
+    console.log('start dialogflow');
+    // const product_data = new MessageData(this.event.locale);
+    // const messageObject = new Message(this.event.senderId);
+    // messageObject.typeMessage = "RESPONSE";
     const apiDialogFlow = new ApiDialogFlow(this.event.locale);
     apiDialogFlow
       .sendTextMessageToDialogFlow(this.event.message.text)
       .then(response => {
+        console.log(response);
         return this.control(response);
       })
       .catch(err => {
+        console.log(err);
         Sentry.captureException(err);
-        return messageObject.sendMessage(product_data.question1MessageListView);
+        // return messageObject.sendMessage(product_data.question1MessageListView);
       });
   }
 

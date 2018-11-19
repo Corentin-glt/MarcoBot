@@ -42,6 +42,7 @@ class Message {
     } else {
       messageBody.message = message;
     }
+    console.log(messageBody);
     return apiMessenger.sendToFacebook(messageBody);
 
   }

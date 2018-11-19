@@ -1,5 +1,5 @@
 
-FROM node:latest
+FROM node:10.13.0
 RUN mkdir -p /usr/src/api
 WORKDIR /usr/src/api
 COPY package.json /usr/src/api
