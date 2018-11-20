@@ -2,7 +2,7 @@ module.exports = {
   'eat': [],
   'start': ['start', 'init'],
   'feedback': [],
-  'trip': [],
+  'trip': ['trip'],
   'itinerary': [],
   'menu': [],
   'aroundMe': [],

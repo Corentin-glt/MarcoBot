@@ -67,7 +67,7 @@ class Button extends Template {
     if (!value)
       throw new Error('Button value is required');
 
-    if (isUrl(value)) {
+    if (helper.isUrl(value)) {
       return this.addButtonByType(title, value, 'web_url');
     } else {
       return this.addButtonByType(title, value, 'postback');
