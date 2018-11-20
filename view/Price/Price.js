@@ -31,7 +31,7 @@ class Price {
         callback();
       }, (err) => {
         if(err) reject(err);
-        resove(quickReplyMessage.get());
+        resolve(quickReplyMessage.get());
       });
     });
   }
