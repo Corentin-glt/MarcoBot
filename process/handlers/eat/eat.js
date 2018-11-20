@@ -25,14 +25,15 @@ class Eat {
 
   findElemMissing() {
     let valueMissing = "";
-    eatValues.forEach(item => {
+    for (let i = 0; i < eatValues.length; i++) {
       const elemFound = this.context.values.find(value => {
-        return value.name === item.name;
+        return value.name === eatValues[i].name;
       });
       if (typeof elemFound === "undefined") {
-        valueMissing = item.name;
+        valueMissing = eatValues[i].name;
+        break;
       }
-    });
+    }
     return valueMissing;
   }
 

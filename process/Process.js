@@ -66,8 +66,8 @@ class Process {
           this.apiGraphql
             .sendQuery(contextQuery.getUserContext(this.event.senderId))
             .then(res => {
-              console.log(res.contextsByUser);
               const contextArray = res.contextsByUser;
+              console.log('Process LEETS GO');
               const processObject = new contextMap[contextArray[0].name](
                 this.event,
                 contextArray[0],
