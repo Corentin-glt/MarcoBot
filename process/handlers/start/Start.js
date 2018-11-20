@@ -35,7 +35,8 @@ class Start {
       const newMessage = new Message(this.event.senderId, messageArray);
       newMessage.sendMessage();
     } else {
-      if (this.context.values[0].value) {
+      console.log(this.context.values[0].value);
+      if (JSON.parse(this.context.values[0].value)) {
         console.log('in confirm');
         const messageArray = [ViewChatAction.markSeen(),
           ViewChatAction.typingOn(), ViewChatAction.typingOff(),
@@ -51,6 +52,7 @@ class Start {
       } else {
         this.apiGraphql
           .sendMutation(contextMutation.createContext(), {
+            PSID: this.event.senderId,
             name: 'feedback',
             page: 0,
             values: []
