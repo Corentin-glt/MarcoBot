@@ -10,7 +10,7 @@ const numberDayString = ['', 'first', 'second', 'third', 'fourth', 'fifth'];
 const numberDayStringFR = ['', 'premier', 'deuxième', 'troisième', 'quatrième', 'cinquième'];
 const indexElementDistrict = require('../variableApp/district/index');
 const limitPageDistrict = require('../variableApp/district/limit');
-const indexCategoryVisit = require('../variableApp/categoryVisit/index');
+const indexCategoryVisit = require('../view/Category/categories/visit/index');
 
 const i18n = require('i18n');
 

@@ -4,7 +4,7 @@ const contextQuery = require("../helpers/graphql/context/query");
 const userQuery = require("../helpers/graphql/user/query");
 const Sentry = require("@sentry/node");
 
-const ProcessEat = require("./handlers/eat/eat");
+const ProcessEat = require("./handlers/eat/Eat");
 const ProcessDrink = require("./handlers/drink/drink");
 const ProcessAroundMe = require("./handlers/aroundMe/aroundMe");
 const ProcessBack = require("./handlers/back/back");
