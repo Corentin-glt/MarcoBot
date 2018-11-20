@@ -1,15 +1,14 @@
 const ApiGraphql = require("../helpers/Api/apiGraphql");
 const config = require("../config");
-const contextQuery = require('../helpers/graphql/context/query');
-const contextMutation = require('../helpers/graphql/context/mutation');
-const globalContext = require('../assets/context');
-const dictValue = require('../assets/valuesContext');
-const Sentry = require('@sentry/node');
-const Process = require('./Process');
+const contextQuery = require("../helpers/graphql/context/query");
+const contextMutation = require("../helpers/graphql/context/mutation");
+const globalContext = require("../assets/context");
+const dictValue = require("../assets/valuesContext");
+const Sentry = require("@sentry/node");
+const Process = require("./Process");
 // const Message = require('../view/messenger/Message');
 // const Text = require('../view/messenger/Text');
 // const ChatAction = require('../view/messenger/ChatAction');
-
 
 class Context {
   constructor(event, inputContext, inputValue, dictContext) {
@@ -31,8 +30,8 @@ class Context {
       });
       return elemFound !== null && typeof elemFound !== "undefined";
     });
-    if(context === 'unknown') {
-      console.log('UNKNOWN CONTEXT')
+    if (context === "unknown") {
+      console.log("UNKNOWN CONTEXT");
       //TODO: GO DIRECTLY TO CLASS OR
       //FUNCTION WHICH SEE THE LAST UPDATED CONTEXT IN BDD
     } else {
@@ -84,12 +83,14 @@ class Context {
         const userContextArray = res.contextsByUser;
         console.log(this.checkContext(userContextArray));
         if (userContextArray === null || userContextArray.length === 0) {
-          console.log('create context');
+          console.log("create context");
           this.createContext();
         } else if (this.checkContext(userContextArray)) {
           console.log("create contexxt");
           this.createContext();
-        } else if (!userContextArray.find(itm => itm.name === this.newContext.name)) {
+        } else if (
+          !userContextArray.find(itm => itm.name === this.newContext.name)
+        ) {
           this.createContext();
         } else {
           console.log("update context");
@@ -132,20 +133,6 @@ class Context {
         console.log(res);
         const process = new Process(this.event);
         process.start();
-      //   let messageArray = [];
-      //   const action = new ChatAction('mark_seen');
-      // action.get();
-      // messageArray.push(action.template);
-      //   const quickRep = new Text('What\'s your favorite House in Game Of Thrones');
-      //   quickRep
-      //     .addQuickReply('Stark', 'STARK')
-      //     .addQuickReply('Lannister', 'LANNISTER')
-      //     .addQuickReply('Targaryen', 'TARGARYEN')
-      //     .addQuickReply('None of the above', 'OTHER')
-      //     .get();
-      //   messageArray.push(quickRep.template);
-      //   const newMessage = new Message(this.event.senderId, messageArray);
-      //   newMessage.sendMessage();
       })
       .catch(err => {
         console.log(err);

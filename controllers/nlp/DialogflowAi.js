@@ -3,12 +3,10 @@ const ApiDialogFlow = require("../../helpers/Api/apiDialogflow");
 const Sentry = require("@sentry/node");
 const MessageData = require("../../messenger/product_data");
 const Message = require("../../view/messenger/Message");
-const visitHandler = require("../../handlers/dialogflowHandler/visit");
-const eatHandler = require("../../handlers/dialogflowHandler/eat");
-const drinkHandler = require("../../handlers/dialogflowHandler/drink");
 const contextDialogflow = require("./contextDialogflow");
 const valuesContext = require("./valuesContextDialogflow");
 const Context = require("../../process/Context");
+const Text = require('../../view/messenger/Text')
 
 class DialogflowAi {
   constructor(event) {
@@ -16,10 +14,6 @@ class DialogflowAi {
   }
 
   start() {
-    console.log('start dialogflow');
-    // const product_data = new MessageData(this.event.locale);
-    // const messageObject = new Message(this.event.senderId);
-    // messageObject.typeMessage = "RESPONSE";
     const apiDialogFlow = new ApiDialogFlow(this.event.locale);
     apiDialogFlow
       .sendTextMessageToDialogFlow(this.event.message.text)
@@ -30,7 +24,6 @@ class DialogflowAi {
       .catch(err => {
         console.log(err);
         Sentry.captureException(err);
-        // return messageObject.sendMessage(product_data.question1MessageListView);
       });
   }
 
@@ -45,19 +38,21 @@ class DialogflowAi {
         ? response.parameters.fields
         : {}
       : {};
-    console.log("INTENT ==> ", intent);
-    console.log("PARAMETERS ==> ", parameters);
-    this.checkFunctionValuesOfContext(intent, parameters)
-      .then(newValue => {
-        const context = new Context(
-          this.event,
-          intent,
-          newValue,
-          contextDialogflow
-        );
-        context.mapContext();
-      })
-      .catch(err => Sentry.captureException(err));
+      if (intent !== 'Default Welcome Intent') {
+        this.checkFunctionValuesOfContext(intent, parameters)
+        .then(newValue => {
+          const context = new Context(
+            this.event,
+            intent,
+            newValue,
+            contextDialogflow
+          );
+          context.mapContext();
+        })
+        .catch(err => Sentry.captureException(err));
+      } else {
+        this.responseToUser(response.fulfillmentText)
+      }
   }
 
   checkFunctionValuesOfContext(context, parameters) {
@@ -114,6 +109,12 @@ class DialogflowAi {
       });
       resolve(newValuesObject);
     });
+  }
+
+  responseToUser(response) {
+    const messageResponse = new Text(response).get();
+    const messageObject = new Message(this.event.senderId, messageResponse);
+    messageObject.sendMessage();
   }
 }
 

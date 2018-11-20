@@ -1,51 +1,51 @@
-const ApiGraphql = require('../helpers/Api/apiGraphql');
+const ApiGraphql = require("../helpers/Api/apiGraphql");
 const config = require("../config");
-const contextQuery = require('../helpers/graphql/context/query');
-const userQuery = require('../helpers/graphql/user/query');
-const Sentry = require('@sentry/node');
+const contextQuery = require("../helpers/graphql/context/query");
+const userQuery = require("../helpers/graphql/user/query");
+const Sentry = require("@sentry/node");
 
-const processEat = require('./handlers/eat/eat');
-const processDrink = require('./handlers/drink/drink');
-const processAroundMe = require('./handlers/aroundMe/aroundMe');
-const processBack = require('./handlers/back/back');
-const processChangeCity = require('./handlers/changeCity/changeCity');
-const processFavorite = require('./handlers/favorite/favorite');
-const processFeedback = require('./handlers/feedback/feedback');
-const processGo = require('./handlers/go/go');
-const processHelp = require('./handlers/help/help');
-const processItinerary = require('./handlers/itinerary/itinerary');
-const processMenu = require('./handlers/menu/menu');
-const processShare = require('./handlers/share/share');
-const processStart = require('./handlers/start/start');
-const processSubscribe = require('./handlers/subscribe/subscribe');
-const processTalkingToHuman = require('./handlers/talkingToHuman/talkingToHuman');
-const processTicket = require('./handlers/ticket/ticket');
-const processTrip = require('./handlers/trip/trip');
-const processVisit = require('./handlers/visit/visit');
-const processNext = require('./handlers/next/next');
-const processMap = require('./handlers/map/map');
+const ProcessEat = require("./handlers/eat/eat");
+const ProcessDrink = require("./handlers/drink/drink");
+const ProcessAroundMe = require("./handlers/aroundMe/aroundMe");
+const ProcessBack = require("./handlers/back/back");
+const ProcessChangeCity = require("./handlers/changeCity/changeCity");
+const ProcessFavorite = require("./handlers/favorite/favorite");
+const ProcessFeedback = require("./handlers/feedback/feedback");
+const ProcessGo = require("./handlers/go/go");
+const ProcessHelp = require("./handlers/help/help");
+const ProcessItinerary = require("./handlers/itinerary/itinerary");
+const ProcessMenu = require("./handlers/menu/menu");
+const ProcessShare = require("./handlers/share/share");
+const ProcessStart = require("./handlers/start/start");
+const ProcessSubscribe = require("./handlers/subscribe/subscribe");
+const ProcessTalkingToHuman = require("./handlers/talkingToHuman/talkingToHuman");
+const ProcessTicket = require("./handlers/ticket/ticket");
+const ProcessTrip = require("./handlers/trip/trip");
+const ProcessVisit = require("./handlers/visit/visit");
+const ProcessNext = require("./handlers/next/next");
+const ProcessMap = require("./handlers/map/map");
 
 const contextMap = {
-  'eat': processEat,
-  'drink': processDrink,
-  'aroundMe': processAroundMe,
-  'back': processBack,
-  'changeCity': processChangeCity,
-  'favorite': processFavorite,
-  'feedback': processFeedback,
-  'go': processGo,
-  'help': processHelp,
-  'itinerary': processItinerary,
-  'menu': processMenu,
-  'share': processShare,
-  'start': processStart,
-  'subscribe': processSubscribe,
-  'talkingToHuman': processTalkingToHuman,
-  'ticket': processTicket,
-  'trip': processTrip,
-  'visit': processVisit,
-  'next': processNext,
-  'map': processMap,
+  eat: ProcessEat,
+  drink: ProcessDrink,
+  aroundMe: ProcessAroundMe,
+  back: ProcessBack,
+  changeCity: ProcessChangeCity,
+  favorite: ProcessFavorite,
+  feedback: ProcessFeedback,
+  go: ProcessGo,
+  help: ProcessHelp,
+  itinerary: ProcessItinerary,
+  menu: ProcessMenu,
+  share: ProcessShare,
+  start: ProcessStart,
+  subscribe: ProcessSubscribe,
+  talkingToHuman: ProcessTalkingToHuman,
+  ticket: ProcessTicket,
+  trip: ProcessTrip,
+  visit: ProcessVisit,
+  next: ProcessNext,
+  map: ProcessMap
 };
 
 class Process {
@@ -55,7 +55,6 @@ class Process {
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
     );
-
   }
 
   start() {
@@ -69,24 +68,27 @@ class Process {
             .then(res => {
               console.log(res.contextsByUser);
               const contextArray = res.contextsByUser;
-              const processfunc = contextMap[contextArray[0].name];
-              processfunc(this.event, contextArray[0], user)
+              const processObject = new contextMap[contextArray[0].name](
+                this.event,
+                contextArray[0],
+                user
+              );
+              processObject.start();
             })
             .catch(err => {
               console.log(err);
               Sentry.captureException(err);
-            })
+            });
         } else {
-          console.log('user not found');
-          Sentry.captureException('user not found in process');
+          console.log("user not found");
+          Sentry.captureException("user not found in process");
         }
       })
       .catch(err => {
         console.log(err);
         Sentry.captureException(err);
-      })
+      });
   }
 }
-
 
 module.exports = Process;
