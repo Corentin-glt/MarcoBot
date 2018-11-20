@@ -39,6 +39,7 @@ class Eat {
 
   sendRestaurants() {
     console.log("FINAL STEP RESTAURANTS ");
+
   }
 
   categoryIsMissing() {
