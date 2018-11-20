@@ -124,7 +124,7 @@ class MessageData {
                 {
                   "title": "Restart",
                   "type": "postback",
-                  "payload": "INIT"
+                  "payload": "start"
                 }
               ]
             },
@@ -177,7 +177,7 @@ class MessageData {
                 {
                   "title": "Restart",
                   "type": "postback",
-                  "payload": "INIT"
+                  "payload": "start"
                 }
               ]
             },
@@ -230,7 +230,7 @@ class MessageData {
                 {
                   "title": "Recommencer",
                   "type": "postback",
-                  "payload": "init_isOk:false"
+                  "payload": "start"
                 }
               ]
             },

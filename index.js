@@ -89,6 +89,7 @@ app.get('/setup', (req, res) => {
     })
     .catch(err => {
       console.log(err);
+      console.log(err.response.data.error);
       res.send(err);
     });
 });

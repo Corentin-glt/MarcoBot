@@ -13,7 +13,7 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "cron": "^1.4.0",
-    "dialogflow": "^0.3.0",
+    "dialogflow": "^0.7.0",
     "docker-nodemon": "^1.11.0",
     "express": "^4.16.3",
     "graphql-request": "^1.5.2",

@@ -74,11 +74,9 @@ class Message {
     } else {
       return this.sendSingle(this.messages.shift())
         .then(res => {
-          console.log(res.response);
           return this.sendAll();
         })
         .catch(err => {
-          console.log(err.response);
           Sentry.captureException(err);
         });
     }
