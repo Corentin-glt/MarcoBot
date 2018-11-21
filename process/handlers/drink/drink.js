@@ -47,8 +47,7 @@ class Drink {
     const category = new ViewCategory(this.event.locale, "drink", this.user);
     category
       .init()
-      .then(res => {
-        const messageCategory = res;
+      .then(messageCategory => {
         const messageArray = [
           ViewChatAction.markSeen(),
           ViewChatAction.typingOn(),
@@ -75,8 +74,7 @@ class Drink {
     const price = new ViewPrice(this.event.locale, "drink", this.user);
     price
       .init()
-      .then(res => {
-        const messagePrice = res;
+      .then(messagePrice => {
         const messageArray = [
           ViewChatAction.markSeen(),
           ViewChatAction.typingOn(),

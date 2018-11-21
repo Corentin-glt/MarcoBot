@@ -1,11 +1,14 @@
 const eatValues = require("../../../assets/values/eat");
 const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
+const config = require("../../../config");
 const ViewCategory = require("../../../view/Category/Category");
 const ViewPrice = require("../../../view/Price/Price");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
+const userMutation = require('../../../helpers/graphql/user/mutation');
+const restaurant = require('../../helpers/graphql/restaurant/query');
 
 class Eat {
   constructor(event, context, user) {
@@ -38,8 +41,33 @@ class Eat {
   }
 
   sendRestaurants() {
-    console.log("FINAL STEP RESTAURANTS ");
+    console.log("final step restaurants ");
+    const type = this.context.values.find(value => {
+      return value.name === 'category';
+    }).name;
+    const price = this.context.values.find(value => {
+      return value.name === 'price';
+    }).name;
+    const apiGraphql = new ApiGraphql(
+      config.category[config.indexCategory].apiGraphQlUrl,
+      config.accessTokenMarcoApi);
+    const recommandationApi = new ApiGraphql(
+      config.category[config.indexCategory].recommendationApilUrl,
+      config.accessTokenRecommendationApi);
+    return apiGraphql.sendMutation(
+      userMutation.addCategoryByAccountMessenger(), {
+        PSID: this.event.senderId.toString(),
+        category: type
+      })
+      .then(response => {
+        return recommandationApi.sendQuery(
+          restaurant.queryRestaurantsByPriceAndType(this.event.senderId, type,
+            price, this.context.page));
+      })
+      .then(restaurants => {
 
+      })
+      .catch(err => Sentry.captureException(err))
   }
 
   categoryIsMissing() {
@@ -47,8 +75,7 @@ class Eat {
     const category = new ViewCategory(this.event.locale, "eat", this.user);
     category
       .init()
-      .then(res => {
-        const messageCategory = res;
+      .then(messageCategory => {
         const messageArray = [
           ViewChatAction.markSeen(),
           ViewChatAction.typingOn(),
@@ -75,8 +102,7 @@ class Eat {
     const price = new ViewPrice(this.event.locale, "eat", this.user);
     price
       .init()
-      .then(res => {
-        const messagePrice = res;
+      .then(messagePrice => {
         const messageArray = [
           ViewChatAction.markSeen(),
           ViewChatAction.typingOn(),

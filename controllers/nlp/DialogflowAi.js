@@ -1,12 +1,11 @@
 const config = require("../../config");
 const ApiDialogFlow = require("../../helpers/Api/apiDialogflow");
 const Sentry = require("@sentry/node");
-const MessageData = require("../../messenger/product_data");
 const Message = require("../../view/messenger/Message");
 const contextDialogflow = require("./contextDialogflow");
 const valuesContext = require("./valuesContextDialogflow");
 const Context = require("../../process/Context");
-const Text = require('../../view/messenger/Text')
+const Text = require('../../view/messenger/Text');
 
 class DialogflowAi {
   constructor(event) {
@@ -38,8 +37,8 @@ class DialogflowAi {
         ? response.parameters.fields
         : {}
       : {};
-      if (intent !== 'Default Welcome Intent') {
-        this.checkFunctionValuesOfContext(intent, parameters)
+    if (intent !== 'Default Welcome Intent') {
+      this.checkFunctionValuesOfContext(intent, parameters)
         .then(newValue => {
           const context = new Context(
             this.event,
@@ -50,20 +49,20 @@ class DialogflowAi {
           context.mapContext();
         })
         .catch(err => Sentry.captureException(err));
-      } else {
-        this.responseToUser(response.fulfillmentText)
-      }
+    } else {
+      this.responseToUser(response.fulfillmentText)
+    }
   }
 
   checkFunctionValuesOfContext(context, parameters) {
     return new Promise((resolve, reject) => {
       context === "trip"
         ? this.getValuesOfContextTrip(parameters)
-            .then(newValue => resolve(newValue))
-            .catch(err => reject(err))
+        .then(newValue => resolve(newValue))
+        .catch(err => reject(err))
         : this.getValuesOfContext(parameters)
-            .then(newValue => resolve(newValue))
-            .catch(err => reject(err));
+        .then(newValue => resolve(newValue))
+        .catch(err => reject(err));
     });
   }
 
@@ -73,6 +72,7 @@ class DialogflowAi {
       Object.keys(objectValues).map(item => {
         if (
           objectValues[item].stringValue !== "" &&
+          typeof objectValues[item].stringValue !== "undefined" &&
           item !== "tripDate" &&
           item !== "ordinal"
         ) {
@@ -80,12 +80,6 @@ class DialogflowAi {
             const datePeriodObject = objectValues[item].structValue.fields;
             newValuesObject["arrival"] = datePeriodObject.startDate.stringValue;
             newValuesObject["departure"] = datePeriodObject.endDate.stringValue;
-          } else if (item === "duration") {
-            //TODO CHECK IN BACK END TO KNOW WHAT TO DO
-            const amount =
-              objectValues[item].structValue.fields.amount.numberValue;
-            const unit = objectValues[item].structValue.fields.unit.stringValue;
-            newValuesObject["duration"] = amount + ":" + unit;
           } else if (item === "date") {
             newValuesObject[objectValues["tripDate"].stringValue] =
               objectValues[item].stringValue;
@@ -93,6 +87,13 @@ class DialogflowAi {
             newValuesObject[valuesContext[item]] =
               objectValues[item].stringValue;
           }
+        } else if (item === "duration" &&
+          objectValues[item].listValue.values.length > 0) {
+          //TODO CHECK IN BACK END TO KNOW WHAT TO DO
+          const amount =
+            objectValues[item].structValue.fields.amount.numberValue;
+          const unit = objectValues[item].structValue.fields.unit.stringValue;
+          newValuesObject["duration"] = amount + ":" + unit;
         }
       });
       resolve(newValuesObject);

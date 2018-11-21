@@ -17,15 +17,20 @@ module.exports = (type, price, senderID, locale) => {
     message: ''
   };
   messageData.message = product_data.fetchRestaurantsMessage;
-  const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
-  const recommandationApi = new ApiGraphql(config.category[config.indexCategory].recommendationApilUrl, config.accessTokenRecommendationApi);
+  const apiGraphql = new ApiGraphql(
+    config.category[config.indexCategory].apiGraphQlUrl,
+    config.accessTokenMarcoApi);
+  const recommandationApi = new ApiGraphql(
+    config.category[config.indexCategory].recommendationApilUrl,
+    config.accessTokenRecommendationApi);
   apiMessenger.sendToFacebook(messageData)
     .then(response => {
       if (response.status === 200)
-        return apiGraphql.sendMutation(userMutation.addCategoryByAccountMessenger(), {
-          PSID: senderID.toString(),
-          category: type
-        });
+        return apiGraphql.sendMutation(
+          userMutation.addCategoryByAccountMessenger(), {
+            PSID: senderID.toString(),
+            category: type
+          });
     })
     .then(response => {
       delete messageData.message;
@@ -35,10 +40,12 @@ module.exports = (type, price, senderID, locale) => {
     .then(helper.delayPromise(1000))
     .then(response => {
       if (response.status === 200)
-        return recommandationApi.sendQuery(restaurant.queryRestaurantsByPriceAndType(senderID, type, price, 0));
+        return recommandationApi.sendQuery(
+          restaurant.queryRestaurantsByPriceAndType(senderID, type, price, 0));
     })
     .then(res => {
-      if (res.restaurantsByPriceAndType.length > 0 && res.restaurantsByPriceAndType !== null) {
+      if (res.restaurantsByPriceAndType.length > 0 &&
+        res.restaurantsByPriceAndType !== null) {
         product_data.templateList(res.restaurantsByPriceAndType,
           "RESTAURANT", 0, "neo4j", type, price)
           .then(result => {

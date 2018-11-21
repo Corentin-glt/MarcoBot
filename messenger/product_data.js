@@ -7,7 +7,8 @@ const anecdotes = require('../variableApp/anecdotes/index');
 const ARRAYDAY = ["sunday", "monday", "tuesday", "wednesday", "thursday",
   "friday", "saturday"];
 const numberDayString = ['', 'first', 'second', 'third', 'fourth', 'fifth'];
-const numberDayStringFR = ['', 'premier', 'deuxième', 'troisième', 'quatrième', 'cinquième'];
+const numberDayStringFR = ['', 'premier', 'deuxième', 'troisième', 'quatrième',
+  'cinquième'];
 const indexElementDistrict = require('../variableApp/district/index');
 const limitPageDistrict = require('../variableApp/district/limit');
 const indexCategoryVisit = require('../view/Category/categories/visit/index');
@@ -290,7 +291,8 @@ class MessageData {
         this.generateSubtitle(elem, TODAY)
           .then(res => {
             const elemLocationGoogleMap = elem.location.name.replace(" ", "+");
-            const globalNote = elem.note && elem.note !== null && typeof elem.note !== 'undefined' ?
+            const globalNote = elem.note && elem.note !== null &&
+            typeof elem.note !== 'undefined' ?
               `🌟${elem.note}` : '';
             let globalTypes = '';
             elem.types.map((elem, index) => {
@@ -303,10 +305,12 @@ class MessageData {
               globalTypes = globalTypes.slice(0, 30) + '...'
               : null;
             let globalUrl = elem.url;
-            globalUrl.includes('http://') ? globalUrl = globalUrl.split('http://').join('') : null;
-            globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
-
-            let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
+            globalUrl.includes('http://') ?
+              globalUrl = globalUrl.split('http://').join('') : null;
+            globalUrl.includes('https://') ? null :
+              globalUrl = `https://${globalUrl}`;
+            let hasDescription = (elem.description.length > 0 &&
+            this.locale !== 'fr')
             || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
               {
                 "type": "postback",
@@ -433,7 +437,8 @@ class MessageData {
         this.generateSubtitle(elem, TODAY)
           .then(res => {
             const elemLocationGoogleMap = elem.location.name.replace(" ", "+")
-            const globalNote = elem.note && elem.note !== null && typeof elem.note !== 'undefined' ?
+            const globalNote = elem.note && elem.note !== null &&
+            typeof elem.note !== 'undefined' ?
               `🌟${elem.note}` : '';
             let globalTypes = '';
             elem.types.map((elem, index) => {
@@ -446,9 +451,12 @@ class MessageData {
               globalTypes = globalTypes.slice(0, 30) + '...'
               : null;
             let globalUrl = elem.url;
-            globalUrl.includes('http://') ? globalUrl = globalUrl.split('http://').join('') : null;
-            globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
-            let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
+            globalUrl.includes('http://') ?
+              globalUrl = globalUrl.split('http://').join('') : null;
+            globalUrl.includes('https://') ? null :
+              globalUrl = `https://${globalUrl}`;
+            let hasDescription = (elem.description.length > 0 &&
+            this.locale !== 'fr')
             || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
               {
                 "type": "postback",
@@ -575,7 +583,8 @@ class MessageData {
         this.generateSubtitle(elem, TODAY)
           .then(res => {
             const elemLocationGoogleMap = elem.location.name.replace(" ", "+");
-            const globalNote = elem.note && elem.note !== null && typeof elem.note !== 'undefined' ?
+            const globalNote = elem.note && elem.note !== null &&
+            typeof elem.note !== 'undefined' ?
               `🌟${elem.note}` : '';
             let globalTypes = '';
             elem.types.map((elem, index) => {
@@ -588,9 +597,12 @@ class MessageData {
               globalTypes = globalTypes.slice(0, 30) + '...'
               : null;
             let globalUrl = elem.url;
-            globalUrl.includes('http://') ? globalUrl = globalUrl.split('http://').join('') : null;
-            globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
-            let hasDescription = (elem.description.length > 0 && this.locale !== 'fr')
+            globalUrl.includes('http://') ?
+              globalUrl = globalUrl.split('http://').join('') : null;
+            globalUrl.includes('https://') ? null :
+              globalUrl = `https://${globalUrl}`;
+            let hasDescription = (elem.description.length > 0 &&
+            this.locale !== 'fr')
             || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
               {
                 "type": "postback",
@@ -694,7 +706,8 @@ class MessageData {
 
   initialMessage(user) {
     return {
-      "text": i18n.__('initialMessage') + `${user.firstName} ! 👋 \n` + i18n.__('initialMessageBis')
+      "text": i18n.__('initialMessage') + `${user.firstName} ! 👋 \n` +
+      i18n.__('initialMessageBis')
     }
   }
 
@@ -830,9 +843,19 @@ class MessageData {
     const cityAttribute = city.toLowerCase();
     return {
       "text": (boolean) ?
-        `${i18n.__("whenAreYouArrivingPart1")}\n${i18n.__("whenAreYouArrivingPart2")} \n\n${i18n.__("whenAreYouArrivingPart3")} ${i18n.__(cityAttribute)} ${i18n.__("whenAreYouArrivingPart4")}\n\n${i18n.__("whenAreYouArrivingPart5")}${i18n.__(cityAttribute)}${i18n.__("whenAreYouArrivingPart6")}`
+        `${i18n.__("whenAreYouArrivingPart1")}\n${i18n.__(
+          "whenAreYouArrivingPart2")} \n\n${i18n.__(
+          "whenAreYouArrivingPart3")} ${i18n.__(cityAttribute)} ${i18n.__(
+          "whenAreYouArrivingPart4")}\n\n${i18n.__(
+          "whenAreYouArrivingPart5")}${i18n.__(cityAttribute)}${i18n.__(
+          "whenAreYouArrivingPart6")}`
         :
-        `${i18n.__("whenAreYouArrivingPart7")} ${i18n.__("whenAreYouArrivingPart2")} \n\n${i18n.__("whenAreYouArrivingPart3")} ${i18n.__(cityAttribute)}${i18n.__("whenAreYouArrivingPart4")}\n\n${i18n.__("whenAreYouArrivingPart5")}${i18n.__(cityAttribute)}${i18n.__("whenAreYouArrivingPart6")}`,
+        `${i18n.__("whenAreYouArrivingPart7")} ${i18n.__(
+          "whenAreYouArrivingPart2")} \n\n${i18n.__(
+          "whenAreYouArrivingPart3")} ${i18n.__(cityAttribute)}${i18n.__(
+          "whenAreYouArrivingPart4")}\n\n${i18n.__(
+          "whenAreYouArrivingPart5")}${i18n.__(cityAttribute)}${i18n.__(
+          "whenAreYouArrivingPart6")}`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -846,11 +869,16 @@ class MessageData {
   whenAreYouArriving2(city) {
     const cityAttribute = city.toLowerCase();
     return {
-      "text": `${i18n.__("whenAreYouArriving2Part1")} ${i18n.__(cityAttribute)} ${i18n.__("whenAreYouArriving2Part2")} \n\n ${i18n.__(cityAttribute)} ${i18n.__("whenAreYouArriving2Part3")}\n\n${i18n.__("whenAreYouArrivingPart5")} ${i18n.__(cityAttribute)}${i18n.__("whenAreYouArrivingPart6")}`,
+      "text": `${i18n.__("whenAreYouArriving2Part1")} ${i18n.__(
+        cityAttribute)} ${i18n.__("whenAreYouArriving2Part2")} \n\n ${i18n.__(
+        cityAttribute)} ${i18n.__("whenAreYouArriving2Part3")}\n\n${i18n.__(
+        "whenAreYouArrivingPart5")} ${i18n.__(cityAttribute)}${i18n.__(
+        "whenAreYouArrivingPart6")}`,
       "quick_replies": [
         {
           "content_type": "text",
-          "title": `${i18n.__("whenAreYouArrivingPart8")}${i18n.__(cityAttribute)}`,
+          "title": `${i18n.__("whenAreYouArrivingPart8")}${i18n.__(
+            cityAttribute)}`,
           "payload": "ALREADYINCITY",
         },
       ]
@@ -860,7 +888,8 @@ class MessageData {
   howManyDayAreStaying(city) {
     const cityAttribute = city.toLowerCase();
     return {
-      "text": `${i18n.__("howManyDayAreStaying1")} ${i18n.__(cityAttribute)} ${i18n.__("howManyDayAreStaying2")}`,
+      "text": `${i18n.__("howManyDayAreStaying1")} ${i18n.__(
+        cityAttribute)} ${i18n.__("howManyDayAreStaying2")}`,
     }
   }
 
@@ -955,7 +984,8 @@ class MessageData {
     const cityToUpper = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToUpper.toLowerCase();
     return {
-      "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)}${i18n.__("noMoreCityInTrip2")}`
+      "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)}${i18n.__(
+        "noMoreCityInTrip2")}`
     }
   }
 
@@ -963,7 +993,8 @@ class MessageData {
     const cityToUpper = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToUpper.toLowerCase();
     return {
-      "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)} ${i18n.__("yourCityActual")} `
+      "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)} ${i18n.__(
+        "yourCityActual")} `
     }
   }
 
@@ -1590,7 +1621,8 @@ class MessageData {
 
   noLocationEvent(eventName) {
     return {
-      "text": `${i18n.__("noLocationEvent")} ${eventName}${i18n.__("noLocationEvent2")}`
+      "text": `${i18n.__("noLocationEvent")} ${eventName}${i18n.__(
+        "noLocationEvent2")}`
     }
   }
 
@@ -2019,7 +2051,8 @@ class MessageData {
     const indexJoke = Math.floor(Math.random() *
       Math.floor(arrayAnecdotes.length - 1));
     return {
-      "text": `${i18n.__("jokeMarco1")}\n${i18n.__("jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`,
+      "text": `${i18n.__("jokeMarco1")}\n${i18n.__(
+        "jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -2070,7 +2103,8 @@ class MessageData {
     const indexJoke = Math.floor(Math.random() *
       Math.floor(arrayAnecdotes.length - 1));
     return {
-      "text": `${i18n.__("jokeMarco1")}\n${i18n.__("jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`,
+      "text": `${i18n.__("jokeMarco1")}\n${i18n.__(
+        "jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -2113,13 +2147,15 @@ class MessageData {
 
   get helpMessage() {
     return {
-      "text": `${i18n.__("helpMessage1")}\n${i18n.__("helpMessage2")}\n\n${i18n.__("helpMessage3")}`
+      "text": `${i18n.__("helpMessage1")}\n${i18n.__(
+        "helpMessage2")}\n\n${i18n.__("helpMessage3")}`
     }
   }
 
   get unsubscribeMessage() {
     return {
-      "text": `${i18n.__("unsubscribeMessage1")}\n\n\n${i18n.__("unsubscribeMessage2")}`
+      "text": `${i18n.__("unsubscribeMessage1")}\n\n\n${i18n.__(
+        "unsubscribeMessage2")}`
     }
   }
 
@@ -2137,7 +2173,8 @@ class MessageData {
 
   get startTalkingWithHuman() {
     return {
-      "text": `${i18n.__("startTalkingWithHuman")}\n${i18n.__("startTalkingWithHuman2")}\n${i18n.__("startTalkingWithHuman3")}`,
+      "text": `${i18n.__("startTalkingWithHuman")}\n${i18n.__(
+        "startTalkingWithHuman2")}\n${i18n.__("startTalkingWithHuman3")}`,
     }
   }
 
@@ -2289,7 +2326,8 @@ class MessageData {
   }
 
   messageOfItineraryNotification(name, city, numberDay, programs_id) {
-    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay] : numberDayString[numberDay];
+    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay] :
+      numberDayString[numberDay];
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToLowerCase.toLowerCase();
     return {
@@ -2297,7 +2335,9 @@ class MessageData {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text": `Hey ${name} 😊,${i18n.__("messageOfItineraryNotification")}${dayString}${i18n.__("messageOfItineraryNotification2")}${i18n.__(lowerCity)}`,
+          "text": `Hey ${name} 😊,${i18n.__(
+            "messageOfItineraryNotification")}${dayString}${i18n.__(
+            "messageOfItineraryNotification2")}${i18n.__(lowerCity)}`,
           "buttons": [
             {
               "type": "postback",
@@ -2311,7 +2351,8 @@ class MessageData {
   }
 
   messageOfItineraryNotification2(city, numberDay, programs_id) {
-    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay] : numberDayString[numberDay];
+    const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay] :
+      numberDayString[numberDay];
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToLowerCase.toLowerCase();
     return {
@@ -2319,7 +2360,8 @@ class MessageData {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text": `${i18n.__("messageNotification")}${dayString}${i18n.__("messageOfItineraryNotification2")}${i18n.__(lowerCity)}`,
+          "text": `${i18n.__("messageNotification")}${dayString}${i18n.__(
+            "messageOfItineraryNotification2")}${i18n.__(lowerCity)}`,
           "buttons": [
             {
               "type": "postback",
@@ -2352,7 +2394,8 @@ class MessageData {
   //   }
   // }
 
-  itineraryNotifications(description, numberDay, page, programs_id, locationsGoogleMap) {
+  itineraryNotifications(description, numberDay, page, programs_id,
+                         locationsGoogleMap) {
     return {
       "text": `${description}`,
       "quick_replies": [
@@ -2433,7 +2476,9 @@ class MessageData {
     const cityToLowerCase = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToLowerCase.toLowerCase();
     return {
-      "text": `Hey ${name}${i18n.__("messageForTomorrow")}${i18n.__(lowerCity)} ${i18n.__("messageForTomorrow2")}\n${i18n.__("messageForTomorrow3")}`,
+      "text": `Hey ${name}${i18n.__("messageForTomorrow")}${i18n.__(
+        lowerCity)} ${i18n.__("messageForTomorrow2")}\n${i18n.__(
+        "messageForTomorrow3")}`,
       "quick_replies": [
         {
           "content_type": "text",
@@ -2476,7 +2521,8 @@ class MessageData {
 
   textBeforeShare(url) {
     return {
-      "text": `${i18n.__("textBeforeShare")}${url}\n\n${i18n.__("textBeforeShare3")}`,
+      "text": `${i18n.__("textBeforeShare")}${url}\n\n${i18n.__(
+        "textBeforeShare3")}`,
     }
   }
 
@@ -2635,7 +2681,8 @@ class MessageData {
         "type": "template",
         "payload": {
           "template_type": "button",
-          "text": `${i18n.__("noAroundMe")}${i18n.__(city)}${i18n.__("noAroundMe2")}`,
+          "text": `${i18n.__("noAroundMe")}${i18n.__(city)}${i18n.__(
+            "noAroundMe2")}`,
           "buttons": [
             {
               "type": "postback",
@@ -2655,8 +2702,10 @@ class MessageData {
         const kindElement = Object.keys(affiliation).find(elem =>
         elem.includes('s_id') && affiliation[elem] !== null);
         let globalUrl = affiliation.url;
-        globalUrl.includes('http://') ? globalUrl = globalUrl.split('http://').join('') : null;
-        globalUrl.includes('https://') ? null : globalUrl = `https://${globalUrl}`;
+        globalUrl.includes('http://') ?
+          globalUrl = globalUrl.split('http://').join('') : null;
+        globalUrl.includes('https://') ? null :
+          globalUrl = `https://${globalUrl}`;
         const element = {
           "title": `${affiliation.name}`,
           "image_url": `https://api.marco-app.com/api/image/${affiliation[kindElement].photos[0]}`,
