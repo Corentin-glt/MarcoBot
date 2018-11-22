@@ -18,4 +18,5 @@ module.exports = {
   'help': ['help'],
   'share': ['share'],
   'next': ['next'],
+  'map': ['map']
 };

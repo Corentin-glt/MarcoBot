@@ -3,6 +3,7 @@ const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const ViewTrip = require("../../../view/trip/ViewTrip");
 const Message = require("../../../view/messenger/Message");
 const queryProgram = require("../../../helpers/graphql/program/query");
+const tripMutation = require('../../../helpers/graphql/trip/mutation');
 const config = require('../../../config');
 const queryItinerary = require('../../../helpers/graphql/itinerary/query');
 const Sentry = require("@sentry/node");
@@ -25,26 +26,38 @@ class Itinerary {
 
   start() {
     if (this.context.name === 'itinerary') {
-      this.getFirstItinerary();
+      const city = this.context.values.find(
+        value => value.name === 'city');
+      const objToSend = {
+        PSID: this.event.senderId,
+        cityTraveling: city.value
+      };
+      this.apiGraphql.sendMutation(tripMutation.updateTripByProgramId(),
+        objToSend)
+        .then(res => {
+          this.getFirstItinerary();
+        })
+        .catch(err => Sentry.captureException(err));
     } else if (this.context.name === 'next') {
       let nextNumber = 0;
+      let currentItinerary = '';
       for (let i = 0; i < this.contextArray.length; i++) {
         if (this.contextArray[i].name === 'itinerary') {
+          currentItinerary = this.contextArray[i];
           break;
         } else if (this.contextArray[i].name === 'next') {
           nextNumber++;
         }
       }
-      this.getNextItinerary(nextNumber);
+      this.getNextItinerary(nextNumber, currentItinerary);
     }
   }
 
-  getNextItinerary(nextNumber) {
-    console.log('NEXT ITINERARY');
+  getNextItinerary(nextNumber, currentItinerary) {
     const itineraryMessage = new ViewItinerary(this.user, this.event.locale);
-    const program = this.contextArray[nextNumber].values.find(
+    const program = currentItinerary.values.find(
       value => value.name === 'program');
-    const day = this.contextArray[nextNumber].values.find(
+    const day = currentItinerary.values.find(
       value => value.name === 'day');
     this.apiGraphql.sendQuery(
       queryItinerary.getItineraries(program.value, day.value))
@@ -75,12 +88,10 @@ class Itinerary {
           newMessage.sendMessage();
         } else {
           console.log('SEND LAST');
-          const program = this.contextArray[nextNumber].values.find(
+          const program = currentItinerary.values.find(
             value => value.name === 'program');
-          const numberDay = this.contextArray[nextNumber].values.find(
+          const numberDay = currentItinerary.values.find(
             value => value.name === 'day');
-          console.log(program);
-          console.log(numberDay);
           this.apiGraphql.sendQuery(queryProgram.getProgramById(program.value))
             .then(res => {
               console.log(res);

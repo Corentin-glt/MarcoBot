@@ -4,6 +4,7 @@ const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const ViewTrip = require("../../../view/trip/ViewTrip");
 const Message = require("../../../view/messenger/Message");
 const queryProgram = require("../../../helpers/graphql/program/query");
+const tripMutation = require('../../../helpers/graphql/trip/mutation');
 const config = require('../../../config');
 const Sentry = require("@sentry/node");
 const numberDayProgramByCity = require(
@@ -27,8 +28,23 @@ class Trip {
       this[`${value}IsMissing`]();
     } else {
       //TODO create trip
-      console.log('END TRIP');
-      this.endTrip();
+      const departureDate = this.context.values.find(value => value.name === 'departure');
+      const arrivalDate = this.context.values.find(value => value.name === 'arrival');
+      const isItFirstTime = this.context.values.find(value => value.name === 'firstTime');
+      const cityTraveling = this.context.values.find(value => value.name === 'city');
+      const objToSend = {
+        PSID: this.event.senderId,
+        cityTraveling: cityTraveling.value,
+        departureDateToCity: departureDate.value,
+        arrivalDateToCity: arrivalDate.value,
+        isItFirstTimeCity: JSON.parse(isItFirstTime.value)
+      };
+      this.apiGraphql.sendMutation(tripMutation.createTripByAccountMessenger(), objToSend)
+        .then(res => {
+          this.endTrip();
+        })
+        .catch(err => Sentry.captureException(err));
+
     }
   }
 
@@ -126,7 +142,6 @@ class Trip {
           const newMessage = new Message(this.event.senderId, messageArray);
           newMessage.sendMessage();
         } else {
-          console.log('Program');
           const messageArray = [
             ViewChatAction.markSeen(), ViewChatAction.typingOn(),
             ViewChatAction.typingOff(), tripMessages.isHereNow(),
