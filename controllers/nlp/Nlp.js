@@ -52,28 +52,27 @@ class Nlp {
   }
 
   _checkDurationOrTravel() {
-      if (this.event.message && this.event.message.nlp) {
-        console.log('receivelNLPPPPP');
+      //if (this.event.message && this.event.message.nlp) {
         this.receivedNLPFromFacebook();
-      } else {
-        const wit = new WitAi(this.event);
-        wit._checkDurationWit();
-      }
+      // } else {
+      //   const wit = new WitAi(this.event);
+      //   wit._checkDurationWit();
+      // }
   }
 
   receivedNLPFromFacebook() {
-    if (this.event.message.nlp.entities.datetime
-      && this.event.message.nlp.entities.datetime[0].confidence > 0.8) {
-      receiveDateArrival(this.event);
-    } else if (this.event.message.nlp.entities.duration
-      && this.event.message.nlp.entities.duration[0].normalized.value
-      && this.event.message.nlp.entities.duration[0].confidence > 0.8) {
-      receiveDurationTravel(this.event);
-    } else {
+    // if (this.event.message.nlp.entities.datetime
+    //   && this.event.message.nlp.entities.datetime[0].confidence > 0.8) {
+    //   receiveDateArrival(this.event);
+    // } else if (this.event.message.nlp.entities.duration
+    //   && this.event.message.nlp.entities.duration[0].normalized.value
+    //   && this.event.message.nlp.entities.duration[0].confidence > 0.8) {
+    //   receiveDurationTravel(this.event);
+    // } else {
       console.log('dialogflow');
       const dialogflow = new DialogflowAi(this.event);
       dialogflow.start();
-    }
+    //}
   }
 }
 

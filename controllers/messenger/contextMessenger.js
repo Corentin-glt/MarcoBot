@@ -17,5 +17,5 @@ module.exports = {
   'subscribe': ['subscribe'],
   'help': ['help'],
   'share': ['share'],
-  'next' : ['next']
+  'next': ['next'],
 };

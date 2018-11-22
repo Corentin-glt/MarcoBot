@@ -1,12 +1,11 @@
 const config = require("../../config");
 const ApiDialogFlow = require("../../helpers/Api/apiDialogflow");
 const Sentry = require("@sentry/node");
-const MessageData = require("../../messenger/product_data");
 const Message = require("../../view/messenger/Message");
 const contextDialogflow = require("./contextDialogflow");
 const valuesContext = require("./valuesContextDialogflow");
 const Context = require("../../process/Context");
-const Text = require('../../view/messenger/Text')
+const Text = require('../../view/messenger/Text');
 
 class DialogflowAi {
   constructor(event) {

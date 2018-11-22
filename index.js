@@ -16,7 +16,7 @@ const CronJob = require('cron').CronJob;
 const cronMethods = require('./helpers/Class/cronMethods/cronMethods');
 const hoursCron = require('./assets/variableApp/hoursCron');
 const Sentry = require('@sentry/node');
-Sentry.init({ dsn: Config.category[Config.indexCategory].dsnSentry});
+Sentry.init({dsn: Config.category[Config.indexCategory].dsnSentry});
 //Sentry.init({ dsn: Config.dsnSentry});
 
 
@@ -59,7 +59,11 @@ const cronSendInvitation = new CronJob(hoursCron["noon"], () => {
 
 app.post("/", messageWebhookController);
 app.get("/", verificationController);
-axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {clientId: Config.clientId, clientSecret: Config.clientSecret, grantType: 'server'})
+axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {
+  clientId: Config.clientId,
+  clientSecret: Config.clientSecret,
+  grantType: 'server'
+})
   .then(res => {
     Config.accessTokenMarcoApi = res.data.token;
   })
@@ -67,12 +71,15 @@ axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {clientId: Con
 
 
 //TODO Gros t'es relou à tout le temps commenter
- // axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {clientId: Config.clientId, clientSecret: Config.clientSecret, grantType: 'server'})
- //   .then(res => {
- //     Config.accessTokenRecommendationApi = res.data.token;
- //   })
- //   .catch(err => console.log(err));
-
+axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {
+  clientId: Config.clientId,
+  clientSecret: Config.clientSecret,
+  grantType: 'server'
+})
+  .then(res => {
+    Config.accessTokenRecommendationApi = res.data.token;
+  })
+  .catch(err => console.log(err));
 
 
 app.get('/setup', (req, res) => {

@@ -4,6 +4,7 @@ module.exports = {
       contextsByUser(PSID: "${id}"){
         id
         name
+        page
         users_id
         values {
           name
