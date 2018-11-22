@@ -4,6 +4,7 @@ const Text = require('../messenger/Text');
 const Generic = require('../messenger/Generic');
 const ARRAYDAY = ["sunday", "monday", "tuesday", "wednesday", "thursday",
   "friday", "saturday"];
+const anecdotes = require('../../assets/variableApp/anecdotes/index');
 
 i18n.configure({
   locales: ["en", "fr"],
@@ -36,14 +37,31 @@ class Venue {
   }
 
   emptyVenuesMessage(){
-    let messageToSend = '';
+    let payloadBackCategory = '';
+    let payloadBackPrice = '';
     if (this.typeOfVenue === "restaurant") {
-      messageToSend = i18n.__(`fetchRestaurantMessage`)
+      payloadBackCategory = 'back_event:eat_category';
+      payloadBackPrice = 'back_event:eat_price';
     } else if (this.typeOfVenue === "bar") {
-      messageToSend = i18n.__(`fetchBarsMessage`)
+      payloadBackCategory = 'back_event:drink_category';
+      payloadBackPrice = 'back_event:drink_price';
     } else {
-      messageToSend = i18n.__(`fetchVisitMessage`)
+      payloadBackCategory = 'back_event:visit_category';
+      payloadBackPrice = 'back_event:visit_price';
     }
+    const arrayAnecdotes = anecdotes(this.user.cityTraveling, this.locale);
+    const indexJoke = Math.floor(Math.random() *
+      Math.floor(arrayAnecdotes.length - 1));
+    const textEmpty = new Text(`${i18n.__("jokeMarco1")}\n${i18n.__(
+      "jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`)
+    return textEmpty
+      .addQuickReply(i18n.__("geolocation"), 'aroundMe')
+      .addQuickReply(i18n.__('ticketing'), 'ticketing')
+      .addQuickReply(i18n.__("visit"), 'visit')
+      .addQuickReply(i18n.__("eat"), 'eat')
+      .addQuickReply(i18n.__("chat"), 'talkingToHuman')
+      .addQuickReply(i18n.__("changeCategory"), payloadBackCategory)
+      .addQuickReply(i18n.__("changePrice"), payloadBackPrice)
   }
 
   init() {

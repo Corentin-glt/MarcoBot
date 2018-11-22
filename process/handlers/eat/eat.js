@@ -66,24 +66,36 @@ class Eat {
       })
       .then(response => {
         const venue = new ViewVenue(this.event.locale, this.user,
-          response.queryRestaurantsByPriceAndType, 'restaurant');
-        return venue
-          .init()
-          .then(messageVenue => {
-            const messageArray = [
-              ViewChatAction.markSeen(),
-              ViewChatAction.typingOn(),
-              ViewChatAction.smallPause(),
-              ViewChatAction.typingOff(),
-              venue.firstMessage(),
-              ViewChatAction.typingOn(),
-              ViewChatAction.smallPause(),
-              ViewChatAction.typingOff(),
-              messageVenue,
-            ];
-            const newMessage = new Message(this.event.senderId, messageArray);
-            newMessage.sendMessage();
-          })
+          response.restaurantsByPriceAndType, 'restaurant');
+        if(response.restaurantsByPriceAndType.length > 0){
+          return venue
+            .init()
+            .then(messageVenue => {
+              const messageArray = [
+                ViewChatAction.markSeen(),
+                ViewChatAction.typingOn(),
+                ViewChatAction.smallPause(),
+                ViewChatAction.typingOff(),
+                venue.firstMessage(),
+                ViewChatAction.typingOn(),
+                ViewChatAction.smallPause(),
+                ViewChatAction.typingOff(),
+                messageVenue,
+              ];
+              const newMessage = new Message(this.event.senderId, messageArray);
+              newMessage.sendMessage();
+            })
+        } else {
+          const messageArray = [
+            ViewChatAction.markSeen(),
+            ViewChatAction.typingOn(),
+            ViewChatAction.smallPause(),
+            ViewChatAction.typingOff(),
+            venue.emptyVenuesMessage(),
+          ];
+          const newMessage = new Message(this.event.senderId, messageArray);
+          newMessage.sendMessage();
+        }
       })
       .catch(err => {
         Sentry.captureException(err)
