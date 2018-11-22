@@ -6,7 +6,18 @@ const Sentry = require("@sentry/node");
 const config = require("../../../config");
 const contextQuery = require("../../../helpers/graphql/context/query");
 const contextMutation = require("../../../helpers/graphql/context/mutation");
-const Process = require("../../Process");
+
+const ProcessEat = require("../eat/Eat");
+const ProcessDrink = require("../drink/drink");
+const ProcessItinerary = require("../itinerary/itinerary");
+const ProcessVisit = require("../visit/visit");
+
+const contextMap = {
+  eat: ProcessEat,
+  drink: ProcessDrink,
+  itinerary: ProcessItinerary,
+  visit: ProcessVisit,
+};
 
 class Next {
   constructor(event, context, user) {
@@ -35,7 +46,6 @@ class Next {
         () => contextFound === false,
         (callback) => {
           this.apiGraphql
-          //TODO get context with page !
             .sendQuery(
               contextQuery.getUserContextByPage(this.event.senderId, page))
             .then(res => {
@@ -55,14 +65,15 @@ class Next {
         },
         (err, context) => {
           if (err) return reject(err);
-          return resolve(context)
+          if (contextFound) {
+            return resolve(context)
+          }
         }
       )
     })
   }
 
-  updateContext(context){
-    console.log('CONTEXT BEFORE => ',context);
+  updateContext(context) {
     const filter = {
       contextId: context.id,
       page: parseInt(context.page) + 1,
@@ -70,11 +81,13 @@ class Next {
     this.apiGraphql
       .sendMutation(contextMutation.updateContextByPage(), filter)
       .then(res => {
-        console.log('CONTEXT AFTER ==> ', res.updateContextByPage)
-        console.log('==> ', Process)
-        const newProcess = new Process(this.event);
-        console.log('PROCESS', newProcess)
-        newProcess.getStartWithContext(res.updateContextByPage)
+        const newContext = res.updateContextByPage;
+        const processObject = new contextMap[newContext.name](
+          this.event,
+          newContext,
+          this.user
+        );
+        processObject.start();
       })
       .catch(err => {
         Sentry.captureException(err);

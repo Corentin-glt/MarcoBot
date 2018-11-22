@@ -59,34 +59,37 @@ class Drink {
         category: type
       })
       .then(response => {
-        // return recommandationApi.sendQuery(
-        //   barQuery.queryBarsByPriceAndType(this.event.senderId, type,
-        //     parseInt(price), parseInt(this.context.page)));
-        return apiGraphql.sendQuery(
-          barQuery.queryBars(parseInt(this.context.page),
-            this.user.cityTraveling));
+        return recommandationApi.sendQuery(
+          barQuery.queryBarsByPriceAndType(this.event.senderId, type,
+            parseInt(price), parseInt(this.context.page)));
+        // return apiGraphql.sendQuery(
+        //   barQuery.queryBars(parseInt(this.context.page),
+        //     this.user.cityTraveling));
       })
       .then(response => {
-        //TODO MAKE A CONDITION FOR ARRAY EMPTY
-        const venue = new ViewVenue(this.event.locale, this.user,
-          response.bars, 'bar');
-        return venue
-          .init()
-          .then(messageVenue => {
-            const messageArray = [
-              ViewChatAction.markSeen(),
-              ViewChatAction.typingOn(),
-              ViewChatAction.smallPause(),
-              ViewChatAction.typingOff(),
-              venue.firstMessage(),
-              ViewChatAction.typingOn(),
-              ViewChatAction.smallPause(),
-              ViewChatAction.typingOff(),
-              messageVenue,
-            ];
-            const newMessage = new Message(this.event.senderId, messageArray);
-            newMessage.sendMessage();
-          })
+        if(response.barsByPriceAndType.length > 0){
+          const venue = new ViewVenue(this.event.locale, this.user,
+            response.barsByPriceAndType, 'bar');
+          return venue
+            .init()
+            .then(messageVenue => {
+              const messageArray = [
+                ViewChatAction.markSeen(),
+                ViewChatAction.typingOn(),
+                ViewChatAction.smallPause(),
+                ViewChatAction.typingOff(),
+                venue.firstMessage(),
+                ViewChatAction.typingOn(),
+                ViewChatAction.smallPause(),
+                ViewChatAction.typingOff(),
+                messageVenue,
+              ];
+              const newMessage = new Message(this.event.senderId, messageArray);
+              newMessage.sendMessage();
+            })
+        } else {
+
+        }
       })
       .catch(err => {
         Sentry.captureException(err)
