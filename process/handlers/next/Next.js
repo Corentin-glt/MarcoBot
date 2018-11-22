@@ -78,8 +78,6 @@ class Next {
       contextId: context.id,
       page: parseInt(context.page) + 1,
     };
-
-    const newProcess = new Process(this.event);
     this.apiGraphql
       .sendMutation(contextMutation.updateContextByPage(), filter)
       .then(res => {
