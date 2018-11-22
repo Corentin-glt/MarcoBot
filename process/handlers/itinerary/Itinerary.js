@@ -3,6 +3,7 @@ const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const ViewTrip = require("../../../view/trip/ViewTrip");
 const Message = require("../../../view/messenger/Message");
 const queryProgram = require("../../../helpers/graphql/program/query");
+const tripMutation = require('../../../helpers/graphql/trip/mutation');
 const config = require('../../../config');
 const queryItinerary = require('../../../helpers/graphql/itinerary/query');
 const Sentry = require("@sentry/node");
@@ -12,10 +13,9 @@ const ViewItinerary = require('../../../view/itinerary/ViewItinerary');
 
 
 class Itinerary {
-  constructor(event, contextArray, user) {
+  constructor(event, context, user) {
     this.event = event;
-    this.context = contextArray[0];
-    this.contextArray = contextArray;
+    this.context = context;
     this.user = user;
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
@@ -24,27 +24,39 @@ class Itinerary {
   }
 
   start() {
-    if (this.context.name === 'itinerary') {
-      this.getFirstItinerary();
-    } else if (this.context.name === 'next') {
-      let nextNumber = 0;
-      for (let i = 0; i < this.contextArray.length; i++) {
-        if (this.contextArray[i].name === 'itinerary') {
-          break;
-        } else if (this.contextArray[i].name === 'next') {
-          nextNumber++;
-        }
-      }
-      this.getNextItinerary(nextNumber);
+      const city = this.context.values.find(
+        value => value.name === 'city');
+      const objToSend = {
+        PSID: this.event.senderId,
+        cityTraveling: city.value
+      };
+      if (this.context.page === 0) {
+        this.apiGraphql.sendMutation(tripMutation.updateTripByProgramId(),
+          objToSend)
+          .then(res => {
+              this.getNextItinerary(this.context.page);
+          })
+          .catch(err => Sentry.captureException(err));
+      } else {
+        this.getNextItinerary(this.context.page);
+      // let currentItinerary = '';
+      // for (let i = 0; i < this.contextArray.length; i++) {
+      //   if (this.contextArray[i].name === 'itinerary') {
+      //     currentItinerary = this.contextArray[i];
+      //     break;
+      //   } else if (this.contextArray[i].name === 'next') {
+      //     nextNumber++;
+      //   }
+      // }
+
     }
   }
 
   getNextItinerary(nextNumber) {
-    console.log('NEXT ITINERARY');
     const itineraryMessage = new ViewItinerary(this.user, this.event.locale);
-    const program = this.contextArray[nextNumber].values.find(
+    const program = this.context.values.find(
       value => value.name === 'program');
-    const day = this.contextArray[nextNumber].values.find(
+    const day = this.context.values.find(
       value => value.name === 'day');
     this.apiGraphql.sendQuery(
       queryItinerary.getItineraries(program.value, day.value))
@@ -75,17 +87,13 @@ class Itinerary {
           newMessage.sendMessage();
         } else {
           console.log('SEND LAST');
-          const program = this.contextArray[nextNumber].values.find(
+          const program = this.context.values.find(
             value => value.name === 'program');
-          const numberDay = this.contextArray[nextNumber].values.find(
+          const numberDay = this.context.values.find(
             value => value.name === 'day');
-          console.log(program);
-          console.log(numberDay);
           this.apiGraphql.sendQuery(queryProgram.getProgramById(program.value))
             .then(res => {
-              console.log(res);
               const programToSend = res.getProgramById;
-
               const messageArray = [
                 ViewChatAction.markSeen(),
                 ViewChatAction.typingOn(), ViewChatAction.typingOff(),
@@ -107,39 +115,39 @@ class Itinerary {
   }
 
 
-  getFirstItinerary() {
-    const itineraryMessage = new ViewItinerary(this.user, this.event.locale);
-    const program = this.context.values.find(value => value.name === 'program');
-    const day = this.context.values.find(value => value.name === 'day');
-    this.apiGraphql.sendQuery(
-      queryItinerary.getItineraries(program.value, day.value))
-      .then(res => {
-        const itineraries = res.getItineraries;
-        const itineraryToSend = itineraries.find(
-          itinerary => itinerary.order = 1);
-        let locationsGoogleMap = itineraryToSend.locations.length > 1 ?
-          'dir' : 'place';
-        itineraryToSend.locations.forEach(location => {
-          const nameOfLocation = location.name.split(' ').join('+');
-          locationsGoogleMap =
-            `${locationsGoogleMap}/${nameOfLocation}`;
-        });
-        const descriptionToSend = this.event.locale === 'fr' ?
-          itineraryToSend.descriptionFr : itineraryToSend.description;
-        const messageArray = [
-          ViewChatAction.markSeen(),
-          ViewChatAction.typingOn(), ViewChatAction.typingOff(),
-          itineraryMessage.sendPhotoItinerary(itineraryToSend.photo),
-          ViewChatAction.typingOn(), ViewChatAction.typingOff(),
-          itineraryMessage.itineraryNotifications(descriptionToSend,
-            locationsGoogleMap)
-        ];
-        console.log(messageArray);
-        const newMessage = new Message(this.event.senderId, messageArray);
-        newMessage.sendMessage();
-      })
-      .catch(err => Sentry.captureException(err));
-  }
+  // getFirstItinerary() {
+  //   const itineraryMessage = new ViewItinerary(this.user, this.event.locale);
+  //   const program = this.context.values.find(value => value.name === 'program');
+  //   const day = this.context.values.find(value => value.name === 'day');
+  //   this.apiGraphql.sendQuery(
+  //     queryItinerary.getItineraries(program.value, day.value))
+  //     .then(res => {
+  //       const itineraries = res.getItineraries;
+  //       const itineraryToSend = itineraries.find(
+  //         itinerary => itinerary.order = 1);
+  //       let locationsGoogleMap = itineraryToSend.locations.length > 1 ?
+  //         'dir' : 'place';
+  //       itineraryToSend.locations.forEach(location => {
+  //         const nameOfLocation = location.name.split(' ').join('+');
+  //         locationsGoogleMap =
+  //           `${locationsGoogleMap}/${nameOfLocation}`;
+  //       });
+  //       const descriptionToSend = this.event.locale === 'fr' ?
+  //         itineraryToSend.descriptionFr : itineraryToSend.description;
+  //       const messageArray = [
+  //         ViewChatAction.markSeen(),
+  //         ViewChatAction.typingOn(), ViewChatAction.typingOff(),
+  //         itineraryMessage.sendPhotoItinerary(itineraryToSend.photo),
+  //         ViewChatAction.typingOn(), ViewChatAction.typingOff(),
+  //         itineraryMessage.itineraryNotifications(descriptionToSend,
+  //           locationsGoogleMap)
+  //       ];
+  //       console.log(messageArray);
+  //       const newMessage = new Message(this.event.senderId, messageArray);
+  //       newMessage.sendMessage();
+  //     })
+  //     .catch(err => Sentry.captureException(err));
+  // }
 
 
 }
