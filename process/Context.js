@@ -77,11 +77,9 @@ class Context {
   }
 
   handleContext() {
-    console.log(this.newContext);
     this.apiGraphql
       .sendQuery(contextQuery.getUserContext(this.event.senderId))
       .then(res => {
-        console.log(this.newContext);
         const userContextArray = res.contextsByUser;
         if (userContextArray === null || userContextArray.length === 0) {
           this.createContext();
@@ -97,7 +95,6 @@ class Context {
         }
       })
       .catch(err => {
-        console.log(err);
         Sentry.captureException(err);
       });
   }
@@ -107,12 +104,10 @@ class Context {
     this.apiGraphql
       .sendMutation(contextMutation.createContext(), this.newContext)
       .then(res => {
-        console.log(res);
         const process = new Process(this.event);
         process.start();
       })
       .catch(err => {
-        console.log(err);
         Sentry.captureException(err);
       });
   }
@@ -121,7 +116,6 @@ class Context {
     const contextToUpdate = userContextArray.find(
       itm => itm.name === this.newContext.name
     );
-    console.log(contextToUpdate);
     const objToUpdate = {
       contextId: contextToUpdate.id,
       values: this.newContext.values
@@ -129,12 +123,10 @@ class Context {
     this.apiGraphql
       .sendMutation(contextMutation.updateContext(), objToUpdate)
       .then(res => {
-        console.log(res);
         const process = new Process(this.event);
         process.start();
       })
       .catch(err => {
-        console.log(err);
         Sentry.captureException(err);
       });
   }

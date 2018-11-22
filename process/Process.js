@@ -23,7 +23,7 @@ const ProcessTalkingToHuman = require(
 const ProcessTicket = require("./handlers/ticket/ticket");
 const ProcessTrip = require("./handlers/trip/trip");
 const ProcessVisit = require("./handlers/visit/visit");
-const ProcessNext = require("./handlers/next/next");
+const ProcessNext = require("./handlers/next/Next");
 const ProcessMap = require("./handlers/map/map");
 
 const contextMap = {
@@ -45,7 +45,7 @@ const contextMap = {
   ticket: ProcessTicket,
   trip: ProcessTrip,
   visit: ProcessVisit,
-  next: ProcessItinerary,
+  next: ProcessNext,
   map: ProcessMap
 };
 
@@ -67,22 +67,13 @@ class Process {
           this.apiGraphql
             .sendQuery(contextQuery.getUserContext(this.event.senderId))
             .then(res => {
+              console.log('re ==>', res)
               const contextArray = res.contextsByUser;
-              let processObject = '';
-              if (contextArray[0].name === 'itinerary' ||
-                contextArray[0].name === 'next') {
-                processObject = new contextMap[contextArray[0].name](
-                  this.event,
-                  contextArray,
-                  user
-                );
-              } else {
-                processObject = new contextMap[contextArray[0].name](
-                  this.event,
-                  contextArray[0],
-                  user
-                );
-              }
+              const processObject = new contextMap[contextArray[0].name](
+                this.event,
+                contextArray[0],
+                user
+              );
               processObject.start();
             })
             .catch(err => {
@@ -98,6 +89,16 @@ class Process {
         console.log(err);
         Sentry.captureException(err);
       });
+  }
+
+  getStartWithContext(context) {
+    console.log('YOLOOOO ==> ', context);
+    const processObject = new contextMap[context.name](
+      this.event,
+      context,
+      user
+    );
+    processObject.start();
   }
 }
 

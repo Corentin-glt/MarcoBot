@@ -18,8 +18,25 @@ module.exports = {
     `
   },
   updateContext: () => {
-    return `mutation updateContext($contextId: ID!, $values: [ValueInput], $modifiedAt: String){
-        updateContext(contextId: $contextId, values: $values, modifiedAt: $modifiedAt) {
+    return `mutation updateContext($contextId: ID!, $values: [ValueInput], $modifiedAt: String, $page: Int){
+        updateContext(contextId: $contextId, values: $values, modifiedAt: $modifiedAt, page: $page) {
+          id
+          name
+          page
+          users_id
+          values {
+            name
+            value
+          }
+          modifiedAt
+          createAt
+        }
+      }
+    `
+  },
+  updateContextByPage: () => {
+    return `mutation updateContext($contextId: ID!, $page: Int){
+        updateContextByPage(contextId: $contextId, page: $page) {
           id
           name
           page

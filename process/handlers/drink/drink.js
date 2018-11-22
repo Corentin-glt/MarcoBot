@@ -1,5 +1,4 @@
 const drinkValues = require("../../../assets/values/drink");
-const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewCategory = require("../../../view/Category/Category");
 const ViewPrice = require("../../../view/Price/Price");
@@ -60,17 +59,17 @@ class Drink {
         category: type
       })
       .then(response => {
-        return recommandationApi.sendQuery(
-          barQuery.queryBarsByPriceAndType(this.event.senderId, type,
-            parseInt(price), parseInt(this.context.page)));
-        // return apiGraphql.sendQuery(
-        //   barQuery.queryBars(parseInt(this.context.page),
-        //     this.user.cityTraveling));
+        // return recommandationApi.sendQuery(
+        //   barQuery.queryBarsByPriceAndType(this.event.senderId, type,
+        //     parseInt(price), parseInt(this.context.page)));
+        return apiGraphql.sendQuery(
+          barQuery.queryBars(parseInt(this.context.page),
+            this.user.cityTraveling));
       })
       .then(response => {
         //TODO MAKE A CONDITION FOR ARRAY EMPTY
         const venue = new ViewVenue(this.event.locale, this.user,
-          response.queryBarsByPriceAndType, 'bar');
+          response.bars, 'bar');
         return venue
           .init()
           .then(messageVenue => {

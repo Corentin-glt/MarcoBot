@@ -14,5 +14,21 @@ module.exports = {
         createAt
       }
     }`
+  },
+  getUserContextByPage(id, page) {
+    return `{
+      contextsByUserAndPage(PSID: "${id}", page: ${page}){
+        id
+        name
+        page
+        users_id
+        values {
+          name
+          value
+        }
+        modifiedAt
+        createAt
+      }
+    }`
   }
 };
