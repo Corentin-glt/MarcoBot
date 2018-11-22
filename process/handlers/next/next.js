@@ -1,3 +1,9 @@
-module.exports = (event, context, user) => {
+const contextsCanNext = require('./contextsCanNext');
 
-};
+class Next {
+  constructor(){
+
+  }
+}
+
+module.exports = Next;

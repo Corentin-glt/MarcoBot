@@ -68,6 +68,7 @@ class Drink {
         //     this.user.cityTraveling));
       })
       .then(response => {
+        //TODO MAKE A CONDITION FOR ARRAY EMPTY
         const venue = new ViewVenue(this.event.locale, this.user,
           response.queryBarsByPriceAndType, 'bar');
         return venue
