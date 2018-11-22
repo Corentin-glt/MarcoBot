@@ -54,8 +54,12 @@ class Messenger {
     let objValue = {};
     for (let i = 1; i < splittedPayload.length; i++) {
       const valuePayload = splittedPayload[i].split(':');
-      objValue[valuePayload[0]] = valuePayload[1];
+      console.log(valuePayload[0]);
+      objValue[valuePayload[0]] =
+        valuePayload[0] === 'arrival' ? new Date().toISOString() :
+          valuePayload[1];
     }
+    console.log(objValue);
     return objValue;
   }
 

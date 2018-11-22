@@ -77,23 +77,22 @@ class Context {
   }
 
   handleContext() {
+    console.log(this.newContext);
     this.apiGraphql
       .sendQuery(contextQuery.getUserContext(this.event.senderId))
       .then(res => {
+        console.log(this.newContext);
         const userContextArray = res.contextsByUser;
-        console.log(this.checkContext(userContextArray));
         if (userContextArray === null || userContextArray.length === 0) {
-          console.log("create context");
           this.createContext();
         } else if (this.checkContext(userContextArray)) {
-          console.log("create contexxt");
           this.createContext();
-        } else if (
-          !userContextArray.find(itm => itm.name === this.newContext.name)
-        ) {
+        } else if (!userContextArray.find(
+          itm => itm.name === this.newContext.name)) {
+          this.createContext();
+        } else if (this.newContext.values.find(value => value.name === 'city')) {
           this.createContext();
         } else {
-          console.log("update context");
           this.udpateContext(userContextArray);
         }
       })

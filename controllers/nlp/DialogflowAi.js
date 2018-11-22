@@ -40,6 +40,7 @@ class DialogflowAi {
     if (intent !== 'Default Welcome Intent') {
       this.checkFunctionValuesOfContext(intent, parameters)
         .then(newValue => {
+          console.log(newValue);
           const context = new Context(
             this.event,
             intent,
@@ -58,18 +59,21 @@ class DialogflowAi {
     return new Promise((resolve, reject) => {
       context === "trip"
         ? this.getValuesOfContextTrip(parameters)
-        .then(newValue => resolve(newValue))
-        .catch(err => reject(err))
+          .then(newValue => resolve(newValue))
+          .catch(err => reject(err))
         : this.getValuesOfContext(parameters)
-        .then(newValue => resolve(newValue))
-        .catch(err => reject(err));
+          .then(newValue => resolve(newValue))
+          .catch(err => reject(err));
     });
   }
 
   getValuesOfContextTrip(objectValues) {
     let newValuesObject = {};
+    console.log('YOLOOO')
+    console.log(objectValues)
     return new Promise((resolve, reject) => {
       Object.keys(objectValues).map(item => {
+        console.log(item);
         if (
           objectValues[item].stringValue !== "" &&
           item !== "duration" &&

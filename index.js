@@ -14,7 +14,7 @@ const MessageData = require('./messenger/product_data');
 const axios = require('axios');
 const CronJob = require('cron').CronJob;
 const cronMethods = require('./helpers/Class/cronMethods/cronMethods');
-const hoursCron = require('./variableApp/hoursCron');
+const hoursCron = require('./assets/variableApp/hoursCron');
 const Sentry = require('@sentry/node');
 Sentry.init({dsn: Config.category[Config.indexCategory].dsnSentry});
 //Sentry.init({ dsn: Config.dsnSentry});

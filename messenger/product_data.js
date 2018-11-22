@@ -3,14 +3,13 @@
  */
 const Config = require("../config");
 const async = require("async");
-const anecdotes = require('../variableApp/anecdotes/index');
+const anecdotes = require('../assets/variableApp/anecdotes/index');
 const ARRAYDAY = ["sunday", "monday", "tuesday", "wednesday", "thursday",
   "friday", "saturday"];
 const numberDayString = ['', 'first', 'second', 'third', 'fourth', 'fifth'];
-const numberDayStringFR = ['', 'premier', 'deuxième', 'troisième', 'quatrième',
-  'cinquième'];
-const indexElementDistrict = require('../variableApp/district/index');
-const limitPageDistrict = require('../variableApp/district/limit');
+const numberDayStringFR = ['', 'premier', 'deuxième', 'troisième', 'quatrième', 'cinquième'];
+const indexElementDistrict = require('../assets/variableApp/district/index');
+const limitPageDistrict = require('../assets/variableApp/district/limit');
 const indexCategoryVisit = require('../view/Category/categories/visit/index');
 
 const i18n = require('i18n');
