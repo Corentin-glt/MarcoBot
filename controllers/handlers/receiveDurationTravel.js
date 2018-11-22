@@ -10,7 +10,7 @@ const helper = require("../../helpers/helper");
 const config = require("../../config");
 const async = require('async');
 const queryProgram = require('../../helpers/graphql/program/query');
-const numberDayProgramByCity = require('../../variableApp/limitCityProgram');
+const numberDayProgramByCity = require('../../assets/variableApp/limitCityProgram');
 const axios = require('axios');
 const ApiReferral = require('../../helpers/Api/apiReferral');
 

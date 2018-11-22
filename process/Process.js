@@ -18,7 +18,8 @@ const ProcessMenu = require("./handlers/menu/menu");
 const ProcessShare = require("./handlers/share/share");
 const ProcessStart = require("./handlers/start/start");
 const ProcessSubscribe = require("./handlers/subscribe/subscribe");
-const ProcessTalkingToHuman = require("./handlers/talkingToHuman/talkingToHuman");
+const ProcessTalkingToHuman = require(
+  "./handlers/talkingToHuman/talkingToHuman");
 const ProcessTicket = require("./handlers/ticket/ticket");
 const ProcessTrip = require("./handlers/trip/trip");
 const ProcessVisit = require("./handlers/visit/visit");
@@ -44,7 +45,7 @@ const contextMap = {
   ticket: ProcessTicket,
   trip: ProcessTrip,
   visit: ProcessVisit,
-  next: ProcessNext,
+  next: ProcessItinerary,
   map: ProcessMap
 };
 
@@ -67,12 +68,21 @@ class Process {
             .sendQuery(contextQuery.getUserContext(this.event.senderId))
             .then(res => {
               const contextArray = res.contextsByUser;
-              console.log('Process LEETS GO');
-              const processObject = new contextMap[contextArray[0].name](
-                this.event,
-                contextArray[0],
-                user
-              );
+              let processObject = '';
+              if (contextArray[0].name === 'itinerary' ||
+                contextArray[0].name === 'next') {
+                processObject = new contextMap[contextArray[0].name](
+                  this.event,
+                  contextArray,
+                  user
+                );
+              } else {
+                processObject = new contextMap[contextArray[0].name](
+                  this.event,
+                  contextArray[0],
+                  user
+                );
+              }
               processObject.start();
             })
             .catch(err => {

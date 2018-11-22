@@ -8,7 +8,7 @@ module.exports = [
     typeOf: 'String'
   },
   {
-    name: 'map',
-    typeOf: 'Boolean'
+    name: 'day',
+    typeOf: 'Number'
   }
 ];

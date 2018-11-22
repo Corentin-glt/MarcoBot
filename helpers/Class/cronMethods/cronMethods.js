@@ -12,7 +12,7 @@ const queryUser = require('../../graphql/user/query');
 const userMutation = require('../../graphql/user/mutation');
 const queryAccountMessenger = require('../../graphql/accountMessenger/query');
 const MessageData = require("../../../messenger/product_data");
-const numberDayProgramByCity = require('../../../variableApp/limitCityProgram');
+const numberDayProgramByCity = require('../../../assets/variableApp/limitCityProgram');
 const axios = require("axios");
 const ApiReferral = require('../../Api/apiReferral');
 

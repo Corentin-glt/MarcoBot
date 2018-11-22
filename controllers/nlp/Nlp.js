@@ -33,7 +33,10 @@ class Nlp {
       && user.isTalkingToHuman) {
       this._checkIfWantStopChat();
     } else {
-      this._checkDurationOrTravel();
+      // this._checkDurationOrTravel();
+      console.log('zzzzzeeerrr');
+      const dialogflow = new DialogflowAi(this.event);
+      dialogflow.start();
     }
   }
 
