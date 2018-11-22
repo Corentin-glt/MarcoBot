@@ -67,7 +67,6 @@ class Process {
           this.apiGraphql
             .sendQuery(contextQuery.getUserContext(this.event.senderId))
             .then(res => {
-              console.log('re ==>', res)
               const contextArray = res.contextsByUser;
               const processObject = new contextMap[contextArray[0].name](
                 this.event,
@@ -77,28 +76,15 @@ class Process {
               processObject.start();
             })
             .catch(err => {
-              console.log(err);
               Sentry.captureException(err);
             });
         } else {
-          console.log("user not found");
           Sentry.captureException("user not found in process");
         }
       })
       .catch(err => {
-        console.log(err);
         Sentry.captureException(err);
       });
-  }
-
-  getStartWithContext(context) {
-    console.log('YOLOOOO ==> ', context);
-    const processObject = new contextMap[context.name](
-      this.event,
-      context,
-      user
-    );
-    processObject.start();
   }
 }
 

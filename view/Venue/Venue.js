@@ -35,6 +35,17 @@ class Venue {
     return new Text(messageToSend).get();
   }
 
+  emptyVenuesMessage(){
+    let messageToSend = '';
+    if (this.typeOfVenue === "restaurant") {
+      messageToSend = i18n.__(`fetchRestaurantMessage`)
+    } else if (this.typeOfVenue === "bar") {
+      messageToSend = i18n.__(`fetchBarsMessage`)
+    } else {
+      messageToSend = i18n.__(`fetchVisitMessage`)
+    }
+  }
+
   init() {
     return new Promise((resolve, reject) => {
       async.each(this.venues, (elem, callback) => {
