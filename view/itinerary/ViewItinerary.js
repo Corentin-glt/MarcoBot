@@ -41,7 +41,7 @@ class ViewItinerary {
   }
 
   shareOrFindUrlMedium() {
-    return new Generic()
+    const stuff = new Generic()
       .addBubble(i18n.__("shareUrlTitle"), i18n.__("helpMessage2"))
       .addImage("https://api.marco-app.com/api/image/marcoSharePhoto.jpg")
       .addShareButton(new Generic()
@@ -52,6 +52,8 @@ class ViewItinerary {
         .get()
       )
       .get();
+    console.log(stuff);
+    return stuff;
   }
 
 }

@@ -75,24 +75,32 @@ class Itinerary {
           newMessage.sendMessage();
         } else {
           console.log('SEND LAST');
-          const program = this.context.values.find(value => value.name === 'program');
-          const numberDay = this.context.values.find(value => value.name === 'day');
+          const program = this.contextArray[nextNumber].values.find(
+            value => value.name === 'program');
+          const numberDay = this.contextArray[nextNumber].values.find(
+            value => value.name === 'day');
+          console.log(program);
+          console.log(numberDay);
           this.apiGraphql.sendQuery(queryProgram.getProgramById(program.value))
-              .then(res => {
-                console.log(res);
-                const programToSend = res.getProgramById;
-                const messageArray = [
-                  ViewChatAction.markSeen(),
-                  ViewChatAction.typingOn(), ViewChatAction.typingOff(),
-                  itineraryMessage.textBeforeShare(programToSend.url_articles[numberDay.value - 1]),
-                  ViewChatAction.typingOn(), ViewChatAction.typingOff(), itineraryMessage.shareOrFindUrlMedium
-                ];
-                console.log(messageArray);
-                const newMessage = new Message(this.event.senderId, messageArray);
-                newMessage.sendMessage();
+            .then(res => {
+              console.log(res);
+              const programToSend = res.getProgramById;
 
-              })
-              .catch(err => Sentry.captureException(err));
+              const messageArray = [
+                ViewChatAction.markSeen(),
+                ViewChatAction.typingOn(), ViewChatAction.typingOff(),
+                itineraryMessage.textBeforeShare(
+                  programToSend.url_articles[numberDay.value - 1]),
+                ViewChatAction.typingOn(), ViewChatAction.typingOff(),
+                itineraryMessage.shareOrFindUrlMedium()
+
+              ];
+              console.log(messageArray);
+              const newMessage = new Message(this.event.senderId, messageArray);
+              newMessage.sendMessage();
+
+            })
+            .catch(err => Sentry.captureException(err));
         }
       })
       .catch(err => Sentry.captureException(err));
@@ -116,13 +124,15 @@ class Itinerary {
           locationsGoogleMap =
             `${locationsGoogleMap}/${nameOfLocation}`;
         });
-        const descriptionToSend = this.event.locale === 'fr' ? itineraryToSend.descriptionFr : itineraryToSend.description
+        const descriptionToSend = this.event.locale === 'fr' ?
+          itineraryToSend.descriptionFr : itineraryToSend.description;
         const messageArray = [
           ViewChatAction.markSeen(),
           ViewChatAction.typingOn(), ViewChatAction.typingOff(),
           itineraryMessage.sendPhotoItinerary(itineraryToSend.photo),
           ViewChatAction.typingOn(), ViewChatAction.typingOff(),
-          itineraryMessage.itineraryNotifications(descriptionToSend, locationsGoogleMap)
+          itineraryMessage.itineraryNotifications(descriptionToSend,
+            locationsGoogleMap)
         ];
         console.log(messageArray);
         const newMessage = new Message(this.event.senderId, messageArray);
