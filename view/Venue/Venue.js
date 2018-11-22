@@ -1,7 +1,9 @@
 const async = require("async");
 const i18n = require("i18n");
 const Text = require('../messenger/Text');
-const List = require('../messenger/List');
+const Generic = require('../messenger/Generic');
+const ARRAYDAY = ["sunday", "monday", "tuesday", "wednesday", "thursday",
+  "friday", "saturday"];
 
 i18n.configure({
   locales: ["en", "fr"],
@@ -16,16 +18,21 @@ class Venue {
     this.locale = locale;
     this.user = user;
     this.venues = venues;
-    this.typeOfVenue = typeOfVenue;
-    this.list = new List();
+    this.typeOfVenue = typeOfVenue.toLowerCase();
+    this.generic = new Generic();
     i18n.setLocale(this.locale);
   }
 
   firstMessage() {
-    return new Text(
-      i18n.__(`fetchRestaurantMessage`)
-    )
-      .get();
+    let messageToSend = '';
+    if (this.typeOfVenue === "restaurant") {
+      messageToSend = i18n.__(`fetchRestaurantMessage`)
+    } else if (this.typeOfVenue === "bar") {
+      messageToSend = i18n.__(`fetchBarsMessage`)
+    } else {
+      messageToSend = i18n.__(`fetchVisitMessage`)
+    }
+    return new Text(messageToSend).get();
   }
 
   init() {
@@ -36,13 +43,16 @@ class Venue {
             const newElem = {
               ...elem,
               ...res
-            }
+            };
             this.generateBubble(newElem)
+              .then(() => callback())
+              .catch(err => callback(err))
           })
           .catch(err => callback(err))
       }, (err) => {
-        if (err) reject(err);
-        resolve(this.list.get())
+        if (err) return reject(err);
+        this.showNextPageOrTalkingHuman();
+        return resolve(this.generic.get())
       })
     })
   }
@@ -91,6 +101,7 @@ class Venue {
     })
   }
 
+
   generateBubble(elem) {
     return new Promise((resolve, reject) => {
       const elemLocationGoogleMap = elem.location.name.replace(" ", "+");
@@ -112,12 +123,53 @@ class Venue {
         globalUrl = globalUrl.split('http://').join('') : null;
       globalUrl.includes('https://') ? null :
         globalUrl = `https://${globalUrl}`;
-      this.list
+      this.generic
         .addBubble(`${elem.name}${globalNote}`,
           `${globalTypes}\n${elem.money}\n ${elem.schedule}`)
         .addImage(`https://api.marco-app.com/api/image/${elem.photos[0]}`)
-        .addDefaultAction()
+        .addDefaultAction(`${globalUrl}`)
+        .addButton(i18n.__("letsGo"),
+          `go_event:${this.typeOfVenue}_id:${elem.id || elem._id}`)
+        .addShareButton(
+          new Generic()
+            .addBubble(`${elem.name}`,
+              `📍 ${elem.location.name} \n${elem.money}\n ${elem.schedule}`)
+            .addImage(`https://api.marco-app.com/api/image/${elem.photos[0]}`)
+            .addDefaultAction(
+              `https://www.messenger.com/t/meethellomarco?ref=share_card`)
+            .addButton(i18n.__("whereShare"),
+              `https://www.google.fr/maps/place/${elemLocationGoogleMap}`)
+            .get()
+        )
+      if (elem.affiliations.length > 0) {
+        this.generic
+          .addButton(i18n.__("reservationTemplate"),
+            `${elem.affiliations[0].url}`)
+      } else {
+        (elem.description.length > 0 &&
+        this.locale !== 'fr')
+        || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
+          this.generic.addButton(i18n.__("tellMore"),
+            `description_event:${this.typeOfVenue}_id:${elem.id || elem._id}`)
+          :
+          this.generic.addButton(i18n.__("tellMore"),
+            `${globalUrl}`)
+      }
+      resolve()
     })
+  }
+
+  showNextPageOrTalkingHuman(){
+    this.venues.length === 5 ?
+      this.generic
+        .addBubble(i18n.__("seeMore"), i18n.__("seeMoreSub"))
+        .addImage(`https://api.marco-app.com/api/image/FBProfileRe.png`)
+        .addButton(i18n.__("seeMoreButton"), 'next')
+      :
+      this.generic
+        .addBubble( i18n.__("nothingStock"), i18n.__("nothingStockSub"))
+        .addImage(`https://api.marco-app.com/api/image/askInformation.jpg`)
+        .addButton(i18n.__("nothingStockButton"), 'talkingToHuman')
   }
 }
 

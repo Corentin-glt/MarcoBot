@@ -79,7 +79,7 @@ class Message {
           return this.sendAll();
         })
         .catch(err => {
-          console.log(err);
+          console.log(err.response.data.error);
           Sentry.captureException(err);
         });
     }

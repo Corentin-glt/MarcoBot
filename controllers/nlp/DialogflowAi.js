@@ -72,7 +72,7 @@ class DialogflowAi {
       Object.keys(objectValues).map(item => {
         if (
           objectValues[item].stringValue !== "" &&
-          typeof objectValues[item].stringValue !== "undefined" &&
+          item !== "duration" &&
           item !== "tripDate" &&
           item !== "ordinal"
         ) {

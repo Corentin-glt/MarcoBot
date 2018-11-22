@@ -6,6 +6,10 @@ const ViewPrice = require("../../../view/Price/Price");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
+const userMutation = require('../../../helpers/graphql/user/mutation');
+const barQuery = require('../../../helpers/graphql/bar/query');
+const ViewVenue = require('../../../view/Venue/Venue');
+const config = require("../../../config");
 
 class Drink {
   constructor(event, context, user) {
@@ -38,12 +42,58 @@ class Drink {
   }
 
   sendBars() {
-    console.log("FINAL STEP BARS ");
-
+    const type = this.context.values.find(value => {
+      return value.name === 'category';
+    }).value;
+    const price = this.context.values.find(value => {
+      return value.name === 'price';
+    }).value;
+    const apiGraphql = new ApiGraphql(
+      config.category[config.indexCategory].apiGraphQlUrl,
+      config.accessTokenMarcoApi);
+    const recommandationApi = new ApiGraphql(
+      config.category[config.indexCategory].recommendationApilUrl,
+      config.accessTokenRecommendationApi);
+    return apiGraphql.sendMutation(
+      userMutation.addCategoryByAccountMessenger(), {
+        PSID: this.event.senderId.toString(),
+        category: type
+      })
+      .then(response => {
+        return recommandationApi.sendQuery(
+          barQuery.queryBarsByPriceAndType(this.event.senderId, type,
+            parseInt(price), parseInt(this.context.page)));
+        // return apiGraphql.sendQuery(
+        //   barQuery.queryBars(parseInt(this.context.page),
+        //     this.user.cityTraveling));
+      })
+      .then(response => {
+        const venue = new ViewVenue(this.event.locale, this.user,
+          response.queryBarsByPriceAndType, 'bar');
+        return venue
+          .init()
+          .then(messageVenue => {
+            const messageArray = [
+              ViewChatAction.markSeen(),
+              ViewChatAction.typingOn(),
+              ViewChatAction.smallPause(),
+              ViewChatAction.typingOff(),
+              venue.firstMessage(),
+              ViewChatAction.typingOn(),
+              ViewChatAction.smallPause(),
+              ViewChatAction.typingOff(),
+              messageVenue,
+            ];
+            const newMessage = new Message(this.event.senderId, messageArray);
+            newMessage.sendMessage();
+          })
+      })
+      .catch(err => {
+        Sentry.captureException(err)
+      })
   }
 
   categoryIsMissing() {
-    console.log("MISSING CATEGORY ");
     const category = new ViewCategory(this.event.locale, "drink", this.user);
     category
       .init()
@@ -70,7 +120,6 @@ class Drink {
   }
 
   priceIsMissing() {
-    console.log("MISSING PRICE ");
     const price = new ViewPrice(this.event.locale, "drink", this.user);
     price
       .init()
@@ -89,4 +138,5 @@ class Drink {
   }
 }
 
-module.exports = Drink;
+module
+  .exports = Drink;

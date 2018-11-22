@@ -8,7 +8,8 @@ const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
 const userMutation = require('../../../helpers/graphql/user/mutation');
-const restaurant = require('../../helpers/graphql/restaurant/query');
+const restaurantQuery = require('../../../helpers/graphql/restaurant/query');
+const ViewVenue = require('../../../view/Venue/Venue');
 
 class Eat {
   constructor(event, context, user) {
@@ -41,13 +42,12 @@ class Eat {
   }
 
   sendRestaurants() {
-    console.log("final step restaurants ");
     const type = this.context.values.find(value => {
       return value.name === 'category';
-    }).name;
+    }).value;
     const price = this.context.values.find(value => {
       return value.name === 'price';
-    }).name;
+    }).value;
     const apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi);
@@ -61,17 +61,36 @@ class Eat {
       })
       .then(response => {
         return recommandationApi.sendQuery(
-          restaurant.queryRestaurantsByPriceAndType(this.event.senderId, type,
-            price, this.context.page));
+          restaurantQuery.queryRestaurantsByPriceAndType(this.event.senderId,
+            type, parseInt(price), parseInt(this.context.page)));
       })
-      .then(restaurants => {
-
+      .then(response => {
+        const venue = new ViewVenue(this.event.locale, this.user,
+          response.queryRestaurantsByPriceAndType, 'restaurant');
+        return venue
+          .init()
+          .then(messageVenue => {
+            const messageArray = [
+              ViewChatAction.markSeen(),
+              ViewChatAction.typingOn(),
+              ViewChatAction.smallPause(),
+              ViewChatAction.typingOff(),
+              venue.firstMessage(),
+              ViewChatAction.typingOn(),
+              ViewChatAction.smallPause(),
+              ViewChatAction.typingOff(),
+              messageVenue,
+            ];
+            const newMessage = new Message(this.event.senderId, messageArray);
+            newMessage.sendMessage();
+          })
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        Sentry.captureException(err)
+      })
   }
 
   categoryIsMissing() {
-    console.log("MISSING CATEGORY ");
     const category = new ViewCategory(this.event.locale, "eat", this.user);
     category
       .init()
@@ -98,7 +117,6 @@ class Eat {
   }
 
   priceIsMissing() {
-    console.log("MISSING PRICE ");
     const price = new ViewPrice(this.event.locale, "eat", this.user);
     price
       .init()

@@ -20,5 +20,6 @@ module.exports = (object) => {
     'share': object.share,
     'next': object.next,
     'map': object.map,
+    'description': object.description,
   }
 };
