@@ -2,6 +2,7 @@ const eatValues = require("../../../assets/values/eat");
 const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewCategory = require("../../../view/Category/Category");
+const ViewPrice = require("../../../view/Price/Price");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
@@ -38,6 +39,7 @@ class Eat {
 
   sendRestaurants() {
     console.log("FINAL STEP RESTAURANTS ");
+
   }
 
   categoryIsMissing() {
@@ -70,7 +72,22 @@ class Eat {
 
   priceIsMissing() {
     console.log("MISSING PRICE ");
-    
+    const price = new ViewPrice(this.event.locale, "eat", this.user);
+    price
+      .init()
+      .then(res => {
+        const messagePrice = res;
+        const messageArray = [
+          ViewChatAction.markSeen(),
+          ViewChatAction.typingOn(),
+          ViewChatAction.smallPause(),
+          ViewChatAction.typingOff(),
+          messagePrice
+        ];
+        const newMessage = new Message(this.event.senderId, messageArray);
+        newMessage.sendMessage();
+      })
+      .catch(err => Sentry.captureException(err));
   }
 }
 
