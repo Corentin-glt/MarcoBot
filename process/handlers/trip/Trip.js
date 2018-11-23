@@ -3,6 +3,7 @@ const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const ViewTrip = require("../../../view/trip/ViewTrip");
 const Message = require("../../../view/messenger/Message");
+const userMutation = require('../../../helpers/graphql/user/mutation');
 const queryProgram = require("../../../helpers/graphql/program/query");
 const tripMutation = require('../../../helpers/graphql/trip/mutation');
 const config = require('../../../config');
@@ -23,11 +24,21 @@ class Trip {
   }
 
   start() {
+    const city = this.context.values.find(value => value.name === 'city');
+    if (city) {
+      this.apiGraphql.sendMutation(userMutation.updateCityTraveling(), {
+        PSID: this.event.senderId,
+        cityTraveling: city.value.toLowerCase()
+      })
+        .then(user => {
+          console.log(user);
+        })
+        .catch(err => Sentry.captureException(err));
+    }
     if (tripValues.length > this.context.values.length) {
       const value = this.findElemMissing();
       this[`${value}IsMissing`]();
     } else {
-      //TODO create trip
       const departureDate = this.context.values.find(value => value.name === 'departure');
       const arrivalDate = this.context.values.find(value => value.name === 'arrival');
       const isItFirstTime = this.context.values.find(value => value.name === 'firstTime');
@@ -127,36 +138,36 @@ class Trip {
     const duration = departureDate - arrivalDate;
     let numberDay = duration / (24 * 60 * 60 * 1000) < 1 ? 1 : duration / (24 * 60 * 60 * 1000);
     numberDay > numberDayProgramByCity[city] ? numberDay = numberDayProgramByCity[city] : null;
-    console.log(cityTraveling.value.toLowerCase());
-    console.log(numberDay);
     this.apiGraphql.sendQuery(
       queryProgram.getOneProgram(cityTraveling.value.toLowerCase(), numberDay))
       .then(program => {
-        console.log(program);
-        const idProgram = program.getOneProgram.id;
-        if (arrivalDate > new Date()) {
-          const messageArray = [
-            ViewChatAction.markSeen(), ViewChatAction.typingOn(),
-            ViewChatAction.typingOff(), tripMessages.arrivalLater(),
-          ];
-          const newMessage = new Message(this.event.senderId, messageArray);
-          newMessage.sendMessage();
+        if (program.getOneProgram !== null) {
+          const idProgram = program.getOneProgram.id;
+          if (arrivalDate > new Date()) {
+            const messageArray = [
+              ViewChatAction.markSeen(), ViewChatAction.typingOn(),
+              ViewChatAction.typingOff(), tripMessages.arrivalLater(),
+            ];
+            const newMessage = new Message(this.event.senderId, messageArray);
+            newMessage.sendMessage();
+          } else {
+            const messageArray = [
+              ViewChatAction.markSeen(), ViewChatAction.typingOn(),
+              ViewChatAction.typingOff(), tripMessages.isHereNow(),
+              ViewChatAction.typingOn(),
+              ViewChatAction.smallPause(), ViewChatAction.typingOff(),
+              tripMessages.itinerary(city, 1, idProgram)
+            ];
+            const newMessage = new Message(this.event.senderId, messageArray);
+            newMessage.sendMessage();
+          }
         } else {
-          const messageArray = [
-            ViewChatAction.markSeen(), ViewChatAction.typingOn(),
-            ViewChatAction.typingOff(), tripMessages.isHereNow(),
-            ViewChatAction.typingOn(),
-            ViewChatAction.smallPause(), ViewChatAction.typingOff(),
-            tripMessages.itinerary(city, 1, idProgram)
-          ];
-          const newMessage = new Message(this.event.senderId, messageArray);
-          newMessage.sendMessage();
+          //TODO default
         }
       })
       .catch(err => {
         Sentry.captureException(err);
       });
-
   }
 }
 

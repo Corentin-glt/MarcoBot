@@ -2185,7 +2185,7 @@ class MessageData {
           "template_type": "generic",
           "elements": [
             {
-              "title": `${i18n.__("startTalkingWithHuman")}`,
+              "title": i18n.__("startTalkingWithHuman"),
               "subtitle": i18n.__("startTalkingWithHuman2Bis"),
               "buttons": [
                 {
@@ -2239,7 +2239,7 @@ class MessageData {
 
   stopTalkingWithHuman(name) {
     return {
-      "text": `Hey ${name}${i18n.__("stopTalkingWithHuman")}`,
+      "text": i18n.__("stopTalkingWithHuman"),
       "quick_replies": [
         {
           "content_type": "text",

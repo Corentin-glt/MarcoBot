@@ -1,6 +1,6 @@
 const i18n = require('i18n');
 const Text = require('../messenger/Text');
-
+const Generic = require('../messenger/Generic');
 i18n.configure({
   locales: ['en', 'fr'],
   directory: __dirname + '/../../locales',
@@ -10,24 +10,30 @@ i18n.configure({
 });
 
 
-class ViewMenu {
+class ViewTalkingToHuman {
   constructor(user, locale) {
     this.user = user;
-    this.locale = locale;
     i18n.setLocale(locale);
   }
 
-  menu() {
-    return new Text(i18n.__("seeMenu"))
+ startTalking() {
+    return new Generic()
+      .addBubble(i18n.__("startTalkingWithHuman"), i18n.__("startTalkingWithHuman2Bis"))
+      .addButton("Stop chat", 'talkingToHuman_isTalking:false')
+      .get();
+ }
+
+ menu() {
+    return new Text(i18n.__("stopTalkingWithHuman"))
       .addQuickReply(i18n.__("geolocation"), 'aroundMe')
       .addQuickReply(i18n.__('ticketing'), 'ticket')
-      .addQuickReply(i18n.__('visit'), 'visit')
+      .addQuickReply(i18n.__("visit"), 'visit')
       .addQuickReply(i18n.__("eat"), 'eat')
       .addQuickReply(i18n.__("drink"), 'drink')
       .addQuickReply(i18n.__("chat"), 'talkingToHuman_isTalking:true')
       .get();
-  }
+ }
 
 }
 
-module.exports = ViewMenu;
+module.exports = ViewTalkingToHuman;

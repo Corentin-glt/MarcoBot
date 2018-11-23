@@ -6,9 +6,6 @@ const globalContext = require("../assets/context");
 const dictValue = require("../assets/valuesContext");
 const Sentry = require("@sentry/node");
 const Process = require("./Process");
-// const Message = require('../view/messenger/Message');
-// const Text = require('../view/messenger/Text');
-// const ChatAction = require('../view/messenger/ChatAction');
 
 class Context {
   constructor(event, inputContext, inputValue, dictContext) {
@@ -30,6 +27,7 @@ class Context {
       });
       return elemFound !== null && typeof elemFound !== "undefined";
     });
+    console.log(context);
     if (context === "unknown") {
       console.log("UNKNOWN CONTEXT");
       //TODO: GO DIRECTLY TO CLASS OR
@@ -57,11 +55,6 @@ class Context {
       tempObj.name = keyValue;
       tempObj.value = this.inputValue[keyValue];
       valueArray.push(tempObj);
-      //
-      // console.log(keyValue);
-      // const valueTemp = dictValue[context];
-      // const funcValue = valueTemp[keyValue];
-      // valueArray.push(funcValue(keyValue, this.inputValue[keyValue]))
     });
     return valueArray;
   }

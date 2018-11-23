@@ -16,6 +16,9 @@ const CronJob = require('cron').CronJob;
 const cronMethods = require('./helpers/Class/cronMethods/cronMethods');
 const hoursCron = require('./assets/variableApp/hoursCron');
 const Sentry = require('@sentry/node');
+const ViewMenuMessenger = require('./view/MessengerComponents/ViewMessengerMenu');
+const ViewStartMessenger = require('./view/MessengerComponents/ViewMessengerStart');
+const ViewWelcomeMessenger = require('./view/MessengerComponents/ViewMessengerWelcome');
 Sentry.init({dsn: Config.category[Config.indexCategory].dsnSentry});
 //Sentry.init({ dsn: Config.dsnSentry});
 
@@ -84,19 +87,17 @@ axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {
 
 app.get('/setup', (req, res) => {
   const product_data = new MessageData('en');
-  apiMessenger.callbackStartButton(product_data.getStartedData)
+  apiMessenger.callbackStartButton(ViewStartMessenger)
     .then(response => {
-      return apiMessenger.callbackStartButton(product_data.menuData)
+      return apiMessenger.callbackStartButton(ViewMenuMessenger)
     })
     .then(response => {
-      return apiMessenger.callbackStartButton(product_data.welcomeMessage)
+      return apiMessenger.callbackStartButton(ViewWelcomeMessenger)
     })
     .then(response => {
       res.send(response.data);
     })
     .catch(err => {
-      console.log(err);
-      console.log(err.response.data.error);
       res.send(err);
     });
 });
