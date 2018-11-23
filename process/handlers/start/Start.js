@@ -35,7 +35,6 @@ class Start {
     } else {
       console.log(this.context.values[0].value);
       if (JSON.parse(this.context.values[0].value)) {
-        console.log('in confirm');
         const messageArray = [ViewChatAction.markSeen(),
           ViewChatAction.typingOn(), ViewChatAction.typingOff(),
           startMessages.excitementConfirm1(), ViewChatAction.typingOn(),
