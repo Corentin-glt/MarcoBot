@@ -33,7 +33,6 @@ class Next {
   }
 
   start() {
-    console.log('NEXT')
     this.findContext()
       .then(context => {
         this.updateContext(context)
@@ -52,10 +51,8 @@ class Next {
             .sendQuery(
               contextQuery.getUserContextByPage(this.event.senderId, page))
             .then(res => {
-              console.log('CONTEXT NUMERO: ', page);
               page++;
               const contextArray = res.contextsByUserAndPage;
-              console.log('CONTEXT NAME: ', contextArray[0].name)
               const contextNext = contextsCanNext.find(item => {
                 return item === contextArray[0].name;
               });
@@ -71,7 +68,6 @@ class Next {
         (err, context) => {
           if (err) return reject(err);
           if (contextFound) {
-            console.log(' !!!! FINISH !!!\n CONTEXT GOOD ==> ', context.name);
             return resolve(context)
           }
         }

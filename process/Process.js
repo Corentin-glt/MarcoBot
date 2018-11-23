@@ -11,7 +11,7 @@ const ProcessBack = require("./handlers/back/Back");
 const ProcessChangeCity = require("./handlers/changeCity/changeCity");
 const ProcessFavorite = require("./handlers/favorite/favorite");
 const ProcessFeedback = require("./handlers/feedback/feedback");
-const ProcessGo = require("./handlers/go/go");
+const ProcessGo = require("./handlers/go/Go");
 const ProcessHelp = require("./handlers/help/help");
 const ProcessItinerary = require("./handlers/itinerary/itinerary");
 const ProcessMenu = require("./handlers/menu/menu");
@@ -25,6 +25,7 @@ const ProcessTrip = require("./handlers/trip/trip");
 const ProcessVisit = require("./handlers/visit/Visit");
 const ProcessNext = require("./handlers/next/Next");
 const ProcessMap = require("./handlers/map/map");
+const ProcessDescription = require("./handlers/description/Description");
 
 const contextMap = {
   eat: ProcessEat,
@@ -47,6 +48,7 @@ const contextMap = {
   visit: ProcessVisit,
   next: ProcessNext,
   map: ProcessMap,
+  description: ProcessDescription,
 };
 
 class Process {

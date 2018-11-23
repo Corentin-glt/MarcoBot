@@ -13,12 +13,12 @@ i18n.configure({
 
 class Price {
   constructor(locale, venueOfPrice, user) {
-    this.locale = locale;
-    this.venueOfPrice = venueOfPrice;
-    this.user = user;
-    this.prices = priceIndex(this.venueOfPrice);
-    i18n.setLocale(this.locale);
-  }
+  this.locale = locale;
+  this.venueOfPrice = venueOfPrice;
+  this.user = user;
+  this.prices = priceIndex(this.venueOfPrice);
+  i18n.setLocale(this.locale);
+}
 
   init() {
     return new Promise((resolve, reject) => {

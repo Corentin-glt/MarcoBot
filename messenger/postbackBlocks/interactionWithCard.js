@@ -52,7 +52,8 @@ const sendMessage = (senderId, data, typeMessage) => {
   });
 };
 
-const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) => {
+const _createGoing = (senderID, userID, eventID, eventName, resultat,
+                      locale) => {
   const product_data = new MessageData(locale);
   const key = `${eventName}s_id`;
   const dataToSend = {
@@ -61,7 +62,9 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) =>
   };
   let user = {};
   dataToSend[key] = eventID;
-  const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
+  const apiGraphql = new ApiGraphql(
+    config.category[config.indexCategory].apiGraphQlUrl,
+    config.accessTokenMarcoApi);
 
   apiGraphql.sendMutation(mutationUser.updateLastEventLocation(),
     {PSID: senderID, lastEvent: 'itinerary'})
@@ -71,7 +74,7 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) =>
       }
     })
     .then(res => {
-      if(res.createGoing){
+      if (res.createGoing) {
         return apiGraphql.sendQuery(queryUser.queryUser(userID))
       }
     })
@@ -79,9 +82,12 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) =>
       if (res.user) {
         user = res.user;
         if (res.user.geoLocation.lat !== null) {
-          const diffHour = Math.abs(new Date() - new Date(res.user.geoLocation.lastUpdated)) / 36e5;
+          const diffHour = Math.abs(
+              new Date() - new Date(res.user.geoLocation.lastUpdated)) / 36e5;
           if (diffHour >= LIMIT_HOUR_ASK_LOCATION) {
-            return sendMessage(senderID, product_data.rememberLocation(eventID, eventName.toUpperCase()), "RESPONSE")
+            return sendMessage(senderID,
+              product_data.rememberLocation(eventID, eventName.toUpperCase()),
+              "RESPONSE")
           } else {
             return sendMessage(senderID, product_data.letsGoMessage, "RESPONSE")
               .then((response) => {
@@ -96,15 +102,20 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) =>
               .then(helper.delayPromise(2000))
               .then(response => {
                 if (response.status === 200) {
-                  if(eventName === "exhibition") {
-                    return apiGraphql.sendQuery(queryMuseum.queryMuseum(resultat.museums_id))
+                  if (eventName === "exhibition") {
+                    return apiGraphql.sendQuery(
+                      queryMuseum.queryMuseum(resultat.museums_id))
                       .then(response => {
                         if (response.museum) {
-                          return sendMessage(senderID, product_data.sendItinerary(user.geoLocation, response.museum.location), "RESPONSE")
+                          return sendMessage(senderID,
+                            product_data.sendItinerary(user.geoLocation,
+                              response.museum.location), "RESPONSE")
                         }
                       })
                   } else {
-                    return sendMessage(senderID, product_data.sendItinerary(user.geoLocation, resultat.location), "RESPONSE")
+                    return sendMessage(senderID,
+                      product_data.sendItinerary(user.geoLocation,
+                        resultat.location), "RESPONSE")
                   }
                 }
               })
@@ -121,8 +132,10 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) =>
               .then(helper.delayPromise(2000))
               .then(response => {
                 if (response.status === 200 && resultat.tips !== null
-                  && typeof resultat.tips !== 'undefined' && resultat.tips.length > 0){
-                  return sendMessage(senderID, {text: resultat.tips}, "RESPONSE")
+                  && typeof resultat.tips !== 'undefined' &&
+                  resultat.tips.length > 0) {
+                  return sendMessage(senderID, {text: resultat.tips},
+                    "RESPONSE")
                 } else {
                   return apiMessenger.sendToFacebook({
                     recipient: {id: senderID},
@@ -133,13 +146,16 @@ const _createGoing = (senderID, userID, eventID, eventName, resultat, locale) =>
                 }
               })
               .then(response => {
-                if(response.status === 200)
-                  return sendMessage(senderID, product_data.updateLocation(), "RESPONSE")
+                if (response.status === 200)
+                  return sendMessage(senderID, product_data.updateLocation(),
+                    "RESPONSE")
               })
               .catch(err => console.log(err))
           }
         } else {
-          return sendMessage(senderID, product_data.askLocation(user.firstName, eventID, eventName.toUpperCase()), "RESPONSE")
+          return sendMessage(senderID,
+            product_data.askLocation(user.firstName, eventID,
+              eventName.toUpperCase()), "RESPONSE")
         }
       }
     })
@@ -152,10 +168,12 @@ const _createLater = (senderID, userID, eventID, eventName, locale) => {
     "eventName": eventName
   };
   dataToSend[`${eventName}s_id`] = eventID;
-  const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
+  const apiGraphql = new ApiGraphql(
+    config.category[config.indexCategory].apiGraphQlUrl,
+    config.accessTokenMarcoApi);
   return apiGraphql.sendMutation(mutationLater.createLater(), dataToSend)
     .then(res => {
-      if(res) {
+      if (res) {
         return apiMessenger.sendToFacebook({
           recipient: {id: senderID},
           sender_action: 'typing_on',
@@ -166,11 +184,11 @@ const _createLater = (senderID, userID, eventID, eventName, locale) => {
     })
     .then(helper.delayPromise(2000))
     .then(res => {
-      if(res.status === 200)
-      return sendMessage(senderID, product_data.saveLater, "RESPONSE")
+      if (res.status === 200)
+        return sendMessage(senderID, product_data.saveLater, "RESPONSE")
     })
     .then(res => {
-      if(res.status === 200){
+      if (res.status === 200) {
         return apiMessenger.sendToFacebook({
           recipient: {id: senderID},
           sender_action: 'typing_on',
@@ -181,8 +199,9 @@ const _createLater = (senderID, userID, eventID, eventName, locale) => {
     })
     .then(helper.delayPromise(2000))
     .then(res => {
-      if(res.status === 200)
-      return sendMessage(senderID, product_data.question1MessageAfterLater, "RESPONSE")
+      if (res.status === 200)
+        return sendMessage(senderID, product_data.question1MessageAfterLater,
+          "RESPONSE")
     })
 };
 
@@ -197,8 +216,10 @@ const _seeMore = (senderID, eventName, event, locale) => {
     .then(helper.delayPromise(2000))
     .then(response => {
       if (response.status === 200) {
-        const description = locale === 'fr' ? event.descriptionFr : event.description;
-        return sendMessage(senderID, product_data.viewMore(description, eventName, event.id), "RESPONSE")
+        const description = locale === 'fr' ? event.descriptionFr :
+          event.description;
+        return sendMessage(senderID,
+          product_data.viewMore(description, eventName, event.id), "RESPONSE")
       }
     })
     .then(response => {
@@ -214,7 +235,9 @@ module.exports = (payload, senderID, locale) => {
   const event = payload.slice(payload.indexOf("_") + 1, payload.indexOf(":"));
   const eventID = payload.slice(payload.indexOf(":") + 1);
   let userId = "";
-  const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
+  const apiGraphql = new ApiGraphql(
+    config.category[config.indexCategory].apiGraphQlUrl,
+    config.accessTokenMarcoApi);
   return apiGraphql.sendQuery(queryUser.queryUserByAccountMessenger(senderID))
     .then(res => {
       if (res.userByAccountMessenger) {
@@ -228,7 +251,8 @@ module.exports = (payload, senderID, locale) => {
       switch (newPayload) {
         case "GOING":
           ApiReferral.sendReferral("lets_go", senderID);
-          return _createGoing(senderID, userId, eventID, eventName, resultat, locale);
+          return _createGoing(senderID, userId, eventID, eventName, resultat,
+            locale);
         case "LATER":
           return _createLater(senderID, userId, eventID, eventName, locale);
         case "VIEWMORE":

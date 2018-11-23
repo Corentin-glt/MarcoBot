@@ -5,6 +5,14 @@ module.exports = [
   },
   {
     name: 'id',
-    typeof: 'String'
-  }
+    typeOf: 'String'
+  },
+  {
+    name: 'rememberLocation',
+    typeOf: 'Boolean'
+  },
+  {
+    name: 'updateLocation',
+    typeOf: 'Boolean'
+  },
 ];

@@ -8,6 +8,6 @@ module.exports = [
   },
   {
     name: 'id',
-    typeof: 'String'
+    typeOf: 'String'
   }
 ];

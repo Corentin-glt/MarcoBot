@@ -67,7 +67,6 @@ class Venue {
       :
       null;
     return textEmpty.get();
-
   }
 
   init() {
@@ -166,7 +165,7 @@ class Venue {
         .addImage(`https://api.marco-app.com/api/image/${elem.photos[0]}`)
         .addDefaultAction(`${globalUrl}`)
         .addButton(i18n.__("letsGo"),
-          `go_event:${this.typeOfVenue}_id:${elem.id || elem._id}`)
+          `go_event:${elem.kindElement}_id:${elem.id || elem._id}`)
         .addShareButton(
           new Generic()
             .addBubble(`${elem.name}`, subtitleSharing)
@@ -185,7 +184,7 @@ class Venue {
         this.locale !== 'fr')
         || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
           this.generic.addButton(i18n.__("tellMore"),
-            `description_event:${this.typeOfVenue}_id:${elem.id || elem._id}`)
+            `description_event:${elem.kindElement}_id:${elem.id || elem._id}`)
           :
           this.generic.addButton(i18n.__("tellMore"),
             `${globalUrl}`)

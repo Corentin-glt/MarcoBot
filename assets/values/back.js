@@ -5,6 +5,6 @@ module.exports = [
   },
   {
     name: 'option',
-    typeof: 'String'
+    typeOf: 'String'
   }
 ];

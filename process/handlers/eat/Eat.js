@@ -65,7 +65,6 @@ class Eat {
             type, parseInt(price), parseInt(this.context.page)));
       })
       .then(response => {
-
         const venue = new ViewVenue(this.event.locale, this.user,
           response.restaurantsByPriceAndType, 'restaurant');
         if (response.restaurantsByPriceAndType !== null &&
