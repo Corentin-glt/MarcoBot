@@ -35,8 +35,8 @@ module.exports = {
     `
   },
   updateContextByPage: () => {
-    return `mutation updateContext($contextId: ID!, $page: Int){
-        updateContextByPage(contextId: $contextId, page: $page) {
+    return `mutation updateContext($contextId: ID!, $page: Int, $values: [ValueInput]){
+        updateContextByPage(contextId: $contextId, page: $page, values: $values) {
           id
           name
           page

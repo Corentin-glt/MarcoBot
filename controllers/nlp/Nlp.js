@@ -34,7 +34,6 @@ class Nlp {
       this._checkIfWantStopChat();
     } else {
       // this._checkDurationOrTravel();
-      console.log('zzzzzeeerrr');
       const dialogflow = new DialogflowAi(this.event);
       dialogflow.start();
     }

@@ -67,10 +67,9 @@ class Drink {
         //     this.user.cityTraveling));
       })
       .then(response => {
-        
         const venue = new ViewVenue(this.event.locale, this.user,
           response.barsByPriceAndType, 'bar');
-        if(response.barsByPriceAndType.length > 0){
+        if (response.barsByPriceAndType !== null && response.barsByPriceAndType.length > 0) {
           return venue
             .init()
             .then(messageVenue => {

@@ -1,27 +1,24 @@
-const contextsCanNext = require('./contextsCanNext');
-const async = require('async');
+const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
-const Message = require("../../../view/messenger/Message");
-const Sentry = require("@sentry/node");
 const config = require("../../../config");
+const contextMutation = require('../../../helpers/graphql/context/mutation');
 const contextQuery = require("../../../helpers/graphql/context/query");
-const contextMutation = require("../../../helpers/graphql/context/mutation");
+const backValues = require("../../../assets/values/back");
+const Sentry = require("@sentry/node");
+const async = require('async');
 
 const ProcessEat = require("../eat/Eat");
 const ProcessDrink = require("../drink/Drink");
-const ProcessItinerary = require("../itinerary/itinerary");
 const ProcessVisit = require("../visit/Visit");
-//const ProcessFavorite = require("../favorite/favorite");
 
 const contextMap = {
   eat: ProcessEat,
   drink: ProcessDrink,
-  itinerary: ProcessItinerary,
   visit: ProcessVisit,
-  //favorite: ProcessFavorite,
 };
 
-class Next {
+class Back {
+
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
@@ -33,15 +30,23 @@ class Next {
   }
 
   start() {
-    console.log('NEXT')
-    this.findContext()
-      .then(context => {
-        this.updateContext(context)
-      })
-      .catch(err => Sentry.captureException(err))
+    if (backValues.length !== this.context.values.length) {
+      this.defaultAnswer();
+    } else {
+      this.findContext()
+        .then(context => this.updateContext(context))
+        .catch(err => Sentry.captureException(err))
+    }
+  }
+
+  defaultAnswer() {
+
   }
 
   findContext() {
+    const event = this.context.values.find(value => {
+      return value.name === 'event';
+    }).value;
     let page = 0;
     let contextFound = false;
     return new Promise((resolve, reject) => {
@@ -52,14 +57,9 @@ class Next {
             .sendQuery(
               contextQuery.getUserContextByPage(this.event.senderId, page))
             .then(res => {
-              console.log('CONTEXT NUMERO: ', page);
               page++;
               const contextArray = res.contextsByUserAndPage;
-              console.log('CONTEXT NAME: ', contextArray[0].name)
-              const contextNext = contextsCanNext.find(item => {
-                return item === contextArray[0].name;
-              });
-              if (typeof contextNext !== 'undefined') {
+              if (contextArray[0].name === event) {
                 contextFound = true;
                 callback(null, contextArray[0]);
               } else {
@@ -71,7 +71,6 @@ class Next {
         (err, context) => {
           if (err) return reject(err);
           if (contextFound) {
-            console.log(' !!!! FINISH !!!\n CONTEXT GOOD ==> ', context.name);
             return resolve(context)
           }
         }
@@ -80,9 +79,20 @@ class Next {
   }
 
   updateContext(context) {
+    const newValues = [...context.values];
+    const option = this.context.values.find(value => {
+      return value.name === 'option';
+    }).value;
+    const findIndexToDel = newValues.findIndex(item => {
+      return item.name === option;
+    });
+    if(findIndexToDel > -1){
+      newValues.splice(findIndexToDel, 1);
+    }
     const filter = {
       contextId: context.id,
-      page: parseInt(context.page) + 1,
+      page: 0,
+      values: newValues
     };
     this.apiGraphql
       .sendMutation(contextMutation.updateContextByPage(), filter)
@@ -100,5 +110,4 @@ class Next {
       });
   }
 }
-
-module.exports = Next;
+module.exports = Back;

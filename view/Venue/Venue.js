@@ -36,32 +36,38 @@ class Venue {
     return new Text(messageToSend).get();
   }
 
-  emptyVenuesMessage(){
+  emptyVenuesMessage() {
     let payloadBackCategory = '';
     let payloadBackPrice = '';
     if (this.typeOfVenue === "restaurant") {
-      payloadBackCategory = 'back_event:eat_category';
-      payloadBackPrice = 'back_event:eat_price';
+      payloadBackCategory = 'back_event:eat_option:category';
+      payloadBackPrice = 'back_event:eat_option:price';
     } else if (this.typeOfVenue === "bar") {
-      payloadBackCategory = 'back_event:drink_category';
-      payloadBackPrice = 'back_event:drink_price';
+      payloadBackCategory = 'back_event:drink_option:category';
+      payloadBackPrice = 'back_event:drink_option:price';
     } else {
-      payloadBackCategory = 'back_event:visit_category';
-      payloadBackPrice = 'back_event:visit_price';
+      payloadBackCategory = 'back_event:visit_option:category';
+      //payloadBackPrice = 'back_event:visit_option:price';
     }
     const arrayAnecdotes = anecdotes(this.user.cityTraveling, this.locale);
     const indexJoke = Math.floor(Math.random() *
       Math.floor(arrayAnecdotes.length - 1));
     const textEmpty = new Text(`${i18n.__("jokeMarco1")}\n${i18n.__(
-      "jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`)
-    return textEmpty
+      "jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`);
+    textEmpty
       .addQuickReply(i18n.__("geolocation"), 'aroundMe')
       .addQuickReply(i18n.__('ticketing'), 'ticketing')
       .addQuickReply(i18n.__("visit"), 'visit')
       .addQuickReply(i18n.__("eat"), 'eat')
       .addQuickReply(i18n.__("chat"), 'talkingToHuman')
-      .addQuickReply(i18n.__("changeCategory"), payloadBackCategory)
-      .addQuickReply(i18n.__("changePrice"), payloadBackPrice)
+      .addQuickReply(i18n.__("changeCategory"), payloadBackCategory);
+    payloadBackPrice !== "" ?
+      textEmpty
+        .addQuickReply(i18n.__("changePrice"), payloadBackPrice)
+      :
+      null;
+    return textEmpty.get();
+
   }
 
   init() {
@@ -73,10 +79,9 @@ class Venue {
               ...elem,
               ...res
             };
-            this.generateBubble(newElem)
-              .then(() => callback())
-              .catch(err => callback(err))
+            return this.generateBubble(newElem)
           })
+          .then(() => callback())
           .catch(err => callback(err))
       }, (err) => {
         if (err) return reject(err);
@@ -139,41 +144,42 @@ class Venue {
         `🌟${elem.note}` : '';
       let globalTypes = '';
       elem.types.map((elem, index) => {
-        index === 0 ?
-          globalTypes = `${elem}`
-          :
-          globalTypes = `${globalTypes}, ${elem}`
+        index === 0 ? globalTypes = `${elem}`
+          : globalTypes = `${globalTypes}, ${elem}`
       });
-      globalTypes.length > 30 ?
-        globalTypes = globalTypes.slice(0, 30) + '...'
+      globalTypes.length > 30 ? globalTypes = globalTypes.slice(0, 30) + '...'
         : null;
       let globalUrl = elem.url;
       globalUrl.includes('http://') ?
         globalUrl = globalUrl.split('http://').join('') : null;
       globalUrl.includes('https://') ? null :
         globalUrl = `https://${globalUrl}`;
+      let description = `${globalTypes}\n${elem.money}\n ${elem.schedule}`;
+      description.length > 80 ? description = description.slice(0, 75) + '...'
+        : null;
+      let subtitleSharing = `📍 ${elem.location.name} \n${elem.money}\n ${elem.schedule}`
+      subtitleSharing.length > 80 ?
+        subtitleSharing = subtitleSharing.slice(0, 75) + '...'
+        : null;
       this.generic
-        .addBubble(`${elem.name}${globalNote}`,
-          `${globalTypes}\n${elem.money}\n ${elem.schedule}`)
+        .addBubble(`${elem.name}${globalNote}`, description)
         .addImage(`https://api.marco-app.com/api/image/${elem.photos[0]}`)
         .addDefaultAction(`${globalUrl}`)
         .addButton(i18n.__("letsGo"),
           `go_event:${this.typeOfVenue}_id:${elem.id || elem._id}`)
         .addShareButton(
           new Generic()
-            .addBubble(`${elem.name}`,
-              `📍 ${elem.location.name} \n${elem.money}\n ${elem.schedule}`)
+            .addBubble(`${elem.name}`, subtitleSharing)
             .addImage(`https://api.marco-app.com/api/image/${elem.photos[0]}`)
             .addDefaultAction(
               `https://www.messenger.com/t/meethellomarco?ref=share_card`)
             .addButton(i18n.__("whereShare"),
               `https://www.google.fr/maps/place/${elemLocationGoogleMap}`)
             .get()
-        )
+        );
       if (elem.affiliations.length > 0) {
-        this.generic
-          .addButton(i18n.__("reservationTemplate"),
-            `${elem.affiliations[0].url}`)
+        this.generic.addButton(i18n.__("reservationTemplate"),
+          `${elem.affiliations[0].url}`)
       } else {
         (elem.description.length > 0 &&
         this.locale !== 'fr')
@@ -188,7 +194,7 @@ class Venue {
     })
   }
 
-  showNextPageOrTalkingHuman(){
+  showNextPageOrTalkingHuman() {
     this.venues.length === 5 ?
       this.generic
         .addBubble(i18n.__("seeMore"), i18n.__("seeMoreSub"))
@@ -196,7 +202,7 @@ class Venue {
         .addButton(i18n.__("seeMoreButton"), 'next')
       :
       this.generic
-        .addBubble( i18n.__("nothingStock"), i18n.__("nothingStockSub"))
+        .addBubble(i18n.__("nothingStock"), i18n.__("nothingStockSub"))
         .addImage(`https://api.marco-app.com/api/image/askInformation.jpg`)
         .addButton(i18n.__("nothingStockButton"), 'talkingToHuman')
   }

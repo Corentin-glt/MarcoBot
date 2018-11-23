@@ -5,9 +5,9 @@ const userQuery = require("../helpers/graphql/user/query");
 const Sentry = require("@sentry/node");
 
 const ProcessEat = require("./handlers/eat/Eat");
-const ProcessDrink = require("./handlers/drink/drink");
+const ProcessDrink = require("./handlers/drink/Drink");
 const ProcessAroundMe = require("./handlers/aroundMe/aroundMe");
-const ProcessBack = require("./handlers/back/back");
+const ProcessBack = require("./handlers/back/Back");
 const ProcessChangeCity = require("./handlers/changeCity/changeCity");
 const ProcessFavorite = require("./handlers/favorite/favorite");
 const ProcessFeedback = require("./handlers/feedback/feedback");
@@ -22,7 +22,7 @@ const ProcessTalkingToHuman = require(
   "./handlers/talkingToHuman/talkingToHuman");
 const ProcessTicket = require("./handlers/ticket/ticket");
 const ProcessTrip = require("./handlers/trip/trip");
-const ProcessVisit = require("./handlers/visit/visit");
+const ProcessVisit = require("./handlers/visit/Visit");
 const ProcessNext = require("./handlers/next/Next");
 const ProcessMap = require("./handlers/map/map");
 
