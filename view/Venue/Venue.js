@@ -180,7 +180,7 @@ class Venue {
       this.generic
         .addBubble( i18n.__("nothingStock"), i18n.__("nothingStockSub"))
         .addImage(`https://api.marco-app.com/api/image/askInformation.jpg`)
-        .addButton(i18n.__("nothingStockButton"), 'talkingToHuman')
+        .addButton(i18n.__("nothingStockButton"), 'talkingToHuman_isTalking:true')
   }
 }
 

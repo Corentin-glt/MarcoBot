@@ -46,7 +46,7 @@ const contextMap = {
   trip: ProcessTrip,
   visit: ProcessVisit,
   next: ProcessNext,
-  map: ProcessMap
+  map: ProcessMap,
 };
 
 class Process {

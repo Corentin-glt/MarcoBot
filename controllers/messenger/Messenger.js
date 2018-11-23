@@ -72,7 +72,6 @@ class Messenger {
   }
 
   receivedPostback() {
-    console.log('postback');
     const payload = this.event.postback.payload;
     const splittedPayload = payload.split('_');
     const context = new Context(this.event, splittedPayload[0],

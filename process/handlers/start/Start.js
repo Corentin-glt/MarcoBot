@@ -20,9 +20,7 @@ class Start {
 
   start() {
     const startMessages = new ViewStart(this.user, this.event.locale);
-    console.log(this.context);
     if (this.context.values.length === 0) {
-      console.log('in start');
       const messageArray = [ViewChatAction.markSeen(),
         ViewChatAction.typingOn(), ViewChatAction.typingOff(),
         startMessages.initMessage(), ViewChatAction.typingOn(),

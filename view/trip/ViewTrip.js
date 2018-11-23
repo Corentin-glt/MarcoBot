@@ -90,7 +90,7 @@ class ViewTrip {
       .addQuickReply(i18n.__("visit"), 'visit')
       .addQuickReply(i18n.__('eat'), 'eat')
       .addQuickReply(i18n.__('drink'), 'drink')
-      .addQuickReply(i18n.__('chat'), 'talkingToHuman')
+      .addQuickReply(i18n.__('chat'), 'talkingToHuman_isTalking:true')
       .get();
   }
 
