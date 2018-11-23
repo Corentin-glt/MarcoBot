@@ -25,6 +25,7 @@ const ProcessTrip = require("./handlers/trip/trip");
 const ProcessVisit = require("./handlers/visit/Visit");
 const ProcessNext = require("./handlers/next/Next");
 const ProcessMap = require("./handlers/map/map");
+const ProcessUnknown = require('./handlers/unknown/Unknown');
 
 const contextMap = {
   eat: ProcessEat,
@@ -47,6 +48,7 @@ const contextMap = {
   visit: ProcessVisit,
   next: ProcessNext,
   map: ProcessMap,
+  unknown: ProcessUnknown
 };
 
 class Process {

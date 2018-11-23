@@ -36,7 +36,7 @@ module.exports = {
   },
   queryLaters: (userID, page) => {
     return `{
-      laters(users_id: "${userID}", page: ${page}) {
+      laters(PSID: "${userID}", page: ${page}) {
           id
         activities_id{ ${Activity} }
         bars_id{ ${Bar} }

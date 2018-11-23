@@ -21,5 +21,6 @@ module.exports = (object) => {
     'next': object.next,
     'map': object.map,
     'description': object.description,
+    'unknown': object.unknown
   }
 };

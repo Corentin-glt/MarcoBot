@@ -36,6 +36,15 @@ class Price {
       });
     });
   }
+
+  defaultPrice() {
+    const whichText = i18n.__("priceDefault");
+    const quickReplyMessage = new Text(whichText);
+    this.prices.forEach(price => {
+      quickReplyMessage.addQuickReply(price.title, price.payload);
+    });
+    return quickReplyMessage.get();
+  }
 }
 
 module.exports = Price;

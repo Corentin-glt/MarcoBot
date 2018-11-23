@@ -21,14 +21,18 @@ class Context {
   }
 
   mapContext() {
+    console.log('MAP CONTEXT');
+    console.log(Object.keys(this.dictContext));
     const context = Object.keys(this.dictContext).find((key, idx) => {
+      console.log(key);
       const elemFound = this.dictContext[key].find(elem => {
         return elem === this.inputContext;
       });
+      // console.log(elemFound);
       return elemFound !== null && typeof elemFound !== "undefined";
     });
     console.log(context);
-    if (context === "unknown") {
+    if (context === "default") {
       console.log("UNKNOWN CONTEXT");
       //TODO: GO DIRECTLY TO CLASS OR
       //FUNCTION WHICH SEE THE LAST UPDATED CONTEXT IN BDD

@@ -240,7 +240,21 @@
  "buyShare": "🎟 Buy my ticket",
  "reservationTemplate": "Book",
  "groupInvitation": "You've just made your first trip with Marco and it's time to celebrate! 🎉 To reward you, we invite you to join our secret group on Facebook 👉 http://bit.ly/marco_community_group This group is for you, it will allow you to ask questions and influence Marco’s destiny so that it better meets your expectations. We post regularly on what we work and listen to each new idea! 🙂",
- "changePrice": "🔙  Change price"
+ "changePrice": "🔙  Change price",
+ "startDefault": "Sorry I didn't quite get what you said, click on one of the thumbs below: ",
+ "tripCityDefault1": "Mmmmh... I didn't get where you are traveling. Choose one the cities below: ",
+ "firstTimeDefault": "I didn't get it... Is it your first time?",
+ "arrivalDefault": "Sorry I don't know what you entered, could you write a date in the format above?",
+ "departureDefault": "Tell me again... How long are you staying?",
+ "itineraryDefault": "I think I might of missed something... ",
+ "menuDefault": "I didn't understand what you'd like to do: ",
+ "categoryDefault": "I think I misunderstood your request... Which category?",
+ "priceDefault": "I don't follow you... Which price?",
+ "descriptionDefault" : "Hum, I don't understand... Click on one of the buttons below: "
+
+
+
+
 
 
 }

@@ -20,4 +20,6 @@ module.exports = {
   'next':['next'],
   'map':['map'],
   'unknown':['Default Fallback Intent'],
-}
+  'description': ['description'],
+
+};
