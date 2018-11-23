@@ -1,5 +1,3 @@
-
-
 const Message = require('../../../view/messenger/Message');
 const ViewSubscribe = require('../../../view/subscribe/ViewSubscribe');
 const ViewChatAction = require('../../../view/chatActions/ViewChatAction');

@@ -992,8 +992,8 @@ class MessageData {
     const cityToUpper = city[0].toUpperCase() + city.slice(1);
     const lowerCity = cityToUpper.toLowerCase();
     return {
-      "text": `${i18n.__("noMoreCityInTrip1")} ${i18n.__(lowerCity)} ${i18n.__(
-        "yourCityActual")} `
+      "text": i18n.__(
+        "yourCityActual")
     }
   }
 

@@ -19,27 +19,29 @@ const valuesVisit = require('./values/visit');
 const valuesNext = require('./values/next');
 const valuesMap = require('./values/map');
 const valuesDescription = require('./values/description');
+const valuesUnknown = require('./values/unknown');
 
 module.exports = {
-    'eat': valuesEat,
-    'drink': valuesDrink,
-    'aroundMe': valuesAroundMe,
-    'back': valuesBack,
-    'changeCity': valuesChangeCity,
-    'favorite': valuesFavorite,
-    'feedback': valuesFeedback,
-    'go': valuesGo,
-    'help': valuesHelp,
-    'itinerary': valuesItinerary,
-    'menu': valuesMenu,
-    'share': valuesShare,
-    'start': valuesStart,
-    'subscribe': valuesSubscribe,
-    'talkingToHuman': valuesTalkingToHuman,
-    'ticket': valuesTicket,
-    'trip': valuesTrip,
-    'visit': valuesVisit,
-    'next': valuesNext,
-    'map': valuesMap,
-    'description': valuesDescription,
-  };
+  'eat': valuesEat,
+  'drink': valuesDrink,
+  'aroundMe': valuesAroundMe,
+  'back': valuesBack,
+  'changeCity': valuesChangeCity,
+  'favorite': valuesFavorite,
+  'feedback': valuesFeedback,
+  'go': valuesGo,
+  'help': valuesHelp,
+  'itinerary': valuesItinerary,
+  'menu': valuesMenu,
+  'share': valuesShare,
+  'start': valuesStart,
+  'subscribe': valuesSubscribe,
+  'talkingToHuman': valuesTalkingToHuman,
+  'ticket': valuesTicket,
+  'trip': valuesTrip,
+  'visit': valuesVisit,
+  'next': valuesNext,
+  'map': valuesMap,
+  'description': valuesDescription,
+  'unknown': valuesUnknown
+};

@@ -37,6 +37,7 @@ class DialogflowAi {
         ? response.parameters.fields
         : {}
       : {};
+    console.log(intent);
     if (intent !== 'Default Welcome Intent') {
       this.checkFunctionValuesOfContext(intent, parameters)
         .then(newValue => {
@@ -69,8 +70,6 @@ class DialogflowAi {
 
   getValuesOfContextTrip(objectValues) {
     let newValuesObject = {};
-    console.log('YOLOOO')
-    console.log(objectValues)
     return new Promise((resolve, reject) => {
       Object.keys(objectValues).map(item => {
         console.log(item);
