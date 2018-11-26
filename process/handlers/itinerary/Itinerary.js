@@ -39,16 +39,6 @@ class Itinerary {
           .catch(err => Sentry.captureException(err));
       } else {
         this.getNextItinerary(this.context.page);
-      // let currentItinerary = '';
-      // for (let i = 0; i < this.contextArray.length; i++) {
-      //   if (this.contextArray[i].name === 'itinerary') {
-      //     currentItinerary = this.contextArray[i];
-      //     break;
-      //   } else if (this.contextArray[i].name === 'next') {
-      //     nextNumber++;
-      //   }
-      // }
-
     }
   }
 

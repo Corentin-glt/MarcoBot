@@ -7,7 +7,10 @@ const contextQuery = require("../../../helpers/graphql/context/query");
 const contextMutation = require("../../../helpers/graphql/context/mutation");
 const ViewDefault = require("../../../view/default/ViewDefault");
 const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
-
+const tripValues = require("../../../assets/values/trip");
+const eatValues = require("../../../assets/values/eat");
+const ViewCategory = require('../../../view/Category/Category');
+const ViewPrice = require('../../../view/Price/Price');
 
 
 class Unknown {
@@ -24,14 +27,158 @@ class Unknown {
   start() {
     this.findContext()
       .then(context => {
-        console.log(context);
-        const defaultMessage = new ViewDefault(this.user, this.event.locale);
-        const messageArray = [ViewChatAction.markSeen(),
-          ViewChatAction.typingOn(), ViewChatAction.typingOff(), defaultMessage.menuDefault()];
-        new Message(this.event.senderId, messageArray).sendMessage();
+          console.log(context);
+          const defaultMessage = new ViewDefault(this.user, this.event.locale);
+          let messageArray = [ViewChatAction.markSeen(),
+            ViewChatAction.typingOn(), ViewChatAction.typingOff()];
+          switch (context.name) {
+            case 'start':
+              if (context.values.length !== 0) {
+                const tempArray = [defaultMessage.tripCityDefault1(),
+                  ViewChatAction.typingOn(), ViewChatAction.typingOff(),
+                  defaultMessage.tripCityDefault2()];
+                messageArray.push.apply(messageArray, tempArray);
+              } else {
+                messageArray.push(defaultMessage.startDefault());
+              }
+              new Message(this.event.senderId, messageArray).sendMessage();
+              break;
+            case 'trip':
+              if (context.values.length !== 0) {
+                const value = this.findElemMissing(tripValues, context);
+                console.log(value);
+                if (value === 'city')
+                  messageArray.push(defaultMessage.tripCityDefault1(),
+                    defaultMessage.tripCityDefault2());
+                else if (value === 'firstTime')
+                  messageArray.push(defaultMessage.firstTimeDefault());
+                else if (value === 'departure')
+                  messageArray.push(defaultMessage.departureDefault());
+                else if (value === 'arrival')
+                  messageArray.push(defaultMessage.arrivalDefault());
+                else
+                  messageArray.push(defaultMessage.menuDefault());
+              } else {
+                messageArray.push(defaultMessage.tripCityDefault1(),
+                  defaultMessage.tripCityDefault2());
+              }
+              new Message(this.event.senderId, messageArray).sendMessage();
+              break;
+            case 'itinerary':
+              messageArray.push(defaultMessage.itineraryDefault());
+              new Message(this.event.senderId, messageArray).sendMessage();
+              break;
+            case 'eat':
+              const eatCategory = new ViewCategory(this.event.locale, "eat",
+                this.user);
+              if (context.values.length !== 0) {
+                const value = this.findElemMissing(eatValues, context);
+                if (value === 'category') {
+                  eatCategory
+                    .init()
+                    .then(messageCategory => {
+                      const tempArray = [defaultMessage.categoryDefault(),
+                        messageCategory];
+                      messageArray.push.apply(messageArray, tempArray);
+                      new Message(this.event.senderId, messageArray).sendMessage();
+                    })
+                    .catch(err => Sentry.captureException(err));
+                } else if (value === 'price') {
+                  const price = new ViewPrice(this.event.locale, 'eat',
+                    this.user);
+                  messageArray.push(price.defaultPrice());
+                  new Message(this.event.senderId, messageArray).sendMessage();
+                } else {
+                  messageArray.push(defaultMessage.menuDefault());
+                  new Message(this.event.senderId, messageArray).sendMessage();
 
-      })
+                }
+              } else {
+                eatCategory
+                  .init()
+                  .then(messageCategory => {
+                    const tempArray = [defaultMessage.categoryDefault(),
+                      messageCategory];
+                    messageArray.push.apply(messageArray, tempArray);
+                    new Message(this.event.senderId, messageArray).sendMessage();
+                  })
+                  .catch(err => Sentry.captureException(err));
+              }
+              break;
+            case 'drink':
+              const drinkCategory = new ViewCategory(this.event.locale, "drink",
+                this.user);
+              if (context.values.length !== 0) {
+                const value = this.findElemMissing(eatValues, context);
+                if (value === 'category') {
+                  drinkCategory
+                    .init()
+                    .then(messageCategory => {
+                      const tempArray = [defaultMessage.categoryDefault(),
+                        messageCategory];
+                      messageArray.push.apply(messageArray, tempArray);
+                      new Message(this.event.senderId, messageArray).sendMessage();
+                    })
+                    .catch(err => Sentry.captureException(err));
+                } else if (value === 'price') {
+                  const price = new ViewPrice(this.event.locale, 'drink',
+                    this.user);
+                  messageArray.push(price.defaultPrice());
+                  new Message(this.event.senderId, messageArray).sendMessage();
+                } else {
+                  messageArray.push(defaultMessage.menuDefault());
+                  new Message(this.event.senderId, messageArray).sendMessage();
+                }
+              } else {
+                drinkCategory
+                  .init()
+                  .then(messageCategory => {
+                    const tempArray = [defaultMessage.categoryDefault(),
+                      messageCategory];
+                    messageArray.push.apply(messageArray, tempArray);
+                    new Message(this.event.senderId, messageArray).sendMessage();
+                  })
+                  .catch(err => Sentry.captureException(err));
+              }
+              break;
+            case 'visit':
+              const visitCategory = new ViewCategory(this.event.locale, "visit",
+                this.user);
+              visitCategory
+                .init()
+                .then(messageCategory => {
+                  const tempArray = [defaultMessage.categoryDefault(),
+                    messageCategory];
+                  messageArray.push.apply(messageArray, tempArray);
+                  new Message(this.event.senderId, messageArray).sendMessage();
+                })
+                .catch(err => Sentry.captureException(err));
+              break;
+            default:
+              messageArray.push(defaultMessage.menuDefault());
+              new Message(this.event.senderId, messageArray).sendMessage();
+
+          }
+
+        }
+      )
       .catch(err => Sentry.captureException(err))
+  }
+
+  findElemMissing(allValues, context) {
+    let valueMissing = "";
+    for (let i = 0; i < allValues.length; i++) {
+      const elemFound = context.values.find(value => {
+        console.log(value.name);
+        return value.name === allValues[i].name;
+      });
+      console.log(elemFound);
+      if (typeof elemFound === "undefined") {
+        valueMissing = allValues[i].name;
+        break;
+      }
+    }
+    return valueMissing;
   }
 
   findContext() {
@@ -45,11 +192,10 @@ class Unknown {
             .sendQuery(
               contextQuery.getUserContextByPage(this.event.senderId, page))
             .then(res => {
-              console.log('CONTEXT NUMERO: ', page);
               page++;
               const contextArray = res.contextsByUserAndPage;
-              console.log('CONTEXT NAME: ', contextArray[0].name);
-              if (contextArray[0].name !== 'unknown' && contextArray[0].name !== 'next') {
+              if (contextArray[0].name !== 'unknown' && contextArray[0].name !==
+                'next') {
                 contextFound = true;
                 callback(null, contextArray[0]);
               } else {
@@ -61,7 +207,6 @@ class Unknown {
         (err, context) => {
           if (err) return reject(err);
           if (contextFound) {
-            console.log(' !!!! FINISH !!!\n CONTEXT GOOD ==> ', context.name);
             return resolve(context)
           }
         }

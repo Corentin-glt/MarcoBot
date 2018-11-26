@@ -24,11 +24,11 @@ class ViewDefault {
   }
 
   tripCityDefault1() {
-    return new Text(i18n.__("tripCityDefault1"))
+    return new Text(i18n.__("tripCityDefault1")).get();
   }
 
   tripCityDefault2() {
-    new Generic()
+    return new Generic()
       .addBubble(`🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`, '')
       .addImage(`https://api.marco-app.com/api/image/london.jpg`)
       .addButton(i18n.__("validate"), 'trip_city:london')
@@ -60,9 +60,8 @@ class ViewDefault {
   }
 
   itineraryDefault() {
-    return new Text("itineraryDefault")
+    return new Text(i18n.__("itineraryDefault"))
       .addQuickReply(i18n.__("next"), 'next')
-      .addQuickReply(i18n.__("stepMap"), `map_location:${locationsGoogleMap}`)
       .addQuickReply(`📃 Menu`, 'menu')
       .get();
   }
@@ -78,21 +77,14 @@ class ViewDefault {
       .get();
   }
 
-  eatCategoryDefault() {
-    return new Text("categoryDefault");
+  categoryDefault() {
+    return new Text(i18n.__("categoryDefault")).get();
   }
 
-  drinkCategoryDefault() {
-    return new Text("categoryDefault")
-  }
-
-  visitCategoryDefaul() {
-    return new Text("categoryDefault")
-  }
 
 
   descriptionDefault() {
-    return new Text("descriptionDefault");
+    return new Text(i18n.__("descriptionDefault")).get();
   }
 
 }
