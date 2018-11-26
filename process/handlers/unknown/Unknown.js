@@ -27,7 +27,6 @@ class Unknown {
   start() {
     this.findContext()
       .then(context => {
-          console.log(context);
           const defaultMessage = new ViewDefault(this.user, this.event.locale);
           let messageArray = [ViewChatAction.markSeen(),
             ViewChatAction.typingOn(), ViewChatAction.typingOff()];
@@ -154,9 +153,18 @@ class Unknown {
                 })
                 .catch(err => Sentry.captureException(err));
               break;
+            case 'feedback':
+              // this.apiGraphql.sendMutation(contextMutation.updateContext({
+              //   contextId: context.id,
+              //   values: [{name: 'message', value: }]
+              // }));
+              messageArray.push(defaultMessage.feedbackDefault());
+              new Message(this.event.senderId, messageArray).sendMessage();
+              break;
             default:
               messageArray.push(defaultMessage.menuDefault());
               new Message(this.event.senderId, messageArray).sendMessage();
+              break;
 
           }
 
