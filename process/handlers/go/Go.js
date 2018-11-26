@@ -13,6 +13,7 @@ const ViewGo = require('../../../view/go/Go');
 const ApiReferral = require("../../../helpers/Api/apiReferral");
 const mutationUser = require("../../../helpers/graphql/user/mutation");
 const mutationGoing = require("../../../helpers/graphql/going/mutation");
+const mutationContext = require("../../../helpers/graphql/context/mutation");
 const LIMIT_HOUR_ASK_LOCATION = 2;
 
 
@@ -36,25 +37,29 @@ class Go {
   }
 
   start() {
-    const updateLocation = this.context.find(
-      item => item.name === "updateLocation");
-    const rememberLocation = this.context.find(
-      item => item.name === "rememberLocation");
-    if (typeof updateLocation !== "undefined") {
-      updateLocation.value === 'false' ?
-        this.sendLocation() : this.receiveLocation()
-    } else if (typeof rememberLocation !== "undefined" &&
-      rememberLocation.value === 'false') {
-      this.sendItinerary()
-    } else {
-      this.createGoing()
-        .then(res => {
-          (this.user.geoLocation.lat !== null) ?
-            this.checkoutLastUpdate()
-            : this.askForLocation()
-        })
-        .catch(err => Sentry.captureException(err))
-    }
+    this.cleanContext()
+      .then(() => {
+        const updateLocation = this.context.values.find(
+          item => item.name === "updateLocation");
+        const rememberLocation = this.context.values.find(
+          item => item.name === "rememberLocation");
+        if (typeof updateLocation !== "undefined") {
+          updateLocation.value === 'false' ?
+            this.sendLocation() : this.receiveLocation()
+        } else if (typeof rememberLocation !== "undefined" &&
+          rememberLocation.value === 'false') {
+          this.sendItinerary()
+        } else {
+          this.createGoing()
+            .then(res => {
+              (this.user.geoLocation.lat !== null) ?
+                this.checkoutLastUpdate()
+                : this.askForLocation()
+            })
+            .catch(err => Sentry.captureException(err))
+        }
+      })
+      .catch(err => Sentry.captureException(err))
   }
 
   createGoing() {
@@ -66,38 +71,55 @@ class Go {
     }).value;
     return new Promise((resolve, reject) => {
       ApiReferral.sendReferral("lets_go", this.event.senderId);
+      const paramsGoing = {
+        users_id: this.user.id,
+        eventName: `${event}s_id`,
+      };
+      paramsGoing[`${event}s_id`] = idEvent;
       this.apiGraphql
-        .sendMutation(mutationGoing.createGoing(), {
-          users_id: this.user.id,
-          eventName: event,
-          key: idEvent,
-        })
+        .sendMutation(mutationGoing.createGoing(), paramsGoing)
         .then(res => resolve(res))
         .catch(err => reject(err))
     });
   }
 
   receiveLocation() {
-    //TODO do something with loc of user
+    const lat = this.context.values.find(value => {
+      return value.name === 'lat';
+    }).value;
+    const lng = this.context.values.find(value => {
+      return value.name === 'lng';
+    }).value;
+    const geoLocation = {
+      lat: parseFloat(lat),
+      lng: parseFloat(lng),
+      lastUpdated: new Date()
+    };
+    ApiReferral.sendReferral("location_go", this.event.senderId);
+    this.apiGraphql
+      .sendMutation(mutationUser.updateLocationByAccountMessenger(),
+        {PSID: this.event.senderId, geoLocation: geoLocation})
+      .then(res => {
+        this.user.geoLocation = geoLocation;
+        this.sendItinerary()
+      })
+      .catch(err => Sentry.captureException(err))
   }
 
   checkoutLastUpdate() {
-    const diffHour = Math.abs(
-        new Date() - new Date(this.user.geoLocation.lastUpdated)) / 36e5;
-    if (diffHour >= LIMIT_HOUR_ASK_LOCATION) {
-      const goView = new ViewGo(this.event.locale, this.user, event);
-      const messageArray = [
-        ViewChatAction.markSeen(),
-        ViewChatAction.typingOn(),
-        ViewChatAction.smallPause(),
-        ViewChatAction.typingOff(),
-        goView.rememberLocation(),
-      ];
-      const newMessage = new Message(this.event.senderId, messageArray);
-      newMessage.sendMessage();
-    } else {
-      this.sendItinerary()
-    }
+    const event = this.context.values.find(value => {
+      return value.name === 'event';
+    }).value;
+    const goView = new ViewGo(this.event.locale, this.user, event);
+    const messageArray = [
+      ViewChatAction.markSeen(),
+      ViewChatAction.typingOn(),
+      ViewChatAction.smallPause(),
+      ViewChatAction.typingOff(),
+      goView.rememberLocation(),
+    ];
+    const newMessage = new Message(this.event.senderId, messageArray);
+    newMessage.sendMessage();
   }
 
   sendItinerary() {
@@ -150,11 +172,7 @@ class Go {
           ViewChatAction.typingOn(),
           ViewChatAction.smallPause(),
           ViewChatAction.typingOff(),
-          goView.sendAddress(venue.location.name),
-          ViewChatAction.typingOn(),
-          ViewChatAction.smallPause(),
-          ViewChatAction.typingOff(),
-          goView.sendLocation(venue.location, venue.name)
+          goView.sendLocation(venue.location.name, venue.name)
         ];
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
@@ -162,17 +180,43 @@ class Go {
       .catch(err => Sentry.captureException(err))
   }
 
+  askForUpdate() {
+
+  }
+
   askForLocation() {
+    const event = this.context.values.find(value => {
+      return value.name === 'event';
+    }).value;
     const goView = new ViewGo(this.event.locale, this.user, event);
     const messageArray = [
       ViewChatAction.markSeen(),
       ViewChatAction.typingOn(),
       ViewChatAction.smallPause(),
       ViewChatAction.typingOff(),
-      goView.updateLocation(),
+      goView.askLocation(),
     ];
     const newMessage = new Message(this.event.senderId, messageArray);
     newMessage.sendMessage();
+  }
+
+  cleanContext() {
+    const newValues = [];
+    this.context.values.forEach(item => {
+      if (item.name === "event" || item.name === "id") {
+        newValues.push(item);
+      }
+    });
+    return new Promise((resolve, reject) => {
+      const filter = {
+        contextId: this.context.id,
+        values: newValues,
+      };
+      this.apiGraphql
+        .sendMutation(mutationContext.updateContextByPage(), filter)
+        .then(res => resolve())
+        .catch(err => reject(err))
+    })
   }
 }
 

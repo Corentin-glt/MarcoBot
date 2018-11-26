@@ -25,7 +25,7 @@ class Description {
   init() {
     return new Promise((resolve, reject) => {
       const description = this.locale.includes('fr') ?
-        this.venue.descriptionFr : this.venue.description
+        this.venue.descriptionFr : this.venue.description;
       const text = new Text(description);
       text.addQuickReply(i18n.__("viewMore1"),
         `go_event:${this.typeOfVenue}_id:${this.venue.id || this.venue._id}`)

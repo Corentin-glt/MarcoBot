@@ -67,6 +67,7 @@ class Drink {
         //     this.user.cityTraveling));
       })
       .then(response => {
+        //TODO CHANGE 'bars' by 'barsByPriceAndType'
         const venue = new ViewVenue(this.event.locale, this.user,
           response.barsByPriceAndType, 'bar');
         if (response.barsByPriceAndType !== null && response.barsByPriceAndType.length > 0) {

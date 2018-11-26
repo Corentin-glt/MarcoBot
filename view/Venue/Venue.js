@@ -160,12 +160,14 @@ class Venue {
       subtitleSharing.length > 80 ?
         subtitleSharing = subtitleSharing.slice(0, 75) + '...'
         : null;
+      const kindElement = this.typeOfVenue !== 'visit' ?
+        this.typeOfVenue : elem.kindElement;
       this.generic
         .addBubble(`${elem.name}${globalNote}`, description)
         .addImage(`https://api.marco-app.com/api/image/${elem.photos[0]}`)
         .addDefaultAction(`${globalUrl}`)
         .addButton(i18n.__("letsGo"),
-          `go_event:${elem.kindElement}_id:${elem.id || elem._id}`)
+          `go_event:${kindElement}_id:${elem.id || elem._id}`)
         .addShareButton(
           new Generic()
             .addBubble(`${elem.name}`, subtitleSharing)
@@ -184,7 +186,7 @@ class Venue {
         this.locale !== 'fr')
         || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
           this.generic.addButton(i18n.__("tellMore"),
-            `description_event:${elem.kindElement}_id:${elem.id || elem._id}`)
+            `description_event:${kindElement}_id:${elem.id || elem._id}`)
           :
           this.generic.addButton(i18n.__("tellMore"),
             `${globalUrl}`)
