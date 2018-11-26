@@ -12,6 +12,10 @@ const laterQuery = require('../../../helpers/graphql/later/query');
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
 const async = require('async');
+const contextQuery = require("../../../helpers/graphql/context/query");
+const contextMutation = require("../../../helpers/graphql/context/mutation");
+
+const contextsCanLater = ['description'];
 
 class Later {
   constructor(event, context, user) {
@@ -26,14 +30,64 @@ class Later {
 
   start() {
     if (valueLater.length !== this.context.values.length) {
-      this.defaultAnswer();
+      this.findContext()
+        .then(context => {
+          this.updateContext(context)
+        })
     } else {
       this.createLater()
     }
   }
 
-  defaultAnswer() {
+  findContext() {
+    let page = 0;
+    let contextFound = false;
+    return new Promise((resolve, reject) => {
+      async.whilst(
+        () => contextFound === false,
+        (callback) => {
+          this.apiGraphql
+            .sendQuery(
+              contextQuery.getUserContextByPage(this.event.senderId, page))
+            .then(res => {
+              page++;
+              const contextArray = res.contextsByUserAndPage;
+              const contextNext = contextsCanLater.find(item => {
+                return item === contextArray[0].name;
+              });
+              if (typeof contextNext !== 'undefined') {
+                contextFound = true;
+                callback(null, contextArray[0]);
+              } else {
+                callback(null, contextArray[0]);
+              }
+            })
+            .catch(err => callback(err))
+        },
+        (err, context) => {
+          if (err) return reject(err);
+          if (contextFound) {
+            return resolve(context)
+          }
+        }
+      )
+    })
+  }
 
+  updateContext(context){
+    const filter = {
+      contextId: this.context.id,
+      values: context.values,
+    };
+    this.apiGraphql
+      .sendMutation(contextMutation.updateContextByPage(), filter)
+      .then(res => {
+        this.context = res.updateContextByPage;
+        this.createLater();
+      })
+      .catch(err => {
+        Sentry.captureException(err);
+      });
   }
 
   createLater() {
