@@ -10,6 +10,7 @@ const config = require('../../../config');
 const Sentry = require("@sentry/node");
 const numberDayProgramByCity = require(
   '../../../assets/variableApp/limitCityProgram');
+const ViewDefault = require('../../../view/default/ViewDefault');
 
 
 class Trip {
@@ -25,7 +26,8 @@ class Trip {
 
   start() {
     const city = this.context.values.find(value => value.name === 'city');
-    if (city) {
+    console.log(city);
+    if (typeof city.value !== 'undefined' && city.value !== null) {
       this.apiGraphql.sendMutation(userMutation.updateCityTraveling(), {
         PSID: this.event.senderId,
         cityTraveling: city.value.toLowerCase()
@@ -34,6 +36,12 @@ class Trip {
           console.log(user);
         })
         .catch(err => Sentry.captureException(err));
+    } else {
+      const defaultMessage = new ViewDefault(this.user, this.event.locale);
+      const messageArray = [ViewChatAction.markSeen(), ViewChatAction.typingOn(),
+        ViewChatAction.typingOff(), defaultMessage.noCityDefault(),ViewChatAction.typingOn(),
+        ViewChatAction.typingOff(), defaultMessage.tripCityDefault2()];
+      new Message(this.event.senderId, messageArray).sendMessage();
     }
     if (tripValues.length > this.context.values.length) {
       const value = this.findElemMissing();
@@ -138,9 +146,6 @@ class Trip {
     const duration = departureDate - arrivalDate;
     let numberDay = duration / (24 * 60 * 60 * 1000) < 1 ? 1 : duration / (24 * 60 * 60 * 1000);
     numberDay > numberDayProgramByCity[city] ? numberDay = numberDayProgramByCity[city] : null;
-    console.log(numberDay);
-    console.log(city);
-    console.log(numberDayProgramByCity[city]);
     this.apiGraphql.sendQuery(
       queryProgram.getOneProgram(cityTraveling.value.toLowerCase(), numberDay))
       .then(program => {

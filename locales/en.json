@@ -251,7 +251,9 @@
  "categoryDefault": "I think I misunderstood your request... Which category?",
  "priceDefault": "I don't follow you... Which price?",
  "descriptionDefault" : "Hum, I don't understand... Click on one of the buttons below: ",
- "feedbackDefault": "Thank you so much!! 😊 Thanks to you I'll be able to improve myself. Nevertheless, don't hesitate to try something else: "
+ "feedbackDefault": "Thank you so much!! 😊 Thanks to you I'll be able to improve myself. Nevertheless, don't hesitate to try something else: ",
+ "noCityDefault": "I don't know this city yet... Please select one I know or click on the button below to ask my founders for insights. 👇",
+ "askFounders": "The founders"
 
 
 

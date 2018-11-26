@@ -1,6 +1,7 @@
 const i18n = require('i18n');
 const Text = require('../messenger/Text');
 const Generic = require('../messenger/Generic');
+const Button = require('../messenger/Button');
 i18n.configure({
   locales: ['en', 'fr'],
   directory: __dirname + '/../../locales',
@@ -41,6 +42,23 @@ class ViewDefault {
       .addBubble(`🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`, '')
       .addImage(`https://api.marco-app.com/api/image/roma.jpg`)
       .addButton(i18n.__("validate"), 'trip_city:rome')
+      .get();
+  }
+
+  changeCityDefault() {
+    return new Generic()
+      .addBubble(`🇬🇧🇬🇧 ${i18n.__('london')} 🇬🇧🇬🇧`, '')
+      .addImage(`https://api.marco-app.com/api/image/london.jpg`)
+      .addButton(i18n.__("validate"), 'changeCity_city:london')
+      .addBubble(`🇪🇸🇪🇸 ${i18n.__('barcelona')} 🇪🇸🇪🇸`, '')
+      .addImage(`https://api.marco-app.com/api/image/barcelona.jpg`)
+      .addButton(i18n.__("validate"), 'changeCity_city:barcelona')
+      .addBubble(`🇫🇷🇫🇷 ${i18n.__('paris')} 🇫🇷🇫🇷`, '')
+      .addImage(`https://api.marco-app.com/api/image/paris.jpg`)
+      .addButton(i18n.__("validate"), 'changeCity_city:paris')
+      .addBubble(`🇮🇹🇮🇹 ${i18n.__('rome')} 🇮🇹🇮🇹`, '')
+      .addImage(`https://api.marco-app.com/api/image/roma.jpg`)
+      .addButton(i18n.__("validate"), 'changeCity_city:rome')
       .get();
   }
 
@@ -95,6 +113,12 @@ class ViewDefault {
 
   descriptionDefault() {
     return new Text(i18n.__("descriptionDefault")).get();
+  }
+
+  noCityDefault() {
+    return new Button(i18n.__("noCityDefault"))
+      .addButton(i18n.__("askFounders"), 'talkingToHuman_isTalking:true')
+      .get();
   }
 
 }
