@@ -31,12 +31,6 @@ class Context {
       // console.log(elemFound);
       return elemFound !== null && typeof elemFound !== "undefined";
     });
-    console.log(context);
-    if (context === "default") {
-      console.log("UNKNOWN CONTEXT");
-      //TODO: GO DIRECTLY TO CLASS OR
-      //FUNCTION WHICH SEE THE LAST UPDATED CONTEXT IN BDD
-    } else {
       const values = this.getContextValues(context);
       console.log(values);
       this.newContext = Object.assign(
@@ -48,7 +42,6 @@ class Context {
         }
       );
       this.handleContext();
-    }
   }
 
   getContextValues() {
@@ -79,20 +72,15 @@ class Context {
       .then(res => {
         const userContextArray = res.contextsByUser;
         if (userContextArray === null || userContextArray.length === 0) {
-          console.log('create 1');
           this.createContext();
         } else if (this.checkContext(userContextArray)) {
-          console.log('create 2');
           this.createContext();
         } else if (!userContextArray.find(
           itm => itm.name === this.newContext.name)) {
-          console.log('create 3');
           this.createContext();
         } else if (this.newContext.name === 'trip' && this.newContext.values.find(value => value.name === 'city')) {
-          console.log('create 4');
           this.createContext();
         } else {
-          console.log('UPDATE');
           this.udpateContext(userContextArray);
         }
       })

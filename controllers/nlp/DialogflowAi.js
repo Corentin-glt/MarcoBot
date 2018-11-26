@@ -1,11 +1,15 @@
 const config = require("../../config");
 const ApiDialogFlow = require("../../helpers/Api/apiDialogflow");
+const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const Sentry = require("@sentry/node");
 const Message = require("../../view/messenger/Message");
 const contextDialogflow = require("./contextDialogflow");
 const valuesContext = require("./valuesContextDialogflow");
 const Context = require("../../process/Context");
 const Text = require('../../view/messenger/Text');
+const contextQuery = require('../../helpers/graphql/context/query');
+const contextMutation = require('../../helpers/graphql/context/mutation');
+const ViewMenu = require('../../view/menu/ViewMenu');
 
 class DialogflowAi {
   constructor(event) {
@@ -37,8 +41,7 @@ class DialogflowAi {
         ? response.parameters.fields
         : {}
       : {};
-    console.log(intent);
-    if (intent !== 'Default Welcome Intent') {
+    if (intent !== 'Default Welcome Intent' && intent !== 'Default Fallback Intent') {
       this.checkFunctionValuesOfContext(intent, parameters)
         .then(newValue => {
           console.log(newValue);
@@ -51,8 +54,42 @@ class DialogflowAi {
           context.mapContext();
         })
         .catch(err => Sentry.captureException(err));
+    } else if (intent === 'Default Fallback Intent' && response.action.split('.')[0] !== 'smalltalk') {
+      const apiGraphql = new ApiGraphql(
+        config.category[config.indexCategory].apiGraphQlUrl,
+        config.accessTokenMarcoApi
+      );
+      apiGraphql.sendQuery(contextQuery.getUserContextByPage(this.event.senderId, 0))
+        .then(res => {
+          if (res.contextsByUserAndPage[0].name === 'feedback') {
+            apiGraphql.sendMutation(contextMutation.updateContext(), {
+              contextId: res.contextsByUserAndPage[0].id,
+              values: [{name: 'message', value: response.queryText}]
+            })
+              .then(res => {
+                const context = new Context(
+                  this.event,
+                  intent,
+                  {},
+                  contextDialogflow
+                );
+                context.mapContext();
+              })
+              .catch(err => Sentry.captureException(err));
+          } else {
+            const context = new Context(
+              this.event,
+              intent,
+              {},
+              contextDialogflow
+            );
+            context.mapContext();
+          }
+        })
+    } else if (intent === 'Default Fallback Intent' && response.action.split('.')[0] !== 'smalltalk') {
+      this.responseToUser(response.fulfillmentText);
     } else {
-      this.responseToUser(response.fulfillmentText)
+      this.responseToUser(response.fulfillmentText);
     }
   }
 
@@ -116,7 +153,8 @@ class DialogflowAi {
   }
 
   responseToUser(response) {
-    const messageResponse = new Text(response).get();
+
+    const messageResponse = [new Text(response).get(), new ViewMenu({}, this.event.locale).menu()];
     const messageObject = new Message(this.event.senderId, messageResponse);
     messageObject.sendMessage();
   }

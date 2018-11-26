@@ -249,7 +249,7 @@
 	"Londres": "Londres",
 	"changePrice": "🔙  Changer le prix",
 	"startDefault": "Désolé je n'ai pas compris ta réponse... Cliques sur un des pouces ci-dessous: ",
-	"tripCityDefault1": "Mmmmh... Je n'ai pas compris où tu voyage. Choisis une des villes ci dessous: ",
+	"tripCityDefault1": "Mmmmh... Je n'ai pas compris où tu voyages. Choisis une des villes ci dessous: ",
 	"firstTimeDefault": "Je n'ai pas compris... Est-ce que c'est ta première fois?",
 	"arrivalDefault": "Je n'ai pas compris la date que tu as entrée. Essaye à nouveau dans un des formats ci-dessus. ",
 	"departureDefault": "Redis moi... Combien de temps restes-tu?",
@@ -257,7 +257,9 @@
 	"menuDefault": "Je n'ai pas compris ce que tu veux faire: ",
 	"categoryDefault": "Je ne suis pas sûr d'avoir bien compris ta demande... Quelle catégorie?",
 	"priceDefault": "Je ne te suis pas niveau budget... Quel prix?",
-	"descriptionDefault" : "Euh, je ne suis pas sûr d'avoir compris... Clique sur l'un des boutons ci dessous: "
+	"descriptionDefault" : "Euh, je ne suis pas sûr d'avoir compris... Clique sur l'un des boutons ci dessous: ",
+	"feedbackDefault": "Merci beaucoup pour ton retour!! 😊 Grâce à toi je vais devenir meilleur. En attendant, n'hésite pas à essayer quelque chose d'autre."
+
 
 
 }

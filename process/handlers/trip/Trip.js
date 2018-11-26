@@ -132,12 +132,15 @@ class Trip {
       value => value.name === 'departure');
     const cityTraveling = this.context.values.find(
       value => value.name === 'city');
-    const city = cityTraveling.value;
+    const city = cityTraveling.value.toLowerCase();
     const arrivalDate = new Date(arrivaleDateFound.value);
     const departureDate = new Date(departureDateFound.value);
     const duration = departureDate - arrivalDate;
     let numberDay = duration / (24 * 60 * 60 * 1000) < 1 ? 1 : duration / (24 * 60 * 60 * 1000);
     numberDay > numberDayProgramByCity[city] ? numberDay = numberDayProgramByCity[city] : null;
+    console.log(numberDay);
+    console.log(city);
+    console.log(numberDayProgramByCity[city]);
     this.apiGraphql.sendQuery(
       queryProgram.getOneProgram(cityTraveling.value.toLowerCase(), numberDay))
       .then(program => {
