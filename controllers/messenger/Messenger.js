@@ -1,4 +1,4 @@
-const receivedLocation = require(
+const ReceivedLocation = require(
   '../handlers/receivedAttachments/handlers/receivedLocation/receivedLocation');
 const contextMessenger = require('./contextMessenger');
 const ApiGraphql = require('../../helpers/Api/apiGraphql');
@@ -15,6 +15,7 @@ class Messenger {
   }
 
   handle() {
+    console.log('MESSAGE MESSENGER')
     if (this.event.message) {
       this.event.message.attachments ?
         this.receivedAttachments()
@@ -27,7 +28,9 @@ class Messenger {
   receivedAttachments() {
     switch (this.event.message.attachments[0].type) {
       case 'location':
-        receivedLocation(event);
+        console.log('NIQUE')
+        const receiveLocation = new ReceivedLocation(this.event);
+        receiveLocation.start();
         break;
       case 'audio':
         // receivedAudio(event);
@@ -45,7 +48,8 @@ class Messenger {
         // receivedVideo(event);
         break;
       default:
-        receivedLocation(event);
+        const receiveLocationDefault = new ReceivedLocation(this.event);
+        receiveLocationDefault.start();
         break;
     }
   }
@@ -54,7 +58,6 @@ class Messenger {
     let objValue = {};
     for (let i = 1; i < splittedPayload.length; i++) {
       const valuePayload = splittedPayload[i].split(':');
-      console.log(valuePayload[0]);
       objValue[valuePayload[0]] =
         valuePayload[0] === 'arrival' ? new Date().toISOString() :
           valuePayload[1];

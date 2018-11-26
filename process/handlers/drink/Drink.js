@@ -59,17 +59,18 @@ class Drink {
         category: type
       })
       .then(response => {
-        return recommandationApi.sendQuery(
-          barQuery.queryBarsByPriceAndType(this.event.senderId, type,
-            parseInt(price), parseInt(this.context.page)));
-        // return apiGraphql.sendQuery(
-        //   barQuery.queryBars(parseInt(this.context.page),
-        //     this.user.cityTraveling));
+        // return recommandationApi.sendQuery(
+        //   barQuery.queryBarsByPriceAndType(this.event.senderId, type,
+        //     parseInt(price), parseInt(this.context.page)));
+        return apiGraphql.sendQuery(
+          barQuery.queryBars(parseInt(this.context.page),
+            this.user.cityTraveling));
       })
       .then(response => {
+        //TODO CHANGE 'bars' by 'barsByPriceAndType'
         const venue = new ViewVenue(this.event.locale, this.user,
-          response.barsByPriceAndType, 'bar');
-        if (response.barsByPriceAndType !== null && response.barsByPriceAndType.length > 0) {
+          response.bars, 'bar');
+        if (response.bars !== null && response.bars.length > 0) {
           return venue
             .init()
             .then(messageVenue => {

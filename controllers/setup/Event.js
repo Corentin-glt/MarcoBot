@@ -28,10 +28,9 @@ class Event {
   }
 
   handling(user) {
-    console.log(user);
     this.checkReferral();
     if ((this.message && this.message.text && this.message.quick_reply)
-      || (this.message && this.message.attachements)
+      || (this.message && this.message.attachments)
       || (this.postback)
     ) {
       const messenger = new Messenger(this);

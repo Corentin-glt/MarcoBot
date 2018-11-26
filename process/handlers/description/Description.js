@@ -38,8 +38,6 @@ class Description {
       this.defaultAnswer();
     } else {
       this.findContext()
-        .then(context => this.updateContext(context))
-        .catch(err => Sentry.captureException(err))
     }
   }
 

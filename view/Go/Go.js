@@ -35,6 +35,15 @@ class Go {
     return updateText
       .addQuickReplyLocation()
       .addQuickReply("👎", 'go_updateLocation:false')
+      .get()
+  }
+
+  askLocation() {
+    const updateText = new Text(i18n.__("askLocation"));
+    return updateText
+      .addQuickReplyLocation()
+      .addQuickReply("👎", 'go_updateLocation:false')
+      .get()
   }
 
   letsGoMessage() {
@@ -52,11 +61,12 @@ class Go {
       .get();
   }
 
-  sendLocation(destination, event) {
+  sendLocation(place, event) {
+    const elemLocationGoogleMap = place.replace(" ", "+");
     const locationButton = new Button(i18n.__("sendLocation"));
     return locationButton
       .addButton(`📍 ${event}`,
-        `https://www.google.com/maps/dir//${destination.lat},${destination.lng}/`)
+        `https://www.google.fr/maps/place/${elemLocationGoogleMap}`)
       .get();
   }
 
