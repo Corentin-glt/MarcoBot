@@ -6,7 +6,7 @@ const Sentry = require("@sentry/node");
 
 const ProcessEat = require("./handlers/eat/Eat");
 const ProcessDrink = require("./handlers/drink/Drink");
-const ProcessAroundMe = require("./handlers/aroundMe/aroundMe");
+const ProcessAroundMe = require("./handlers/aroundMe/AroundMe");
 const ProcessBack = require("./handlers/back/Back");
 const ProcessChangeCity = require("./handlers/changeCity/changeCity");
 const ProcessFavorite = require("./handlers/favorite/favorite");

@@ -66,7 +66,7 @@ class Eat {
       })
       .then(response => {
         const venue = new ViewVenue(this.event.locale, this.user,
-          response.restaurantsByPriceAndType, 'restaurant');
+          response.restaurantsByPriceAndType, 'restaurant', false);
         if (response.restaurantsByPriceAndType !== null &&
           response.restaurantsByPriceAndType.length > 0) {
           return venue

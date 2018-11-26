@@ -15,11 +15,12 @@ i18n.configure({
 });
 
 class Venue {
-  constructor(locale, user, venues, typeOfVenue) {
+  constructor(locale, user, venues, typeOfVenue, isDifferentVenue) {
     this.locale = locale;
     this.user = user;
     this.venues = venues;
     this.typeOfVenue = typeOfVenue.toLowerCase();
+    this.isDifferentVenue = isDifferentVenue;
     this.generic = new Generic();
     i18n.setLocale(this.locale);
   }
@@ -30,8 +31,10 @@ class Venue {
       messageToSend = i18n.__(`fetchRestaurantMessage`)
     } else if (this.typeOfVenue === "bar") {
       messageToSend = i18n.__(`fetchBarsMessage`)
-    } else {
+    } else if (this.typeOfVenue === "visit"){
       messageToSend = i18n.__(`fetchVisitMessage`)
+    } else {
+      messageToSend = i18n.__(`aroundMeChoice`)
     }
     return new Text(messageToSend).get();
   }
@@ -45,9 +48,8 @@ class Venue {
     } else if (this.typeOfVenue === "bar") {
       payloadBackCategory = 'back_event:drink_option:category';
       payloadBackPrice = 'back_event:drink_option:price';
-    } else {
+    } else if (this.typeOfVenue === "visit") {
       payloadBackCategory = 'back_event:visit_option:category';
-      //payloadBackPrice = 'back_event:visit_option:price';
     }
     const arrayAnecdotes = anecdotes(this.user.cityTraveling, this.locale);
     const indexJoke = Math.floor(Math.random() *
@@ -59,8 +61,11 @@ class Venue {
       .addQuickReply(i18n.__('ticketing'), 'ticketing')
       .addQuickReply(i18n.__("visit"), 'visit')
       .addQuickReply(i18n.__("eat"), 'eat')
-      .addQuickReply(i18n.__("chat"), 'talkingToHuman')
-      .addQuickReply(i18n.__("changeCategory"), payloadBackCategory);
+      .addQuickReply(i18n.__("chat"), 'talkingToHuman');
+    payloadBackCategory !== "" ?
+      textEmpty
+        .addQuickReply(i18n.__("changeCategory"), payloadBackCategory)
+      : null;
     payloadBackPrice !== "" ?
       textEmpty
         .addQuickReply(i18n.__("changePrice"), payloadBackPrice)
@@ -160,7 +165,7 @@ class Venue {
       subtitleSharing.length > 80 ?
         subtitleSharing = subtitleSharing.slice(0, 75) + '...'
         : null;
-      const kindElement = this.typeOfVenue !== 'visit' ?
+      const kindElement = (!this.isDifferentVenue) ?
         this.typeOfVenue : elem.kindElement;
       this.generic
         .addBubble(`${elem.name}${globalNote}`, description)
@@ -205,7 +210,8 @@ class Venue {
       this.generic
         .addBubble(i18n.__("nothingStock"), i18n.__("nothingStockSub"))
         .addImage(`https://api.marco-app.com/api/image/askInformation.jpg`)
-        .addButton(i18n.__("nothingStockButton"), 'talkingToHuman_isTalking:true')
+        .addButton(i18n.__("nothingStockButton"),
+          'talkingToHuman_isTalking:true')
   }
 }
 

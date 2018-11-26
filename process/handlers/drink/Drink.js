@@ -69,7 +69,7 @@ class Drink {
       .then(response => {
         //TODO CHANGE 'bars' by 'barsByPriceAndType'
         const venue = new ViewVenue(this.event.locale, this.user,
-          response.barsByPriceAndType, 'bar');
+          response.barsByPriceAndType, 'bar', false);
         if (response.barsByPriceAndType !== null && response.barsByPriceAndType.length > 0) {
           return venue
             .init()

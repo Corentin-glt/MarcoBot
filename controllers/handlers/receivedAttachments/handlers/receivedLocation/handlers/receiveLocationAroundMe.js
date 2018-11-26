@@ -37,7 +37,7 @@ module.exports = (_event) => {
     lastUpdated: nowDate
   };
   let userObject = {};
-  ApiReferral.sendReferral("around_me", senderID)
+  ApiReferral.sendReferral("around_me", senderID);
   return apiGraphql.sendMutation(mutationUser.updateLocationByAccountMessenger(),
     {PSID: senderID, geoLocation: geoLocation})
     .then(res => {
