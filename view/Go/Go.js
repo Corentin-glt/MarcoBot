@@ -26,7 +26,7 @@ class Go {
     const rememberText = new Text(i18n.__("rememberLocation"));
     return rememberText
       .addQuickReplyLocation()
-      .addQuickReply(i18n.__("rememberLocationNo"), 'go_rememberLocation:true')
+      .addQuickReply(i18n.__("rememberLocationNo"), 'go_rememberLocation:false')
       .get()
   }
 
@@ -58,6 +58,21 @@ class Go {
       .addButton(`📍 ${event}`,
         `https://www.google.com/maps/dir//${destination.lat},${destination.lng}/`)
       .get();
+  }
+
+  noItinerary(eventName) {
+    return new Text(
+      `${i18n.__("noLocationEvent")} ${eventName}${i18n.__(
+        "noLocationEvent2")}`
+    )
+      .get()
+  }
+
+  sendAddress(eventAddress) {
+    return new Text(
+      `📍 ${eventAddress}`
+    )
+      .get()
   }
 
 }
