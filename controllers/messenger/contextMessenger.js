@@ -13,6 +13,7 @@ module.exports = {
   'drink': ['drink'],
   'talkingToHuman': ['talkingToHuman'],
   'back': ['back'],
+  'later': ['later'],
   'favorite': ['favorite'],
   'subscribe': ['subscribe'],
   'help': ['help'],

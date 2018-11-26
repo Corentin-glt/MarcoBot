@@ -21,5 +21,6 @@ module.exports = {
   'map':['map'],
   'unknown':['Default Fallback Intent'],
   'description': ['description'],
+  'later': ['later'],
 
 };

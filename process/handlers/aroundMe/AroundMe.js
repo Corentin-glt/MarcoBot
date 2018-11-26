@@ -79,7 +79,6 @@ class AroundMe {
             }
           }, (err) => {
             if (err) return Sentry.captureException(err);
-            console.log('NEW ==>', newResponses);
             const venue = new ViewVenue(this.event.locale, this.user,
               newResponses, 'aroundMe', true);
             return venue

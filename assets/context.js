@@ -14,6 +14,7 @@ module.exports = (object) => {
     'drink': object.drink,
     'talkingToHuman': object.talkingToHuman,
     'back': object.back,
+    'later': object.later,
     'favorite': object.favorite,
     'subscribe': object.subscribe,
     'help': object.help,

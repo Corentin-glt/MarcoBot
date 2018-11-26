@@ -18,6 +18,7 @@ const valuesTrip = require('./values/trip');
 const valuesVisit = require('./values/visit');
 const valuesNext = require('./values/next');
 const valuesMap = require('./values/map');
+const valuesLater = require('./values/later');
 const valuesDescription = require('./values/description');
 const valuesUnknown = require('./values/unknown');
 
@@ -43,5 +44,6 @@ module.exports = {
   'next': valuesNext,
   'map': valuesMap,
   'description': valuesDescription,
+  'later': valuesLater,
   'unknown': valuesUnknown
 };
