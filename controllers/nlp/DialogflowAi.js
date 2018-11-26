@@ -10,10 +10,15 @@ const Text = require('../../view/messenger/Text');
 const contextQuery = require('../../helpers/graphql/context/query');
 const contextMutation = require('../../helpers/graphql/context/mutation');
 const ViewMenu = require('../../view/menu/ViewMenu');
+const transformCity = require('../../helpers/transformCity');
 
 class DialogflowAi {
   constructor(event) {
     this.event = event;
+    this.apiGraphql = new ApiGraphql(
+      config.category[config.indexCategory].apiGraphQlUrl,
+      config.accessTokenMarcoApi
+    );
   }
 
   start() {
@@ -42,27 +47,57 @@ class DialogflowAi {
         : {}
       : {};
     if (intent !== 'Default Welcome Intent' && intent !== 'Default Fallback Intent') {
-      this.checkFunctionValuesOfContext(intent, parameters)
-        .then(newValue => {
-          console.log(newValue);
-          const context = new Context(
-            this.event,
-            intent,
-            newValue,
-            contextDialogflow
-          );
-          context.mapContext();
-        })
-        .catch(err => Sentry.captureException(err));
+      if (intent === 'city') {
+        this.apiGraphql.sendQuery(contextQuery.getUserContextByPage(this.event.senderId, 0))
+          .then(res => {
+              if (res.contextsByUserAndPage[0].name === 'changeCity') {
+                this.checkFunctionValuesOfContext('changeCity', parameters)
+                  .then(newValue => {
+                    console.log(newValue);
+                    const context = new Context(
+                      this.event,
+                      'changeCity',
+                      newValue,
+                      contextDialogflow
+                    );
+                    context.mapContext();
+                  })
+                  .catch(err => Sentry.captureException(err));
+              } else {
+                this.checkFunctionValuesOfContext('trip', parameters)
+                  .then(newValue => {
+                    console.log(newValue);
+                    const context = new Context(
+                      this.event,
+                      'trip',
+                      newValue,
+                      contextDialogflow
+                    );
+                    context.mapContext();
+                  })
+                  .catch(err => Sentry.captureException(err));
+              }
+          })
+          .catch(err => Sentry.captureException(err));
+      } else {
+        this.checkFunctionValuesOfContext(intent, parameters)
+          .then(newValue => {
+            console.log(newValue);
+            const context = new Context(
+              this.event,
+              intent,
+              newValue,
+              contextDialogflow
+            );
+            context.mapContext();
+          })
+          .catch(err => Sentry.captureException(err));
+      }
     } else if (intent === 'Default Fallback Intent' && response.action.split('.')[0] !== 'smalltalk') {
-      const apiGraphql = new ApiGraphql(
-        config.category[config.indexCategory].apiGraphQlUrl,
-        config.accessTokenMarcoApi
-      );
-      apiGraphql.sendQuery(contextQuery.getUserContextByPage(this.event.senderId, 0))
+      this.apiGraphql.sendQuery(contextQuery.getUserContextByPage(this.event.senderId, 0))
         .then(res => {
           if (res.contextsByUserAndPage[0].name === 'feedback') {
-            apiGraphql.sendMutation(contextMutation.updateContext(), {
+            this.apiGraphql.sendMutation(contextMutation.updateContext(), {
               contextId: res.contextsByUserAndPage[0].id,
               values: [{name: 'message', value: response.queryText}]
             })
@@ -124,8 +159,13 @@ class DialogflowAi {
             newValuesObject[objectValues["tripDate"].stringValue] =
               objectValues[item].stringValue;
           } else {
-            newValuesObject[valuesContext[item]] =
-              objectValues[item].stringValue;
+            if (item === 'geo-city') {
+                newValuesObject[valuesContext[item]] =
+                  transformCity(objectValues[item].stringValue.toLowerCase(),
+                    this.event.locale);
+            } else {
+              newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
+            }
           }
         } else if (item === "duration" &&
           objectValues[item].listValue.values.length > 0) {
@@ -144,8 +184,10 @@ class DialogflowAi {
     let newValuesObject = {};
     return new Promise((resolve, reject) => {
       Object.keys(objectValues).map(item => {
-        if (objectValues[item].stringValue !== "") {
+        if (objectValues[item].stringValue !== "" && item !== 'geo-city') {
           newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
+        } else {
+          newValuesObject[valuesContext[item]] = transformCity(objectValues[item].stringValue.toLowerCase(), this.event.locale);
         }
       });
       resolve(newValuesObject);
