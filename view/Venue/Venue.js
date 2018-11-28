@@ -198,11 +198,13 @@ class Venue {
             .get()
         );
       console.log('YOLO B - 6');
-      if (elem.affiliations.length > 0) {
+      if (elem.affiliations!== null && elem.affiliations.length > 0 ) {
+        console.log('YOLO B - 7-1');
         this.generic.addButton(i18n.__("reservationTemplate"),
           `${elem.affiliations[0].url}`)
-        console.log('YOLO B - 7');
+        console.log('YOLO B - 7-2');
       } else {
+        console.log('YOLO B - 8-1');
         (elem.description.length > 0 &&
         this.locale !== 'fr')
         || (elem.descriptionFr.length > 0 && this.locale === 'fr') ?
@@ -211,7 +213,7 @@ class Venue {
           :
           this.generic.addButton(i18n.__("tellMore"),
             `${globalUrl}`)
-        console.log('YOLO B - 8');
+        console.log('YOLO B - 8 - 2');
       }
       resolve()
     })
