@@ -31,7 +31,7 @@ class Venue {
       messageToSend = i18n.__(`fetchRestaurantMessage`)
     } else if (this.typeOfVenue === "bar") {
       messageToSend = i18n.__(`fetchBarsMessage`)
-    } else if (this.typeOfVenue === "visit"){
+    } else if (this.typeOfVenue === "visit") {
       messageToSend = i18n.__(`fetchVisitMessage`)
     } else {
       messageToSend = i18n.__(`aroundMeChoice`)
@@ -39,7 +39,18 @@ class Venue {
     return new Text(messageToSend).get();
   }
 
-  favoriteMessage(){
+  lastMessage() {
+    return new Text(i18n.__("question1MessageAfterGeoLocation"))
+      .addQuickReply(i18n.__("geolocation"), 'aroundMe')
+      .addQuickReply(i18n.__('ticketing'), 'ticket')
+      .addQuickReply(i18n.__("visit"), 'visit')
+      .addQuickReply(i18n.__('eat'), 'eat')
+      .addQuickReply(i18n.__('drink'), 'drink')
+      .addQuickReply(i18n.__('chat'), 'talkingToHuman_isTalking:true')
+      .get();
+  }
+
+  favoriteMessage() {
     return new Text(i18n.__("myFavorite"))
       .get()
   }
@@ -171,7 +182,7 @@ class Venue {
         subtitleSharing = subtitleSharing.slice(0, 75) + '...'
         : null;
       const kindElement = this.isDifferentVenue ?
-         elem.kindElement : this.typeOfVenue ;
+        elem.kindElement : this.typeOfVenue;
       this.generic
         .addBubble(`${elem.name}${globalNote}`, description)
         .addImage(`https://api.marco-app.com/api/image/${elem.photos[0]}`)
@@ -188,7 +199,7 @@ class Venue {
               `https://www.google.fr/maps/place/${elemLocationGoogleMap}`)
             .get()
         );
-      if (elem.affiliations!== null && elem.affiliations.length > 0 ) {
+      if (elem.affiliations !== null && elem.affiliations.length > 0) {
         this.generic.addButton(i18n.__("reservationTemplate"),
           `${elem.affiliations[0].url}`)
       } else {

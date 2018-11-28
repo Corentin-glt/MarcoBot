@@ -258,5 +258,6 @@
  "wrongContext": "Mmmmh 🧐, I don't follow you... If you have any other queries, don’t hesitate to tell me.",
  "myFavorite": "Like I said, I'll keep it safe for you 😉",
  "nothingFavorite": "Oops, it looks like you don't have any favorites now. To add one, you have to click \"Later ❤\" on a bar, restaurant, etc... ",
- "mainError": "Uh oh!! I think something's gone wrong in my cabeza. 🤯 Maybe try something else while I try to solve the problem."
+ "mainError": "Uh oh!! I think something's gone wrong in my cabeza. 🤯 Maybe try something else while I try to solve the problem.",
+ "error": "Oopss something wrong happened 😕, please try something else."
 }

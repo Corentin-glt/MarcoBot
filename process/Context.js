@@ -78,6 +78,7 @@ class Context {
         } else if (this.newContext.name === 'trip' && this.newContext.values.find(value => value.name === 'city')) {
           this.createContext();
         } else {
+          console.log('JE SUIS UN GROS CACA')
           this.udpateContext(userContextArray);
         }
       })

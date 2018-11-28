@@ -94,6 +94,10 @@ class AroundMe {
                   ViewChatAction.smallPause(),
                   ViewChatAction.typingOff(),
                   messageVenue,
+                  ViewChatAction.typingOn(),
+                  ViewChatAction.mediumPause(),
+                  ViewChatAction.typingOff(),
+                  venue.lastMessage()
                 ];
                 const newMessage = new Message(this.event.senderId,
                   messageArray);
