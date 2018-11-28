@@ -13,7 +13,7 @@ const mutationQuery = require(
 const async = require('async');
 const ProcessGo = require("../../../../../process/handlers/go/Go");
 const ProcessAroundMe = require(
-  "../../../../../process/handlers/aroundMe/aroundMe");
+  "../../../../../process/handlers/aroundMe/AroundMe");
 
 const contextsCanLocation = ['aroundMe', 'go'];
 const contextMap = {
@@ -39,7 +39,7 @@ class ReceiveLocation {
         return this.findContext()
       })
       .then(context => {
-        this[`${context.name}Context`](context)
+        this.updateContext(context)
       })
       .catch(err => Sentry.captureException(err))
   }
@@ -79,8 +79,7 @@ class ReceiveLocation {
     })
   }
 
-
-  goContext(context) {
+  updateContext(context) {
     const newValues = [
       ...context.values,
       {
@@ -114,10 +113,6 @@ class ReceiveLocation {
       .catch(err => {
         Sentry.captureException(err);
       });
-  }
-
-  aroundMeContext(context) {
-
   }
 }
 

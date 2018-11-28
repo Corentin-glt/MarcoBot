@@ -6,13 +6,14 @@ const Sentry = require("@sentry/node");
 
 const ProcessEat = require("./handlers/eat/Eat");
 const ProcessDrink = require("./handlers/drink/Drink");
-const ProcessAroundMe = require("./handlers/aroundMe/aroundMe");
+const ProcessAroundMe = require("./handlers/aroundMe/AroundMe");
 const ProcessBack = require("./handlers/back/Back");
 const ProcessChangeCity = require("./handlers/changeCity/changeCity");
-const ProcessFavorite = require("./handlers/favorite/favorite");
+const ProcessFavorite = require("./handlers/favorite/Favorite");
 const ProcessFeedback = require("./handlers/feedback/feedback");
 const ProcessGo = require("./handlers/go/Go");
 const ProcessHelp = require("./handlers/help/help");
+const ProcessLater = require("./handlers/later/Later");
 const ProcessItinerary = require("./handlers/itinerary/itinerary");
 const ProcessMenu = require("./handlers/menu/menu");
 const ProcessShare = require("./handlers/share/share");
@@ -37,6 +38,7 @@ const contextMap = {
   favorite: ProcessFavorite,
   feedback: ProcessFeedback,
   go: ProcessGo,
+  later: ProcessLater,
   help: ProcessHelp,
   itinerary: ProcessItinerary,
   menu: ProcessMenu,
@@ -50,7 +52,7 @@ const contextMap = {
   next: ProcessNext,
   map: ProcessMap,
   description: ProcessDescription,
-  unknown: ProcessUnknown
+  unknown: ProcessUnknown,
 };
 
 class Process {

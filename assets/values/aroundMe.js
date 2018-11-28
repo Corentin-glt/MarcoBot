@@ -1,6 +1,14 @@
 module.exports = [
   {
-    name: 'position',
+    name: 'updateLocation',
     typeOf: 'Boolean'
+  },
+  {
+    name: 'lat',
+    typeOf: 'Number'
+  },
+  {
+    name: 'lng',
+    typeOf: 'Number'
   }
 ];

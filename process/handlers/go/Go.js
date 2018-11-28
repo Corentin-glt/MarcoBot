@@ -1,4 +1,4 @@
-const goValues = require("../../../assets/values/go");
+
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
@@ -14,7 +14,7 @@ const ApiReferral = require("../../../helpers/Api/apiReferral");
 const mutationUser = require("../../../helpers/graphql/user/mutation");
 const mutationGoing = require("../../../helpers/graphql/going/mutation");
 const mutationContext = require("../../../helpers/graphql/context/mutation");
-const LIMIT_HOUR_ASK_LOCATION = 2;
+//const LIMIT_HOUR_ASK_LOCATION = 2;
 
 
 const events = {

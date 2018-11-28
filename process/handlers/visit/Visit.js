@@ -62,7 +62,7 @@ class Visit {
       })
       .then(response => {
         const venue = new ViewVenue(this.event.locale, this.user,
-          response.visitsByPriceAndType, 'visit');
+          response.visitsByPriceAndType, 'visit', true);
         if (response.visitsByPriceAndType !== null &&
           response.visitsByPriceAndType.length > 0) {
           return venue
