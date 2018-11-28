@@ -65,7 +65,7 @@ class Favorite {
             ViewChatAction.typingOn(),
             ViewChatAction.smallPause(),
             ViewChatAction.typingOff(),
-            venue.firstMessage(),
+            venue.favoriteMessage(),
             ViewChatAction.typingOn(),
             ViewChatAction.smallPause(),
             ViewChatAction.typingOff(),

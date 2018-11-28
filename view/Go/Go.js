@@ -85,6 +85,17 @@ class Go {
       .get()
   }
 
+  finaleMessage(){
+    return new Text(i18n.__("question1MessageAfterDistrict"))
+      .addQuickReply(i18n.__("geolocation"), 'aroundMe')
+      .addQuickReply(i18n.__("ticketing"), 'ticketing')
+      .addQuickReply(i18n.__("visit"), 'visit')
+      .addQuickReply(i18n.__("eat"), 'eat')
+      .addQuickReply(i18n.__("drink"), 'drink')
+      .addQuickReply(i18n.__("chat"), 'talkingToHuman')
+      .get()
+  }
+
   errorMessage(){
     return new Text(i18n.__("wrongContext"))
       .addQuickReply(i18n.__("geolocation"), 'aroundMe')

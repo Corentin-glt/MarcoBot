@@ -156,6 +156,10 @@ class Go {
           ViewChatAction.smallPause(),
           ViewChatAction.typingOff(),
           goView.sendItinerary(venue.location),
+          ViewChatAction.typingOn(),
+          ViewChatAction.mediumPause(),
+          ViewChatAction.typingOff(),
+          goView.finaleMessage()
         ];
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
@@ -184,7 +188,11 @@ class Go {
           ViewChatAction.typingOn(),
           ViewChatAction.smallPause(),
           ViewChatAction.typingOff(),
-          goView.sendLocation(venue.location.name, venue.name)
+          goView.sendLocation(venue.location.name, venue.name),
+          ViewChatAction.typingOn(),
+          ViewChatAction.mediumPause(),
+          ViewChatAction.typingOff(),
+          goView.finaleMessage()
         ];
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();

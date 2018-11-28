@@ -39,6 +39,11 @@ class Venue {
     return new Text(messageToSend).get();
   }
 
+  favoriteMessage(){
+    return new Text(i18n.__("myFavorite"))
+      .get()
+  }
+
   emptyVenuesMessage() {
     let payloadBackCategory = '';
     let payloadBackPrice = '';
