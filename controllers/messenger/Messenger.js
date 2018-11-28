@@ -28,7 +28,6 @@ class Messenger {
   receivedAttachments() {
     switch (this.event.message.attachments[0].type) {
       case 'location':
-        console.log('NIQUE')
         const receiveLocation = new ReceivedLocation(this.event);
         receiveLocation.start();
         break;
