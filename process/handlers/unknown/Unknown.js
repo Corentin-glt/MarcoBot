@@ -3,15 +3,15 @@ const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
 const config = require("../../../config");
-const contextQuery = require("../../../helpers/graphql/context/query");
-const contextMutation = require("../../../helpers/graphql/context/mutation");
 const ViewDefault = require("../../../view/default/ViewDefault");
 const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
 const tripValues = require("../../../assets/values/trip");
 const eatValues = require("../../../assets/values/eat");
 const ViewCategory = require('../../../view/Category/Category');
 const ViewPrice = require('../../../view/Price/Price');
-
+const FindContext = require('../findContext/FindContext');
+const contextsCanUnknown = require('./contextsCanUnknon');
+const DescriptionContext = require('../description/Description');
 
 class Unknown {
   constructor(event, context, user) {
@@ -25,7 +25,8 @@ class Unknown {
   }
 
   start() {
-    this.findContext()
+    new FindContext(this.event, contextsCanUnknown)
+      .start()
       .then(context => {
           const defaultMessage = new ViewDefault(this.user, this.event.locale);
           let messageArray = [ViewChatAction.markSeen(),
@@ -79,7 +80,8 @@ class Unknown {
                       const tempArray = [defaultMessage.categoryDefault(),
                         messageCategory];
                       messageArray.push.apply(messageArray, tempArray);
-                      new Message(this.event.senderId, messageArray).sendMessage();
+                      new Message(this.event.senderId,
+                        messageArray).sendMessage();
                     })
                     .catch(err => Sentry.captureException(err));
                 } else if (value === 'price') {
@@ -116,7 +118,8 @@ class Unknown {
                       const tempArray = [defaultMessage.categoryDefault(),
                         messageCategory];
                       messageArray.push.apply(messageArray, tempArray);
-                      new Message(this.event.senderId, messageArray).sendMessage();
+                      new Message(this.event.senderId,
+                        messageArray).sendMessage();
                     })
                     .catch(err => Sentry.captureException(err));
                 } else if (value === 'price') {
@@ -161,6 +164,18 @@ class Unknown {
               messageArray.push(defaultMessage.feedbackDefault());
               new Message(this.event.senderId, messageArray).sendMessage();
               break;
+
+            case 'description':
+              const event = context.values.find(value => {
+                return value.name === 'event';
+              }).value;
+              const idEvent = context.values.find(value => {
+                return value.name === 'id';
+              }).value;
+              messageArray.push(
+                defaultMessage.descriptionDefault(event, idEvent));
+              new Message(this.event.senderId, messageArray).sendMessage();
+              break;
             default:
               messageArray.push(defaultMessage.menuDefault());
               new Message(this.event.senderId, messageArray).sendMessage();
@@ -170,7 +185,10 @@ class Unknown {
 
         }
       )
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        this.sendErrorMessage();
+        Sentry.captureException(err)
+      })
   }
 
   findElemMissing(allValues, context) {
@@ -189,37 +207,17 @@ class Unknown {
     return valueMissing;
   }
 
-  findContext() {
-    let page = 0;
-    let contextFound = false;
-    return new Promise((resolve, reject) => {
-      async.whilst(
-        () => contextFound === false,
-        (callback) => {
-          this.apiGraphql
-            .sendQuery(
-              contextQuery.getUserContextByPage(this.event.senderId, page))
-            .then(res => {
-              page++;
-              const contextArray = res.contextsByUserAndPage;
-              if (contextArray[0].name !== 'unknown' && contextArray[0].name !==
-                'next') {
-                contextFound = true;
-                callback(null, contextArray[0]);
-              } else {
-                callback(null, contextArray[0]);
-              }
-            })
-            .catch(err => callback(err))
-        },
-        (err, context) => {
-          if (err) return reject(err);
-          if (contextFound) {
-            return resolve(context)
-          }
-        }
-      )
-    })
+  sendErrorMessage() {
+    const goDefault = new ViewDefault(this.user, this.event.locale);
+    const messageArray = [
+      ViewChatAction.markSeen(),
+      ViewChatAction.typingOn(),
+      ViewChatAction.smallPause(),
+      ViewChatAction.typingOff(),
+      goDefault.errorMessage(),
+    ];
+    const newMessage = new Message(this.event.senderId, messageArray);
+    newMessage.sendMessage();
   }
 
 }

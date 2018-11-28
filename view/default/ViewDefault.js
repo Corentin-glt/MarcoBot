@@ -111,14 +111,30 @@ class ViewDefault {
   }
 
 
-  descriptionDefault() {
-    return new Text(i18n.__("descriptionDefault")).get();
+  descriptionDefault(typeofVenue, id) {
+    return new Text(i18n.__("descriptionDefault"))
+      .addQuickReply(i18n.__("viewMore1"),
+        `go_event:${typeofVenue}_id:${id}`)
+      .addQuickReply(i18n.__("viewMore2"),
+        `later_event:${typeofVenue}_id:${id}`)
+      .get();
   }
 
   noCityDefault() {
     return new Button(i18n.__("noCityDefault"))
       .addButton(i18n.__("askFounders"), 'talkingToHuman_isTalking:true')
       .get();
+  }
+
+  errorMessage() {
+    return new Text(i18n.__("wrongContext"))
+      .addQuickReply(i18n.__("geolocation"), 'aroundMe')
+      .addQuickReply(i18n.__("ticketing"), 'ticketing')
+      .addQuickReply(i18n.__("visit"), 'visit')
+      .addQuickReply(i18n.__("eat"), 'eat')
+      .addQuickReply(i18n.__("drink"), 'drink')
+      .addQuickReply(i18n.__("chat"), 'talkingToHuman')
+      .get()
   }
 
 }

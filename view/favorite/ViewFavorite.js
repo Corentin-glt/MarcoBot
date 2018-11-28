@@ -17,7 +17,7 @@ class ViewFavorite {
   }
 
   nothing() {
-    return new Text(i18n.__("nothingMore"))
+    return new Text(i18n.__("nothingFavorite"))
       .addQuickReply(i18n.__("geolocation"), 'aroundMe')
       .addQuickReply(i18n.__('ticketing'), 'ticket')
       .addQuickReply(i18n.__("visit"), 'visit')
@@ -26,10 +26,6 @@ class ViewFavorite {
       .addQuickReply(i18n.__('chat'), 'talkingToHuman_isTalking:true')
       .get();
   }
-
-
-
-
 }
 
 module.exports = ViewFavorite;

@@ -11,8 +11,7 @@ const laterMutation = require("../../../helpers/graphql/later/mutation");
 const laterQuery = require('../../../helpers/graphql/later/query');
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
-const async = require('async');
-const contextQuery = require("../../../helpers/graphql/context/query");
+const FindContext = require('../findContext/FindContext');
 const contextMutation = require("../../../helpers/graphql/context/mutation");
 
 const contextsCanLater = ['description'];
@@ -30,51 +29,20 @@ class Later {
 
   start() {
     if (valueLater.length !== this.context.values.length) {
-      this.findContext()
+      new FindContext(this.event, contextsCanLater)
+        .start()
         .then(context => {
           this.updateContext(context)
+        })
+        .catch(err => {
+          this.sendErrorMessage()
         })
     } else {
       this.createLater()
     }
   }
 
-  findContext() {
-    let page = 0;
-    let contextFound = false;
-    return new Promise((resolve, reject) => {
-      async.whilst(
-        () => contextFound === false,
-        (callback) => {
-          this.apiGraphql
-            .sendQuery(
-              contextQuery.getUserContextByPage(this.event.senderId, page))
-            .then(res => {
-              page++;
-              const contextArray = res.contextsByUserAndPage;
-              const contextNext = contextsCanLater.find(item => {
-                return item === contextArray[0].name;
-              });
-              if (typeof contextNext !== 'undefined') {
-                contextFound = true;
-                callback(null, contextArray[0]);
-              } else {
-                callback(null, contextArray[0]);
-              }
-            })
-            .catch(err => callback(err))
-        },
-        (err, context) => {
-          if (err) return reject(err);
-          if (contextFound) {
-            return resolve(context)
-          }
-        }
-      )
-    })
-  }
-
-  updateContext(context){
+  updateContext(context) {
     const filter = {
       contextId: this.context.id,
       values: context.values,
@@ -122,7 +90,19 @@ class Later {
         newMessage.sendMessage();
       })
       .catch(err => Sentry.captureException(err))
+  }
 
+  sendErrorMessage() {
+    const viewLater = new ViewLater(this.event.locale, this.user);
+    const messageArray = [
+      ViewChatAction.markSeen(),
+      ViewChatAction.typingOn(),
+      ViewChatAction.smallPause(),
+      ViewChatAction.typingOff(),
+      viewLater.errorMessage(),
+    ];
+    const newMessage = new Message(this.event.senderId, messageArray);
+    newMessage.sendMessage();
   }
 
 }

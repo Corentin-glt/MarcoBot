@@ -31,9 +31,9 @@ class Description {
         `go_event:${this.typeOfVenue}_id:${this.venue.id || this.venue._id}`)
         .addQuickReply(i18n.__("viewMore2"),
           `later_event:${this.typeOfVenue}_id:${this.venue.id ||
-          this.venue._id}`)
+          this.venue._id}`);
       resolve(text.get())
     })
   }
 }
-module.exports = Description
+module.exports = Description;

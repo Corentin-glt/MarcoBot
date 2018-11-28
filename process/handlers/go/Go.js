@@ -1,4 +1,3 @@
-
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
@@ -14,8 +13,11 @@ const ApiReferral = require("../../../helpers/Api/apiReferral");
 const mutationUser = require("../../../helpers/graphql/user/mutation");
 const mutationGoing = require("../../../helpers/graphql/going/mutation");
 const mutationContext = require("../../../helpers/graphql/context/mutation");
+const FindContext = require('../findContext/FindContext');
+const contextMutation = require("../../../helpers/graphql/context/mutation");
 //const LIMIT_HOUR_ASK_LOCATION = 2;
 
+const contextsCanGo = ['description'];
 
 const events = {
   "bar": (id) => queryBar.queryBar(id),
@@ -63,24 +65,34 @@ class Go {
   }
 
   createGoing() {
-    const event = this.context.values.find(value => {
+    let event = this.context.values.find(value => {
       return value.name === 'event';
-    }).value;
-    const idEvent = this.context.values.find(value => {
-      return value.name === 'id';
-    }).value;
-    return new Promise((resolve, reject) => {
-      ApiReferral.sendReferral("lets_go", this.event.senderId);
-      const paramsGoing = {
-        users_id: this.user.id,
-        eventName: `${event}s_id`,
-      };
-      paramsGoing[`${event}s_id`] = idEvent;
-      this.apiGraphql
-        .sendMutation(mutationGoing.createGoing(), paramsGoing)
-        .then(res => resolve(res))
-        .catch(err => reject(err))
     });
+    let idEvent = this.context.values.find(value => {
+      return value.name === 'id';
+    });
+    if (typeof event === "undefined" || typeof idEvent === "undefined") {
+      new FindContext(this.event, contextsCanGo)
+        .start()
+        .then(context => this.updateContext(context))
+        .catch(err => this.sendErrorMessage())
+    } else {
+      event = event.value;
+      idEvent = idEvent.value;
+      return new Promise((resolve, reject) => {
+        ApiReferral.sendReferral("lets_go", this.event.senderId);
+        const paramsGoing = {
+          users_id: this.user.id,
+          eventName: `${event}s_id`,
+        };
+        paramsGoing[`${event}s_id`] = idEvent;
+        this.apiGraphql
+          .sendMutation(mutationGoing.createGoing(), paramsGoing)
+          .then(res => resolve(res))
+          .catch(err => reject(err))
+      });
+
+    }
   }
 
   receiveLocation() {
@@ -144,6 +156,10 @@ class Go {
           ViewChatAction.smallPause(),
           ViewChatAction.typingOff(),
           goView.sendItinerary(venue.location),
+          ViewChatAction.typingOn(),
+          ViewChatAction.mediumPause(),
+          ViewChatAction.typingOff(),
+          goView.finaleMessage()
         ];
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
@@ -172,16 +188,16 @@ class Go {
           ViewChatAction.typingOn(),
           ViewChatAction.smallPause(),
           ViewChatAction.typingOff(),
-          goView.sendLocation(venue.location.name, venue.name)
+          goView.sendLocation(venue.location.name, venue.name),
+          ViewChatAction.typingOn(),
+          ViewChatAction.mediumPause(),
+          ViewChatAction.typingOff(),
+          goView.finaleMessage()
         ];
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
       .catch(err => Sentry.captureException(err))
-  }
-
-  askForUpdate() {
-
   }
 
   askForLocation() {
@@ -217,6 +233,35 @@ class Go {
         .then(res => resolve())
         .catch(err => reject(err))
     })
+  }
+
+  sendErrorMessage() {
+    const goView = new ViewGo(this.event.locale, this.user, 'undefined');
+    const messageArray = [
+      ViewChatAction.markSeen(),
+      ViewChatAction.typingOn(),
+      ViewChatAction.smallPause(),
+      ViewChatAction.typingOff(),
+      goView.errorMessage(),
+    ];
+    const newMessage = new Message(this.event.senderId, messageArray);
+    newMessage.sendMessage();
+  }
+
+  updateContext(context) {
+    const filter = {
+      contextId: this.context.id,
+      values: context.values,
+    };
+    this.apiGraphql
+      .sendMutation(contextMutation.updateContextByPage(), filter)
+      .then(res => {
+        this.context = res.updateContextByPage;
+        this.createGoing();
+      })
+      .catch(err => {
+        Sentry.captureException(err);
+      });
   }
 }
 

@@ -37,7 +37,6 @@ class Init {
   }
 
   handleCreation(event) {
-    console.log("NIQUE ");
     apiMessenger
       .receiveProfileFacebook(event.senderId)
       .then(res => {
