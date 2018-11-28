@@ -21,10 +21,7 @@ class Context {
   }
 
   mapContext() {
-    console.log('MAP CONTEXT');
-    console.log(Object.keys(this.dictContext));
     const context = Object.keys(this.dictContext).find((key, idx) => {
-      console.log(key);
       const elemFound = this.dictContext[key].find(elem => {
         return elem === this.inputContext;
       });
@@ -32,7 +29,6 @@ class Context {
       return elemFound !== null && typeof elemFound !== "undefined";
     });
       const values = this.getContextValues(context);
-      console.log(values);
       this.newContext = Object.assign(
         {},
         {

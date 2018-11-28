@@ -26,7 +26,6 @@ class Trip {
 
   start() {
     const city = this.context.values.find(value => value.name === 'city');
-    console.log(city);
     if (typeof city.value !== 'undefined' && city.value !== null) {
       this.apiGraphql.sendMutation(userMutation.updateCityTraveling(), {
         PSID: this.event.senderId,
@@ -38,8 +37,10 @@ class Trip {
         .catch(err => Sentry.captureException(err));
     } else {
       const defaultMessage = new ViewDefault(this.user, this.event.locale);
-      const messageArray = [ViewChatAction.markSeen(), ViewChatAction.typingOn(),
-        ViewChatAction.typingOff(), defaultMessage.noCityDefault(),ViewChatAction.typingOn(),
+      const messageArray = [ViewChatAction.markSeen(),
+        ViewChatAction.typingOn(),
+        ViewChatAction.typingOff(), defaultMessage.noCityDefault(),
+        ViewChatAction.typingOn(),
         ViewChatAction.typingOff(), defaultMessage.tripCityDefault2()];
       new Message(this.event.senderId, messageArray).sendMessage();
     }
@@ -47,18 +48,30 @@ class Trip {
       const value = this.findElemMissing();
       this[`${value}IsMissing`]();
     } else {
-      const departureDate = this.context.values.find(value => value.name === 'departure');
-      const arrivalDate = this.context.values.find(value => value.name === 'arrival');
-      const isItFirstTime = this.context.values.find(value => value.name === 'firstTime');
-      const cityTraveling = this.context.values.find(value => value.name === 'city');
+      console.log('END TRIP');
+      const tempDeparture = this.context.values.find(
+        value => value.name === 'departure');
+      console.log(tempDeparture);
+      const arrivalDate = this.context.values.find(
+        value => value.name === 'arrival');
+      const departureDate = isNaN(parseInt(tempDeparture.value)) ?
+        tempDeparture.value : new Date(
+          new Date(arrivalDate.value).getTime() + parseInt(tempDeparture.value));
+      console.log(departureDate);
+      const isItFirstTime = this.context.values.find(
+        value => value.name === 'firstTime');
+      const cityTraveling = this.context.values.find(
+        value => value.name === 'city');
       const objToSend = {
         PSID: this.event.senderId,
         cityTraveling: cityTraveling.value,
-        departureDateToCity: departureDate.value,
+        departureDateToCity: departureDate.toISOString(),
         arrivalDateToCity: arrivalDate.value,
         isItFirstTimeCity: JSON.parse(isItFirstTime.value)
       };
-      this.apiGraphql.sendMutation(tripMutation.createTripByAccountMessenger(), objToSend)
+      console.log(objToSend);
+      this.apiGraphql.sendMutation(tripMutation.createTripByAccountMessenger(),
+        objToSend)
         .then(res => {
           this.endTrip();
         })
@@ -86,7 +99,8 @@ class Trip {
     const tripMessages = new ViewTrip(this.user, this.event.locale);
     const messageArray = [
       ViewChatAction.markSeen(), ViewChatAction.typingOn(),
-      ViewChatAction.typingOff(), tripMessages.forgotCity(), tripMessages.chooseCity(),
+      ViewChatAction.typingOff(), tripMessages.forgotCity(),
+      tripMessages.chooseCity(),
     ];
     const newMessage = new Message(this.event.senderId, messageArray);
     newMessage.sendMessage();
@@ -112,7 +126,8 @@ class Trip {
     const tripMessages = new ViewTrip(this.user, this.event.locale);
     const messageArray = [
       ViewChatAction.markSeen(), ViewChatAction.typingOn(),
-      ViewChatAction.typingOff(), tripMessages.whenAreYouArriving(firstTime.value, city.value)
+      ViewChatAction.typingOff(),
+      tripMessages.whenAreYouArriving(firstTime.value, city.value)
     ];
     const newMessage = new Message(this.event.senderId, messageArray);
     newMessage.sendMessage();
@@ -131,7 +146,6 @@ class Trip {
   }
 
 
-
   endTrip() {
     const tripMessages = new ViewTrip(this.user, this.event.locale);
     const arrivaleDateFound = this.context.values.find(
@@ -144,8 +158,10 @@ class Trip {
     const arrivalDate = new Date(arrivaleDateFound.value);
     const departureDate = new Date(departureDateFound.value);
     const duration = departureDate - arrivalDate;
-    let numberDay = duration / (24 * 60 * 60 * 1000) < 1 ? 1 : duration / (24 * 60 * 60 * 1000);
-    numberDay > numberDayProgramByCity[city] ? numberDay = numberDayProgramByCity[city] : null;
+    let numberDay = duration / (24 * 60 * 60 * 1000) < 1 ? 1 :
+      duration / (24 * 60 * 60 * 1000);
+    numberDay > numberDayProgramByCity[city] ?
+      numberDay = numberDayProgramByCity[city] : null;
     this.apiGraphql.sendQuery(
       queryProgram.getOneProgram(cityTraveling.value.toLowerCase(), numberDay))
       .then(program => {
