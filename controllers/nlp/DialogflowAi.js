@@ -80,6 +80,9 @@ class DialogflowAi {
           })
           .catch(err => Sentry.captureException(err));
       } else {
+        console.log("Normal func");
+        console.log(intent);
+        console.log(parameters);
         this.checkFunctionValuesOfContext(intent, parameters)
           .then(newValue => {
             const context = new Context(
@@ -143,13 +146,16 @@ class DialogflowAi {
     let newValuesObject = {};
     return new Promise((resolve, reject) => {
       Object.keys(objectValues).map(item => {
+        console.log(item);
         if (
           objectValues[item].stringValue !== "" &&
           item !== "duration" &&
           item !== "tripDate" &&
           item !== "ordinal"
         ) {
+          console.log('IN FIRST IF ====> ' + item);
           if (item === "date-period") {
+            console.log("DATE PERIOD");
             const datePeriodObject = objectValues[item].structValue.fields;
             newValuesObject["arrival"] = datePeriodObject.startDate.stringValue;
             newValuesObject["departure"] = datePeriodObject.endDate.stringValue;
@@ -159,21 +165,27 @@ class DialogflowAi {
           } else {
             if (item === 'geo-city') {
               console.log(objectValues[item].stringValue.toLowerCase());
-              if (objectValues[item].stringValue.toLowerCase()) {
                 newValuesObject[valuesContext[item]] =
                   transformCity(objectValues[item].stringValue.toLowerCase(),
                     this.event.locale);
-              }
             } else {
               newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
             }
           }
         } else if (item === "duration" &&
-          objectValues[item]) {
-          const amount = objectValues[item].structValue.fields.amount.numberValue;
-          const unit = objectValues[item].structValue.fields.unit.stringValue;
-          const time = convertDuration(amount, unit, this.event.locale) * 1000;
-          newValuesObject['departure'] = time.toString();
+          objectValues[item].listValue.values.length > 0) {
+          const durationArray = objectValues[item].listValue.values;
+          console.log(durationArray);
+          const durationTimes = [];
+          durationArray.forEach(durationValue => {
+            console.log(durationValue.structValue.fields);
+            const amount = durationValue.structValue.fields.amount.numberValue;
+            const unit = durationValue.structValue.fields.unit.stringValue;
+            const time = convertDuration(amount, unit, this.event.locale) * 1000;
+            durationTimes.push(time);
+          });
+          const fullTime = durationTimes.reduce((carry, number) => carry + number);
+          newValuesObject['departure'] = fullTime.toString();
         }
       });
       resolve(newValuesObject);

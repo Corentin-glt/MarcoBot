@@ -107,6 +107,17 @@ class ViewTrip {
 
   }
 
+  couldNotFindProgram() {
+    return new Text(i18n.__("noProgram"))
+      .addQuickReply(i18n.__("geolocation"), 'aroundMe')
+      .addQuickReply(i18n.__('ticketing'), 'ticket')
+      .addQuickReply(i18n.__("visit"), 'visit')
+      .addQuickReply(i18n.__('eat'), 'eat')
+      .addQuickReply(i18n.__('drink'), 'drink')
+      .addQuickReply(i18n.__('chat'), 'talkingToHuman_isTalking:true')
+      .get();
+  }
+
 
 }
 

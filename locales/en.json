@@ -253,7 +253,9 @@
  "descriptionDefault" : "Hum, I don't understand... Click on one of the buttons below: ",
  "feedbackDefault": "Thank you so much!! 😊 Thanks to you I'll be able to improve myself. Nevertheless, don't hesitate to try something else: ",
  "noCityDefault": "I don't know this city yet... Please select one I know or click on the button below to ask my founders for insights. 👇",
- "askFounders": "The founders"
+ "askFounders": "The founders",
+ "noProgram": "Oops! I couldn't find a program that matches your needs... In the meantime check out what's happening around you. 😊 "
+
 
 
 

@@ -27,36 +27,38 @@ class Trip {
   start() {
     console.log('start trip');
     const city = this.context.values.find(value => value.name === 'city');
-    if (typeof city.value !== 'undefined' && city.value !== null) {
-      this.apiGraphql.sendMutation(userMutation.updateCityTraveling(), {
-        PSID: this.event.senderId,
-        cityTraveling: city.value.toLowerCase()
-      })
-        .then(user => {
-          console.log(user);
+    if (city) {
+      if (typeof city.value !== 'undefined' && city.value !== null) {
+        this.apiGraphql.sendMutation(userMutation.updateCityTraveling(), {
+          PSID: this.event.senderId,
+          cityTraveling: city.value.toLowerCase()
         })
-        .catch(err => Sentry.captureException(err));
-    } else {
-      const defaultMessage = new ViewDefault(this.user, this.event.locale);
-      const messageArray = [ViewChatAction.markSeen(),
-        ViewChatAction.typingOn(),
-        ViewChatAction.typingOff(), defaultMessage.noCityDefault(),
-        ViewChatAction.typingOn(),
-        ViewChatAction.typingOff(), defaultMessage.tripCityDefault2()];
-      new Message(this.event.senderId, messageArray).sendMessage();
+          .then(user => {
+            console.log(user);
+          })
+          .catch(err => Sentry.captureException(err));
+      } else {
+        const defaultMessage = new ViewDefault(this.user, this.event.locale);
+        const messageArray = [ViewChatAction.markSeen(),
+          ViewChatAction.typingOn(),
+          ViewChatAction.typingOff(), defaultMessage.noCityDefault(),
+          ViewChatAction.typingOn(),
+          ViewChatAction.typingOff(), defaultMessage.tripCityDefault2()];
+        new Message(this.event.senderId, messageArray).sendMessage();
+      }
     }
     if (tripValues.length > this.context.values.length) {
       const value = this.findElemMissing();
       this[`${value}IsMissing`]();
     } else {
-      console.log('END TRIP');
       const tempDeparture = this.context.values.find(
         value => value.name === 'departure');
       const arrivalDate = this.context.values.find(
         value => value.name === 'arrival');
       const departureDate = isNaN(parseInt(tempDeparture.value)) ?
         tempDeparture.value : new Date(
-          new Date(arrivalDate.value).getTime() + parseInt(tempDeparture.value));
+          new Date(arrivalDate.value).getTime() +
+          parseInt(tempDeparture.value));
       const isItFirstTime = this.context.values.find(
         value => value.name === 'firstTime');
       const cityTraveling = this.context.values.find(
@@ -68,11 +70,9 @@ class Trip {
         arrivalDateToCity: arrivalDate.value,
         isItFirstTimeCity: JSON.parse(isItFirstTime.value)
       };
-      console.log(objToSend);
       this.apiGraphql.sendMutation(tripMutation.createTripByAccountMessenger(),
         objToSend)
         .then(res => {
-          console.log(res);
           this.endTrip();
         })
         .catch(err => Sentry.captureException(err));
@@ -156,12 +156,20 @@ class Trip {
       value => value.name === 'city');
     const city = cityTraveling.value.toLowerCase();
     const arrivalDate = new Date(arrivaleDateFound.value);
-    const departureDate = new Date(departureDateFound.value);
+    const departureDate = isNaN(parseInt(departureDateFound.value)) ?
+      departureDateFound.value : new Date(
+        arrivalDate.getTime() +
+        parseInt(departureDateFound.value));
+    console.log(departureDate);
     const duration = departureDate - arrivalDate;
+    console.log(duration);
     let numberDay = duration / (24 * 60 * 60 * 1000) < 1 ? 1 :
       duration / (24 * 60 * 60 * 1000);
     numberDay > numberDayProgramByCity[city] ?
       numberDay = numberDayProgramByCity[city] : null;
+    console.log(cityTraveling.value.toLowerCase());
+    console.log(numberDay);
+    console.log(arrivalDate);
     this.apiGraphql.sendQuery(
       queryProgram.getOneProgram(cityTraveling.value.toLowerCase(), numberDay))
       .then(program => {
@@ -186,7 +194,12 @@ class Trip {
             newMessage.sendMessage();
           }
         } else {
-          //TODO default
+          const messageArray = [
+            ViewChatAction.markSeen(), ViewChatAction.typingOn(),
+            ViewChatAction.typingOff(), tripMessages.couldNotFindProgram(),
+          ];
+          const newMessage = new Message(this.event.senderId, messageArray);
+          newMessage.sendMessage();
         }
       })
       .catch(err => {
