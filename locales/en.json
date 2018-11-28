@@ -254,7 +254,8 @@
  "feedbackDefault": "Thank you so much!! 😊 Thanks to you I'll be able to improve myself. Nevertheless, don't hesitate to try something else: ",
  "noCityDefault": "I don't know this city yet... Please select one I know or click on the button below to ask my founders for insights. 👇",
  "askFounders": "The founders",
+ "noProgram": "Oops! I couldn't find a program that matches your needs... In the meantime check out what's happening around you. 😊 ",
  "wrongContext": "Mmmmh 🧐, I don't follow you... If you have any other queries, don’t hesitate to tell me.",
- "myFavorite": "Like I said, I keep it safe for you 😉",
- "nothingFavorite": "Oops, it's look like you don't have favorite now. To add one, you have to click \"Later ❤\" for bar, restaurant, etc... "
+ "myFavorite": "Like I said, I'll keep it safe for you 😉",
+ "nothingFavorite": "Oops, it looks like you don't have any favorites now. To add one, you have to click \"Later ❤\" on a bar, restaurant, etc... "
 }

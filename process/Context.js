@@ -25,7 +25,6 @@ class Context {
       const elemFound = this.dictContext[key].find(elem => {
         return elem === this.inputContext;
       });
-      // console.log(elemFound);
       return elemFound !== null && typeof elemFound !== "undefined";
     });
       const values = this.getContextValues(context);
@@ -37,6 +36,8 @@ class Context {
           values: values
         }
       );
+      console.log("New COntext ==>");
+      console.log(this.newContext);
       this.handleContext();
   }
 

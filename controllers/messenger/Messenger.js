@@ -15,7 +15,6 @@ class Messenger {
   }
 
   handle() {
-    console.log('MESSAGE MESSENGER')
     if (this.event.message) {
       this.event.message.attachments ?
         this.receivedAttachments()
