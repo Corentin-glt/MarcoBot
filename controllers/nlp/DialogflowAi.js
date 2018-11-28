@@ -11,6 +11,7 @@ const contextQuery = require('../../helpers/graphql/context/query');
 const contextMutation = require('../../helpers/graphql/context/mutation');
 const ViewMenu = require('../../view/menu/ViewMenu');
 const transformCity = require('../../helpers/transformCity');
+const convertDuration = require('../../helpers/convertDuration');
 
 class DialogflowAi {
   constructor(event) {
@@ -36,6 +37,7 @@ class DialogflowAi {
   }
 
   control(response) {
+    console.log(response.parameters.duration);
     const intent = response.intent
       ? response.intent.displayName
         ? response.intent.displayName
@@ -53,7 +55,6 @@ class DialogflowAi {
               if (res.contextsByUserAndPage[0].name === 'changeCity') {
                 this.checkFunctionValuesOfContext('changeCity', parameters)
                   .then(newValue => {
-                    console.log(newValue);
                     const context = new Context(
                       this.event,
                       'changeCity',
@@ -66,7 +67,6 @@ class DialogflowAi {
               } else {
                 this.checkFunctionValuesOfContext('trip', parameters)
                   .then(newValue => {
-                    console.log(newValue);
                     const context = new Context(
                       this.event,
                       'trip',
@@ -80,9 +80,9 @@ class DialogflowAi {
           })
           .catch(err => Sentry.captureException(err));
       } else {
+        console.log('GLOBAL INput');
         this.checkFunctionValuesOfContext(intent, parameters)
           .then(newValue => {
-            console.log(newValue);
             const context = new Context(
               this.event,
               intent,
@@ -168,12 +168,11 @@ class DialogflowAi {
             }
           }
         } else if (item === "duration" &&
-          objectValues[item].listValue.values.length > 0) {
-          //TODO CHECK IN BACK END TO KNOW WHAT TO DO
-          const amount =
-            objectValues[item].structValue.fields.amount.numberValue;
+          objectValues[item]) {
+          const amount = objectValues[item].structValue.fields.amount.numberValue;
           const unit = objectValues[item].structValue.fields.unit.stringValue;
-          newValuesObject["duration"] = amount + ":" + unit;
+          const time = convertDuration(amount, unit, this.event.locale) * 1000;
+          newValuesObject['departure'] = time.toString();
         }
       });
       resolve(newValuesObject);
