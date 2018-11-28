@@ -12,7 +12,7 @@ const ProcessDrink = require("../drink/Drink");
 const ProcessItinerary = require("../itinerary/itinerary");
 const ProcessVisit = require("../visit/Visit");
 const ProcessAroundMe = require("../aroundMe/AroundMe");
-//const ProcessFavorite = require("../favorite/favorite");
+const ProcessFavorite = require("../favorite/favorite");
 
 const contextMap = {
   eat: ProcessEat,
@@ -20,7 +20,7 @@ const contextMap = {
   itinerary: ProcessItinerary,
   visit: ProcessVisit,
   aroundMe: ProcessAroundMe,
-  //favorite: ProcessFavorite,
+  favorite: ProcessFavorite,
 };
 
 class Next {

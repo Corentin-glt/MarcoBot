@@ -144,7 +144,6 @@ class DialogflowAi {
     let newValuesObject = {};
     return new Promise((resolve, reject) => {
       Object.keys(objectValues).map(item => {
-        console.log(item);
         if (
           objectValues[item].stringValue !== "" &&
           item !== "duration" &&

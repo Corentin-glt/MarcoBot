@@ -77,8 +77,10 @@ class Venue {
   init() {
     return new Promise((resolve, reject) => {
       async.each(this.venues, (elem, callback) => {
+        console.log('YOLO A-0');
         this.generateSubtitle(elem)
           .then(res => {
+            console.log('YOLO B - 0');
             const newElem = {
               ...elem,
               ...res
@@ -119,20 +121,26 @@ class Venue {
           money = i18n.__("templatePrice");
           break;
       }
+      console.log('YOLO A-1');
       let schedule = "🕐 ";
       const daySchedule = (elem.schedule &&
       elem.schedule[ARRAYDAY[nowMoment.getDay()]] !== null) ?
         elem.schedule[ARRAYDAY[nowMoment.getDay()]] : [];
+      console.log('YOLO A-2');
       if (daySchedule.length > 0) {
+        console.log('YOLO A-3');
         daySchedule.map((day, i) => {
+          console.log('YOLO A-4');
           schedule = (day.start === "12:00 am" && day.end === "12:00 pm") ?
             schedule.concat(i18n.__("templateOpen"))
             : schedule.concat(day.start, ' - ', day.end, ' ');
           if (i === daySchedule.length - 1) {
+            console.log('YOLO A-5');
             resolve({schedule: schedule, money: money});
           }
         })
       } else {
+        console.log('YOLO A-6');
         schedule = i18n.__("templateClose");
         resolve({schedule: schedule, money: money});
       }
@@ -141,6 +149,7 @@ class Venue {
 
 
   generateBubble(elem) {
+    console.log('ELEM ==>', elem);
     return new Promise((resolve, reject) => {
       const elemLocationGoogleMap = elem.location.name.replace(" ", "+");
       const globalNote = elem.note && elem.note !== null &&
@@ -153,20 +162,25 @@ class Venue {
       });
       globalTypes.length > 30 ? globalTypes = globalTypes.slice(0, 30) + '...'
         : null;
+      console.log('YOLO B - 1');
       let globalUrl = elem.url;
       globalUrl.includes('http://') ?
         globalUrl = globalUrl.split('http://').join('') : null;
       globalUrl.includes('https://') ? null :
         globalUrl = `https://${globalUrl}`;
+      console.log('YOLO B - 2');
       let description = `${globalTypes}\n${elem.money}\n ${elem.schedule}`;
       description.length > 80 ? description = description.slice(0, 75) + '...'
         : null;
+      console.log('YOLO B - 3');
       let subtitleSharing = `📍 ${elem.location.name} \n${elem.money}\n ${elem.schedule}`
       subtitleSharing.length > 80 ?
         subtitleSharing = subtitleSharing.slice(0, 75) + '...'
         : null;
-      const kindElement = (!this.isDifferentVenue) ?
-        this.typeOfVenue : elem.kindElement;
+      console.log('YOLO B - 4');
+      const kindElement = this.isDifferentVenue ?
+         elem.kindElement : this.typeOfVenue ;
+      console.log('YOLO B - 5');
       this.generic
         .addBubble(`${elem.name}${globalNote}`, description)
         .addImage(`https://api.marco-app.com/api/image/${elem.photos[0]}`)
@@ -183,9 +197,11 @@ class Venue {
               `https://www.google.fr/maps/place/${elemLocationGoogleMap}`)
             .get()
         );
+      console.log('YOLO B - 6');
       if (elem.affiliations.length > 0) {
         this.generic.addButton(i18n.__("reservationTemplate"),
           `${elem.affiliations[0].url}`)
+        console.log('YOLO B - 7');
       } else {
         (elem.description.length > 0 &&
         this.locale !== 'fr')
@@ -195,12 +211,14 @@ class Venue {
           :
           this.generic.addButton(i18n.__("tellMore"),
             `${globalUrl}`)
+        console.log('YOLO B - 8');
       }
       resolve()
     })
   }
 
   showNextPageOrTalkingHuman() {
+    console.log('YOLO B - 9');
     this.venues.length === 5 ?
       this.generic
         .addBubble(i18n.__("seeMore"), i18n.__("seeMoreSub"))
@@ -212,6 +230,7 @@ class Venue {
         .addImage(`https://api.marco-app.com/api/image/askInformation.jpg`)
         .addButton(i18n.__("nothingStockButton"),
           'talkingToHuman_isTalking:true')
+    console.log('YOLO B - 10');
   }
 }
 
