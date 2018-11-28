@@ -43,8 +43,8 @@ class Template {
     if (this.template.quick_replies.length === 11)
       throw new Error('There can not be more than 11 quick replies');
 
-    if (text.length > 20)
-      text = breakText(text, 20)[0];
+    // if (text.length > 20)
+    //   text = breakText(text, 20)[0];
 
     let quickReply = {
       content_type: 'text',

@@ -2,12 +2,11 @@ const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const config = require('../../config');
 const Sentry = require('@sentry/node');
 const userMutation = require('../../helpers/graphql/user/mutation');
-const stopTalking = require('../handlers/stopTalkingWithHuman');
-const WitAi = require('./WitAi');
-const receiveDateArrival = require('../handlers/receiveDateArrival');
-const receiveDurationTravel = require('../handlers/receiveDurationTravel');
+const ViewTalking = require('../../view/talkingToHuman/ViewTalkingToHuman');
+const ViewChatAction = require('../../view/chatActions/ViewChatAction');
+const Message = require('../../view/messenger/Message');
 const DialogflowAi = require('./DialogflowAi');
-
+const ErrorMessage = require('../../process/handlers/error/error');
 
 const messageToStopTalkingWithHuman = [
   "start marco",
@@ -29,49 +28,56 @@ class Nlp {
   }
 
   handle(user) {
-    if (user !== null
-      && user.isTalkingToHuman) {
-      this._checkIfWantStopChat();
+    if (user !== null) {
+      user.humanTalk()
+        .then(user => {
+          if (user.isTalkingToHuman) {
+            this._checkIfWantStopChat(user);
+          } else {
+            const dialogflow = new DialogflowAi(this.event);
+            dialogflow.start();
+          }
+        })
+        .catch(err => Sentry.captureException(err));
+
     } else {
-      // this._checkDurationOrTravel();
-      const dialogflow = new DialogflowAi(this.event);
-      dialogflow.start();
+      const Error = new ErrorMessage(this.event);
+      Error.start();
+      Sentry.captureException('user not found');
     }
   }
 
-  _checkIfWantStopChat() {
+  _checkIfWantStopChat(user) {
+    console.log(this.event.message.text);
     const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
-    if (messageToStopTalkingWithHuman.some(elem => elem.toUpperCase() === message.toUpperCase())) {
-      return stopTalking(this.event.senderId, this.event.locale);
+    if (messageToStopTalkingWithHuman.some(elem => elem.toUpperCase() === this.event.message.text.toUpperCase())) {
+      apiGraphql.sendMutation(userMutation.updateIsTalkingWithHuman(),
+        {PSID: this.event.senderId, isTalkingToHuman: false})
+        .then((response) => {
+          const talkingMessage = new ViewTalking(user, this.event.locale);
+          const messageArray = [
+            ViewChatAction.markSeen(), ViewChatAction.typingOn(),
+            ViewChatAction.typingOff(), talkingMessage.menu()
+          ];
+          new Message(this.event.senderId, messageArray).sendMessage();
+        })
+        .catch(err => {
+          const Error = new ErrorMessage(this.event);
+          Error.start();
+          Sentry.captureException(err);
+        });
     } else {
-      return apiGraphql.sendMutation(userMutation.updateUserByAccountMessenger(),
+     apiGraphql.sendMutation(userMutation.updateUserByAccountMessenger(),
         {PSID: this.event.senderId, lastMessageToHuman: new Date()})
-        .catch((err) => Sentry.captureException(err));
+       .then(res=> {
+         console.log('update last message');
+       })
+        .catch((err) => {
+          const Error = new ErrorMessage(this.event);
+          Error.start();
+          Sentry.captureException(err)
+        });
     }
-  }
-
-  _checkDurationOrTravel() {
-      //if (this.event.message && this.event.message.nlp) {
-        this.receivedNLPFromFacebook();
-      // } else {
-      //   const wit = new WitAi(this.event);
-      //   wit._checkDurationWit();
-      // }
-  }
-
-  receivedNLPFromFacebook() {
-    // if (this.event.message.nlp.entities.datetime
-    //   && this.event.message.nlp.entities.datetime[0].confidence > 0.8) {
-    //   receiveDateArrival(this.event);
-    // } else if (this.event.message.nlp.entities.duration
-    //   && this.event.message.nlp.entities.duration[0].normalized.value
-    //   && this.event.message.nlp.entities.duration[0].confidence > 0.8) {
-    //   receiveDurationTravel(this.event);
-    // } else {
-      console.log('dialogflow');
-      const dialogflow = new DialogflowAi(this.event);
-      dialogflow.start();
-    //}
   }
 }
 
