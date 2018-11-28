@@ -13,6 +13,7 @@ const ProcessItinerary = require("../itinerary/itinerary");
 const ProcessVisit = require("../visit/Visit");
 const ProcessAroundMe = require("../aroundMe/AroundMe");
 const ProcessFavorite = require("../favorite/favorite");
+const ProcessTicket = require("../ticket/ticket");
 
 const contextMap = {
   eat: ProcessEat,
@@ -21,6 +22,7 @@ const contextMap = {
   visit: ProcessVisit,
   aroundMe: ProcessAroundMe,
   favorite: ProcessFavorite,
+  ticket: ProcessTicket,
 };
 
 class Next {
@@ -78,6 +80,8 @@ class Next {
   }
 
   updateContext(context) {
+    console.log('YOLOOOOO');
+    console.log(context.name);
     const filter = {
       contextId: context.id,
       page: parseInt(context.page) + 1,
