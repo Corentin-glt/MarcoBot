@@ -80,7 +80,6 @@ class DialogflowAi {
           })
           .catch(err => Sentry.captureException(err));
       } else {
-        console.log('GLOBAL INput');
         this.checkFunctionValuesOfContext(intent, parameters)
           .then(newValue => {
             const context = new Context(
@@ -160,9 +159,12 @@ class DialogflowAi {
               objectValues[item].stringValue;
           } else {
             if (item === 'geo-city') {
+              console.log(objectValues[item].stringValue.toLowerCase());
+              if (objectValues[item].stringValue.toLowerCase()) {
                 newValuesObject[valuesContext[item]] =
                   transformCity(objectValues[item].stringValue.toLowerCase(),
                     this.event.locale);
+              }
             } else {
               newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
             }
@@ -185,7 +187,7 @@ class DialogflowAi {
       Object.keys(objectValues).map(item => {
         if (objectValues[item].stringValue !== "" && item !== 'geo-city') {
           newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
-        } else {
+        } else if (item === 'geo-city' && objectValues[item].stringValue !== "") {
           newValuesObject[valuesContext[item]] = transformCity(objectValues[item].stringValue.toLowerCase(), this.event.locale);
         }
       });

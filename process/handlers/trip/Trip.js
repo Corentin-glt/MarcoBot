@@ -25,6 +25,7 @@ class Trip {
   }
 
   start() {
+    console.log('start trip');
     const city = this.context.values.find(value => value.name === 'city');
     if (typeof city.value !== 'undefined' && city.value !== null) {
       this.apiGraphql.sendMutation(userMutation.updateCityTraveling(), {
@@ -51,13 +52,11 @@ class Trip {
       console.log('END TRIP');
       const tempDeparture = this.context.values.find(
         value => value.name === 'departure');
-      console.log(tempDeparture);
       const arrivalDate = this.context.values.find(
         value => value.name === 'arrival');
       const departureDate = isNaN(parseInt(tempDeparture.value)) ?
         tempDeparture.value : new Date(
           new Date(arrivalDate.value).getTime() + parseInt(tempDeparture.value));
-      console.log(departureDate);
       const isItFirstTime = this.context.values.find(
         value => value.name === 'firstTime');
       const cityTraveling = this.context.values.find(
@@ -73,6 +72,7 @@ class Trip {
       this.apiGraphql.sendMutation(tripMutation.createTripByAccountMessenger(),
         objToSend)
         .then(res => {
+          console.log(res);
           this.endTrip();
         })
         .catch(err => Sentry.captureException(err));
