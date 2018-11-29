@@ -12,9 +12,13 @@ const queryUser = require('../../graphql/user/query');
 const userMutation = require('../../graphql/user/mutation');
 const queryAccountMessenger = require('../../graphql/accountMessenger/query');
 const MessageData = require("../../../messenger/product_data");
-const numberDayProgramByCity = require('../../../assets/variableApp/limitCityProgram');
+const numberDayProgramByCity = require(
+  '../../../assets/variableApp/limitCityProgram');
 const axios = require("axios");
 const ApiReferral = require('../../Api/apiReferral');
+const ViewNotifications = require(
+  '../../../view/notifications/ViewNotifications');
+const Message = require('../../../view/messenger/Message');
 
 class CronMethods {
   constructor() {
@@ -22,19 +26,6 @@ class CronMethods {
       new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl,
         config.accessTokenMarcoApi);
   }
-
-  static sendMessage(senderId, data, typeMessage) {
-    return new Promise((resolve, reject) => {
-      const objectToSend = {
-        recipient: {id: senderId},
-        messaging_types: typeMessage,
-        message: data
-      };
-      apiMessenger.sendToFacebook(objectToSend)
-        .then((res) => resolve(res))
-        .catch(err => reject(err));
-    });
-  };
 
   static diffDayBetween2Date(first, second) {
     second = new Date(new Date(second).setHours(0, 0, 0, 0));
@@ -58,22 +49,19 @@ class CronMethods {
                     .then(accountMessenger => {
                       const locale = accountMessenger.accountMessenger.locale.split(
                         "_")[0];
-                      const product_data = new MessageData(locale);
-                      return CronMethods.sendMessage(PSID,
-                        product_data.groupInvitation, "RESPONSE")
-                        .then(() => {
-                          this.apiGraphql.sendMutation(userMutation.updateGroupInvitation(),
-                            {PSID: PSID, groupInvitation: true})
-                            .then(res => {
-                              callback();
-                            })
-                            .catch(err => {
-                              console.log(err);
-                            })
-
+                      const notificationMessage = new ViewNotifications(user,
+                        locale);
+                      const messageArray = [
+                        notificationMessage.groupInvitation()
+                      ];
+                      new Message(PSID, messageArray).sendMessage();
+                      this.apiGraphql.sendMutation(
+                        userMutation.updateGroupInvitation(),
+                        {PSID: PSID, groupInvitation: true})
+                        .then(res => {
+                          callback();
                         })
                         .catch(err => {
-                          callback(err);
                           console.log(err);
                         })
                     })
@@ -113,10 +101,6 @@ class CronMethods {
             numberDayProgramByCity[trip.cityTraveling] ?
               numberDayProgramByCity[trip.cityTraveling] :
               CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) + 1;
-          console.log('VILLE: ', trip.cityTraveling, '\nNOMBRE DE JOUR FAIT: ',
-            numberDayAlreadyDone,
-            '\nNUMBRE DE JOUR QU\'IL RESTE DANS LA VILLE : ',
-            numberDayIsStaying, '\n\n');
           if (numberDayAlreadyDone <= numberDayIsStaying) {
             return this.apiGraphql.sendQuery(
               queryProgram.getOneProgram(trip.cityTraveling,
@@ -134,20 +118,17 @@ class CronMethods {
                           .then(accountMessenger => {
                             const locale = accountMessenger.accountMessenger.locale.split(
                               "_")[0];
-                            const product_data = new MessageData(locale);
                             if (accountMessenger.accountMessenger.subscribe) {
-                              return CronMethods.sendMessage(PSID,
-                                product_data.messageOfItineraryNotification(
-                                  user.user.firstName,
+                              const notificationMessage = new ViewNotifications(
+                                locale, user.user);
+                              const messageArray = [
+                                notificationMessage.itineraryNotification(
                                   trip.cityTraveling, numberDayAlreadyDone,
-                                  idProgram), "RESPONSE")
-                                .then(() => {
-                                  ApiReferral.sendReferral("notificationItinerarySent", PSID)
-                                })
-                                .catch(err => {
-                                  callback();
-                                  console.log(err.response.data);
-                                })
+                                  idProgram)
+                              ];
+                              new Message(PSID, messageArray).sendMessage();
+                              ApiReferral.sendReferral(
+                                "notificationItinerarySent", PSID)
                             } else {
                               callback()
                             }
@@ -183,19 +164,16 @@ class CronMethods {
                   .then(accountMessenger => {
                     const locale = accountMessenger.accountMessenger.locale.split(
                       "_")[0];
-                    const product_data = new MessageData(locale);
                     if (accountMessenger.accountMessenger.subscribe) {
-                      return CronMethods.sendMessage(PSID,
-                        product_data.messageForTomorrow(user.user.firstName,
-                          trip.cityTraveling), "RESPONSE")
-                        .then(() => {
-                          ApiReferral.sendReferral("notificationDayBeforeSent", PSID)
-                          return callback()
-                        })
-                        .catch(err => {
-                          callback();
-                          console.log(err.response.data);
-                        })
+                      const notificationMessage = new ViewNotifications(user,
+                        locale);
+                      const messageArray = [
+                        notificationMessage.messageForTomorrow(user.user.firstName,
+                          trip.cityTraveling)
+                      ];
+                      new Message(PSID, messageArray).sendMessage();
+                      ApiReferral.sendReferral("notificationDayBeforeSent",
+                        PSID);
                     } else {
                       callback();
                     }
@@ -225,7 +203,6 @@ class CronMethods {
               .catch(err => callback(err))
           }, (err) => {
             if (err) console.log(err);
-            console.log('cron check last Message done! ')
           })
         }
       })
