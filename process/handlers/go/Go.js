@@ -15,6 +15,7 @@ const mutationGoing = require("../../../helpers/graphql/going/mutation");
 const mutationContext = require("../../../helpers/graphql/context/mutation");
 const FindContext = require('../findContext/FindContext');
 const contextMutation = require("../../../helpers/graphql/context/mutation");
+const ErrorMessage = require("../error/error");
 //const LIMIT_HOUR_ASK_LOCATION = 2;
 
 const contextsCanGo = ['description'];

@@ -95,6 +95,7 @@ class Drink {
               const newMessage = new Message(this.event.senderId, messageArray);
               newMessage.sendMessage();
             })
+            .catch(err => Sentry.captureException(err));
         } else {
           const messageArray = [
             ViewChatAction.markSeen(),
@@ -110,7 +111,7 @@ class Drink {
       .catch(err => {
         this.error.start();
         Sentry.captureException(err)
-      })
+      });
   }
 
   categoryIsMissing() {

@@ -4,6 +4,7 @@ const config = require("../../../config");
 const contextMutation = require('../../../helpers/graphql/context/mutation');
 const contextQuery = require("../../../helpers/graphql/context/query");
 const backValues = require("../../../assets/values/back");
+const ErrorMessage = require('../error/error');
 const Sentry = require("@sentry/node");
 const async = require('async');
 const ProcessEat = require("../eat/Eat");

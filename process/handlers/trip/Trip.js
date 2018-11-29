@@ -174,9 +174,6 @@ class Trip {
       duration / (24 * 60 * 60 * 1000);
     numberDay > numberDayProgramByCity[city] ?
       numberDay = numberDayProgramByCity[city] : null;
-    console.log(cityTraveling.value.toLowerCase());
-    console.log(numberDay);
-    console.log(arrivalDate);
     this.apiGraphql.sendQuery(
       queryProgram.getOneProgram(cityTraveling.value.toLowerCase(), numberDay))
       .then(program => {

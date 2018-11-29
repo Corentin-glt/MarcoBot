@@ -91,7 +91,11 @@ class Later {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
 }

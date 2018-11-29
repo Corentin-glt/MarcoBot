@@ -2,6 +2,7 @@ const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
+const ErrorMessage = require('../error/error');
 const config = require("../../../config");
 const queryBar = require("../../../helpers/graphql/bar/query");
 const queryMuseum = require("../../../helpers/graphql/museum/query");

@@ -20,7 +20,6 @@ class Help {
   }
 
   start() {
-    console.log('START');
     const helpMessage = new ViewHelp(this.user, this.event.locale);
     const messageArray = [
       ViewChatAction.markSeen(),

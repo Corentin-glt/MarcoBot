@@ -29,7 +29,7 @@ class Favorite {
           parseInt(this.context.page)))
       .then(res => {
         if (res.laters === null) {
-          this.sendNothing()
+          this.sendNothing();
         } else {
           this.sendFavorites(res.laters)
         }
@@ -86,6 +86,11 @@ class Favorite {
           const newMessage = new Message(this.event.senderId,
             messageArray);
           newMessage.sendMessage();
+        })
+        .catch(err => {
+          const Error = new ErrorMessage(this.event);
+          Error.start();
+          Sentry.captureException(err);
         })
     });
   }

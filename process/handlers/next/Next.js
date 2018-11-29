@@ -8,6 +8,7 @@ const Sentry = require("@sentry/node");
 const config = require("../../../config");
 const contextQuery = require("../../../helpers/graphql/context/query");
 const contextMutation = require("../../../helpers/graphql/context/mutation");
+const ErrorMessage = require('../error/error');
 const FindContext = require('../findContext/FindContext');
 const ProcessEat = require("../eat/Eat");
 const ProcessDrink = require("../drink/Drink");

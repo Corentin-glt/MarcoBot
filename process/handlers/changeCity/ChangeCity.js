@@ -4,6 +4,7 @@ const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewDefault = require('../../../view/default/ViewDefault');
+const ErrorMessage = require('../error/error');
 const accountMessenger = require(
   '../../../helpers/graphql/accountMessenger/mutation');
 const config = require("../../../config");

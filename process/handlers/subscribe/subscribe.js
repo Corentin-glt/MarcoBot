@@ -40,7 +40,7 @@ class Subscribe {
             messageArray.push(subscribeMessage.unsubscribeMessage());
             new Message(this.event.senderId, messageArray).sendMessage();
           } else {
-            messageArray.push(subscribeMessage.unsubscribeErrorMessage())
+            messageArray.push(subscribeMessage.unsubscribeErrorMessage());
             new Message(this.event.senderId, messageArray).sendMessage();
           }
         })
