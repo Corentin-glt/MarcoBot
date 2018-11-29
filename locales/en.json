@@ -261,5 +261,7 @@
  "mainError": "Uh oh!! I think something's gone wrong in my cabeza. 🤯 Maybe try something else while I try to solve the problem.",
  "error": "Oopss something wrong happened 😕, please try something else.",
  "thanksToShare1": "Thank you ",
- "thanksToShare2": " to share me 😊. Do not hesitate to try something else"
+ "thanksToShare2": " to share me 😊. Do not hesitate to try something else",
+ "feedbackDefaultError": "Sorry I couldn't save what you said... Could you try again? ^^"
+
 }

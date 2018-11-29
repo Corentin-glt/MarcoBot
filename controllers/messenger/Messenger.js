@@ -60,7 +60,6 @@ class Messenger {
         valuePayload[0] === 'arrival' ? new Date().toISOString() :
           valuePayload[1];
     }
-    console.log(objValue);
     return objValue;
   }
 

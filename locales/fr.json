@@ -268,5 +268,6 @@
 	"mainError": "Oh oh!! Je crois que quelque chose ne va pas bien dans ma cabeza... 🤯 Essaye quelque chose d'autre en attendant que je résolve le problème.",
 	"error": "Oopss il semble que je viens de recontrer un problème 😕. Je te prie d'attendre ou d'essayer quelque chose d'autre ",
 	"thanksToShare1": "Merci ",
-	"thanksToShare2": " de me partager 😊. Si tu veux faire autre chose n'hésite pas"
+	"thanksToShare2": " de me partager 😊. Si tu veux faire autre chose n'hésite pas",
+	"feedbackDefaultError": "Désolé je n'ai pas réussi à enregistrer ta réponse.. Pourrais-tu réessayer? ^^"
 }

@@ -164,11 +164,9 @@ class Unknown {
                 });
               break;
             case 'feedback':
-
               messageArray.push(defaultMessage.feedbackDefault());
               new Message(this.event.senderId, messageArray).sendMessage();
               break;
-
             case 'description':
               const event = context.values.find(value => {
                 return value.name === 'event';

@@ -110,6 +110,11 @@ class ViewDefault {
       .get();
   }
 
+  feedbackDefaultError() {
+    return new Text(i18n.__("feedbackDefaultError"))
+      .get();
+  }
+
 
   descriptionDefault(typeofVenue, id) {
     return new Text(i18n.__("descriptionDefault"))

@@ -39,7 +39,7 @@ class Context {
           values: values
         }
       );
-
+      console.log(this.newContext);
       this.handleContext();
   }
 
