@@ -160,7 +160,7 @@ class DialogflowAi {
             newValuesObject["arrival"] = datePeriodObject.startDate.stringValue;
             newValuesObject["departure"] = datePeriodObject.endDate.stringValue;
           } else if (item === "date") {
-            if (objectValues["tripDate"] !== "") {
+            if (objectValues["tripDate"].stringValue !== "") {
               newValuesObject[objectValues["tripDate"].stringValue] =
                 objectValues[item].stringValue;
             } else {
@@ -175,6 +175,7 @@ class DialogflowAi {
             } else {
               newValuesObject[valuesContext[item]] = objectValues[item].stringValue;
             }
+
           }
         } else if (item === "duration" &&
           objectValues[item].listValue.values.length > 0) {
