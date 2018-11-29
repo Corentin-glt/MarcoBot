@@ -48,9 +48,11 @@ class Nlp {
   }
 
   _checkIfWantStopChat(user) {
-    console.log(this.event.message.text);
-    const apiGraphql = new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl, config.accessTokenMarcoApi);
-    if (messageToStopTalkingWithHuman.some(elem => elem.toUpperCase() === this.event.message.text.toUpperCase())) {
+    const apiGraphql = new ApiGraphql(
+      config.category[config.indexCategory].apiGraphQlUrl,
+      config.accessTokenMarcoApi);
+    if (messageToStopTalkingWithHuman.some(
+        elem => elem.toUpperCase() === this.event.message.text.toUpperCase())) {
       apiGraphql.sendMutation(userMutation.updateIsTalkingWithHuman(),
         {PSID: this.event.senderId, isTalkingToHuman: false})
         .then((response) => {
@@ -67,11 +69,11 @@ class Nlp {
           Sentry.captureException(err);
         });
     } else {
-     apiGraphql.sendMutation(userMutation.updateUserByAccountMessenger(),
+      apiGraphql.sendMutation(userMutation.updateUserByAccountMessenger(),
         {PSID: this.event.senderId, lastMessageToHuman: new Date()})
-       .then(res=> {
-         console.log('update last message');
-       })
+        .then(res => {
+          console.log('update last message');
+        })
         .catch((err) => {
           const Error = new ErrorMessage(this.event);
           Error.start();
