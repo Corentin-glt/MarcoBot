@@ -13,7 +13,7 @@ const config = require("../../../config");
 const Sentry = require("@sentry/node");
 const FindContext = require('../findContext/FindContext');
 const contextMutation = require("../../../helpers/graphql/context/mutation");
-
+const Error = require('../error/error');
 const contextsCanLater = ['description'];
 
 class Later {
@@ -21,6 +21,7 @@ class Later {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -35,7 +36,7 @@ class Later {
           this.updateContext(context)
         })
         .catch(err => {
-          this.sendErrorMessage()
+          this.error.start();
         })
     } else {
       this.createLater()
@@ -54,6 +55,7 @@ class Later {
         this.createLater();
       })
       .catch(err => {
+        this.error.start();
         Sentry.captureException(err);
       });
   }
@@ -90,19 +92,6 @@ class Later {
         newMessage.sendMessage();
       })
       .catch(err => Sentry.captureException(err))
-  }
-
-  sendErrorMessage() {
-    const viewLater = new ViewLater(this.event.locale, this.user);
-    const messageArray = [
-      ViewChatAction.markSeen(),
-      ViewChatAction.typingOn(),
-      ViewChatAction.smallPause(),
-      ViewChatAction.typingOff(),
-      viewLater.errorMessage(),
-    ];
-    const newMessage = new Message(this.event.senderId, messageArray);
-    newMessage.sendMessage();
   }
 
 }

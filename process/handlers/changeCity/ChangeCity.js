@@ -8,12 +8,14 @@ const accountMessenger = require(
   '../../../helpers/graphql/accountMessenger/mutation');
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
+const Error = require('../error/error');
 
 class ChangeCity {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -31,7 +33,6 @@ class ChangeCity {
           cityTraveling: city.value.toLowerCase()
         })
           .then(user => {
-            console.log(user);
             messageArray = [ViewChatAction.markSeen(),
               ViewChatAction.typingOn(), ViewChatAction.typingOff(),
               changeCityMessage.cityChosen(city.value.toLowerCase()),
@@ -39,7 +40,10 @@ class ChangeCity {
               changeCityMessage.cityMenu()];
             new Message(this.event.senderId, messageArray).sendMessage();
           })
-          .catch(err => Sentry.captureException(err));
+          .catch(err => {
+            this.error.start();
+            Sentry.captureException(err)
+          });
       } else {
         const defaultMessage = new ViewDefault(this.user, this.event.locale);
         const messageArray = [ViewChatAction.markSeen(),

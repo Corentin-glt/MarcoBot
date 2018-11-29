@@ -14,6 +14,7 @@ const queryIndexLocation = require(
   "../../../helpers/graphql/indexLocation/query");
 const ViewAroundMe = require('../../../view/AroundMe/AroundMe');
 const ViewVenue = require('../../../view/Venue/Venue');
+const Error = require('../error/error');
 const ApiReferral = require("../../../helpers/Api/apiReferral");
 const async = require('async');
 
@@ -30,6 +31,7 @@ class AroundMe {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -50,7 +52,10 @@ class AroundMe {
             this.sendVenuesAroundMe() : this.askForLocation();
         }
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      })
   }
 
   sendVenuesAroundMe() {
@@ -117,7 +122,10 @@ class AroundMe {
           newMessage.sendMessage();
         }
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      });
   }
 
   receiveLocation() {
@@ -140,7 +148,10 @@ class AroundMe {
         this.user.geoLocation = geoLocation;
         this.sendVenuesAroundMe()
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      })
   }
 
   cleanContext() {

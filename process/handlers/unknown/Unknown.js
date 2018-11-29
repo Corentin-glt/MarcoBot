@@ -12,12 +12,14 @@ const ViewPrice = require('../../../view/Price/Price');
 const FindContext = require('../findContext/FindContext');
 const contextsCanUnknown = require('./contextsCanUnknon');
 const DescriptionContext = require('../description/Description');
+const Error = require('../error/error');
 
 class Unknown {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -140,7 +142,10 @@ class Unknown {
                     messageArray.push.apply(messageArray, tempArray);
                     new Message(this.event.senderId, messageArray).sendMessage();
                   })
-                  .catch(err => Sentry.captureException(err));
+                  .catch(err => {
+                    this.error.start();
+                    Sentry.captureException(err)
+                  });
               }
               break;
             case 'visit':
@@ -154,7 +159,10 @@ class Unknown {
                   messageArray.push.apply(messageArray, tempArray);
                   new Message(this.event.senderId, messageArray).sendMessage();
                 })
-                .catch(err => Sentry.captureException(err));
+                .catch(err => {
+                  this.error.start();
+                  Sentry.captureException(err)
+                });
               break;
             case 'feedback':
               // this.apiGraphql.sendMutation(contextMutation.updateContext({
@@ -182,11 +190,10 @@ class Unknown {
               break;
 
           }
-
         }
       )
       .catch(err => {
-        this.sendErrorMessage();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -206,20 +213,6 @@ class Unknown {
     }
     return valueMissing;
   }
-
-  sendErrorMessage() {
-    const goDefault = new ViewDefault(this.user, this.event.locale);
-    const messageArray = [
-      ViewChatAction.markSeen(),
-      ViewChatAction.typingOn(),
-      ViewChatAction.smallPause(),
-      ViewChatAction.typingOff(),
-      goDefault.errorMessage(),
-    ];
-    const newMessage = new Message(this.event.senderId, messageArray);
-    newMessage.sendMessage();
-  }
-
 }
 
 module.exports = Unknown;

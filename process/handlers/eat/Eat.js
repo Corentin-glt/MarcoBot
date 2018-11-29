@@ -10,12 +10,14 @@ const Sentry = require("@sentry/node");
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const restaurantQuery = require('../../../helpers/graphql/restaurant/query');
 const ViewVenue = require('../../../view/Venue/Venue');
+const Error = require('../error/error');
 
 class Eat {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
   }
 
   start() {
@@ -103,6 +105,7 @@ class Eat {
         }
       })
       .catch(err => {
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -130,7 +133,10 @@ class Eat {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      });
   }
 
   priceIsMissing() {
@@ -148,7 +154,10 @@ class Eat {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      });
   }
 }
 

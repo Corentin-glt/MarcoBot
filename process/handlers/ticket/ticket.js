@@ -5,12 +5,14 @@ const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
 const ViewTicket = require('../../../view/Ticket/ViewTicket');
 const ticketQuery = require('../../../helpers/graphql/affiliation/query');
+const Error = require('../error/error');
 
 class Ticket {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
   }
 
   start() {
@@ -56,9 +58,7 @@ class Ticket {
         }
       })
       .catch(err => {
-        messageArray.push(viewTicket.errorMessage());
-        const newMessage = new Message(this.event.senderId, messageArray);
-        newMessage.sendMessage();
+        this.error.start();
         Sentry.captureException(err)
       });
   }

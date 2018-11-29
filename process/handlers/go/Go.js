@@ -18,6 +18,7 @@ const contextMutation = require("../../../helpers/graphql/context/mutation");
 //const LIMIT_HOUR_ASK_LOCATION = 2;
 
 const contextsCanGo = ['description'];
+const Error = require('../error/error');
 
 const events = {
   "bar": (id) => queryBar.queryBar(id),
@@ -32,6 +33,7 @@ class Go {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -58,10 +60,16 @@ class Go {
                 this.checkoutLastUpdate()
                 : this.askForLocation()
             })
-            .catch(err => Sentry.captureException(err))
+            .catch(err => {
+              this.error.start();
+              Sentry.captureException(err)
+            })
         }
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      })
   }
 
   createGoing() {
@@ -115,7 +123,10 @@ class Go {
         this.user.geoLocation = geoLocation;
         this.sendItinerary()
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      })
   }
 
   checkoutLastUpdate() {
@@ -164,7 +175,10 @@ class Go {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      })
   }
 
   sendLocation() {
@@ -197,7 +211,10 @@ class Go {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      })
   }
 
   askForLocation() {
@@ -260,6 +277,7 @@ class Go {
         this.createGoing();
       })
       .catch(err => {
+        this.error.start();
         Sentry.captureException(err);
       });
   }

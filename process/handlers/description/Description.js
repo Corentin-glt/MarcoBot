@@ -13,6 +13,7 @@ const queryParc = require("../../../helpers/graphql/parc/query");
 const queryRestaurant = require("../../../helpers/graphql/restaurant/query");
 const querySite = require("../../../helpers/graphql/site/query");
 const ViewDescription = require('../../../view/description/Description');
+const Error = require('../error/error');
 
 const events = {
   "bar": (id) => queryBar.queryBar(id),
@@ -27,6 +28,7 @@ class Description {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -69,6 +71,7 @@ class Description {
           })
       })
       .catch(err => {
+        this.error.start();
         Sentry.captureException(err)
       })
   }

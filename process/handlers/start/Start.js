@@ -5,13 +5,14 @@ const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const contextMutation = require("../../../helpers/graphql/context/mutation");
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
-
+const Error = require('../error/error');
 
 class Start {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -67,7 +68,7 @@ class Start {
             newMessage.sendMessage();
           })
           .catch(err => {
-            console.log(err);
+            this.error.start();
             Sentry.captureException(err);
           })
       }

@@ -5,13 +5,14 @@ const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const accountMessenger = require('../../../helpers/graphql/accountMessenger/mutation');
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
-
+const Error = require('../error/error');
 
 class Subscribe {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -43,7 +44,10 @@ class Subscribe {
             new Message(this.event.senderId, messageArray).sendMessage();
           }
         })
-        .catch(err => Sentry.captureException(err));
+        .catch(err => {
+          this.error.start();
+          Sentry.captureException(err)
+        });
     }
 
   }

@@ -13,6 +13,7 @@ class TalkingToHuman {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -35,7 +36,10 @@ class TalkingToHuman {
         const messageToSend = new Message(this.event.senderId, messageArray);
         messageToSend.sendMessage();
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        this.error.start();
+        Sentry.captureException(err)
+      });
   }
 }
 

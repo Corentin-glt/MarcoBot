@@ -6,6 +6,7 @@ const globalContext = require("../assets/context");
 const dictValue = require("../assets/valuesContext");
 const Sentry = require("@sentry/node");
 const Process = require("./Process");
+const Error = require('./handlers/error/error');
 
 class Context {
   constructor(event, inputContext, inputValue, dictContext) {
@@ -13,6 +14,7 @@ class Context {
     this.dictContext = globalContext(dictContext);
     this.inputContext = inputContext;
     this.inputValue = inputValue;
+    this.error = new Error(this.event);
     this.newContext = {};
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
@@ -82,6 +84,7 @@ class Context {
         }
       })
       .catch(err => {
+        this.error.start();
         Sentry.captureException(err);
       });
   }
@@ -95,6 +98,7 @@ class Context {
         process.start();
       })
       .catch(err => {
+        this.error.start();
         Sentry.captureException(err);
       });
   }
@@ -114,6 +118,7 @@ class Context {
         process.start();
       })
       .catch(err => {
+        this.error.start();
         Sentry.captureException(err);
       });
   }
