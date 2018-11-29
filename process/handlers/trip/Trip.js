@@ -26,7 +26,6 @@ class Trip {
   }
 
   start() {
-    console.log('start trip');
     const city = this.context.values.find(value => value.name === 'city');
     if (city) {
       if (typeof city.value !== 'undefined' && city.value !== null) {
