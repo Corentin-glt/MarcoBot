@@ -1,6 +1,9 @@
 const mutationUser = require('../../helpers/graphql/user/mutation');
 const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const config = require('../../config');
+const userQuery = require('../../helpers/graphql/user/query');
+const Sentry = require('@sentry/node');
+
 
 class User {
   constructor(PSID, firstName, lastName, gender, profilePic) {
@@ -10,10 +13,26 @@ class User {
     this.gender = gender;
     this.profilePic = profilePic;
     this.isTalkingToHuman = '';
+    this.apiGraphql = new ApiGraphql(
+      config.category[config.indexCategory].apiGraphQlUrl,
+      config.accessTokenMarcoApi);
   }
 
-  set humanTalk(talk) {
-    this.isTalkingToHuman = talk;
+  humanTalk() {
+    return new Promise((resolve, reject) => {
+      this.apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(this.PSID))
+        .then(res =>  {
+          console.log(res);
+          if (res.userByAccountMessenger) {
+            console.log(res.userByAccountMessenger);
+            resolve(res.userByAccountMessenger);
+          }
+        })
+        .catch(err => {
+          reject(err);
+          Sentry.captureException(err)
+        });
+    })
   }
 
   createUser(accountId) {
@@ -27,10 +46,7 @@ class User {
         accountmessengers_id: accountId
       };
       const mutationCreateUser = mutationUser.createUser();
-      const apiGraphql = new ApiGraphql(
-        config.category[config.indexCategory].apiGraphQlUrl,
-        config.accessTokenMarcoApi);
-      apiGraphql.sendMutation(mutationCreateUser, userToSave)
+      this.apiGraphql.sendMutation(mutationCreateUser, userToSave)
         .then(userSaved => {
           console.log(userSaved);
           resolve(userSaved);
