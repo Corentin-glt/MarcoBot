@@ -11,7 +11,7 @@ const Sentry = require("@sentry/node");
 const numberDayProgramByCity = require(
   '../../../assets/variableApp/limitCityProgram');
 const ViewDefault = require('../../../view/default/ViewDefault');
-
+const ErrorMessage = require('../error/error');
 
 class Trip {
   constructor(event, context, user) {
@@ -75,7 +75,11 @@ class Trip {
         .then(res => {
           this.endTrip();
         })
-        .catch(err => Sentry.captureException(err));
+        .catch(err => {
+          const Error = new ErrorMessage(this.event);
+          Error.start();
+          Sentry.captureException(err)
+        });
 
     }
   }
@@ -167,9 +171,6 @@ class Trip {
       duration / (24 * 60 * 60 * 1000);
     numberDay > numberDayProgramByCity[city] ?
       numberDay = numberDayProgramByCity[city] : null;
-    console.log(cityTraveling.value.toLowerCase());
-    console.log(numberDay);
-    console.log(arrivalDate);
     this.apiGraphql.sendQuery(
       queryProgram.getOneProgram(cityTraveling.value.toLowerCase(), numberDay))
       .then(program => {
@@ -203,6 +204,8 @@ class Trip {
         }
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err);
       });
   }

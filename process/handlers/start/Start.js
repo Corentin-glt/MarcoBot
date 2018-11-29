@@ -5,6 +5,7 @@ const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const contextMutation = require("../../../helpers/graphql/context/mutation");
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
+const ErrorMessage = require('../error/error');
 
 
 class Start {
@@ -67,7 +68,8 @@ class Start {
             newMessage.sendMessage();
           })
           .catch(err => {
-            console.log(err);
+            const Error = new ErrorMessage(this.event);
+            Error.start();
             Sentry.captureException(err);
           })
       }

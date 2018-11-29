@@ -35,7 +35,11 @@ class TalkingToHuman {
         const messageToSend = new Message(this.event.senderId, messageArray);
         messageToSend.sendMessage();
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      });
   }
 }
 

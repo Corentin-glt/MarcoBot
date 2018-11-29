@@ -3,7 +3,7 @@ const config = require("../config");
 const contextQuery = require("../helpers/graphql/context/query");
 const userQuery = require("../helpers/graphql/user/query");
 const Sentry = require("@sentry/node");
-
+const ErrorMessage = require('./handlers/error/error');
 const ProcessEat = require("./handlers/eat/Eat");
 const ProcessDrink = require("./handlers/drink/Drink");
 const ProcessAroundMe = require("./handlers/aroundMe/AroundMe");
@@ -82,13 +82,19 @@ class Process {
               processObject.start();
             })
             .catch(err => {
+              const Error = new ErrorMessage(this.event);
+              Error.start();
               Sentry.captureException(err);
             });
         } else {
+          const Error = new ErrorMessage(this.event);
+          Error.start();
           Sentry.captureException("user not found in process");
         }
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err);
       });
   }

@@ -5,6 +5,7 @@ const contextMutation = require("../helpers/graphql/context/mutation");
 const globalContext = require("../assets/context");
 const dictValue = require("../assets/valuesContext");
 const Sentry = require("@sentry/node");
+const ErrorMessage = require('../process/handlers/error/error');
 const Process = require("./Process");
 
 class Context {
@@ -36,8 +37,7 @@ class Context {
           values: values
         }
       );
-      console.log("New COntext ==>");
-      console.log(this.newContext);
+
       this.handleContext();
   }
 
@@ -83,6 +83,8 @@ class Context {
         }
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err);
       });
   }
@@ -96,6 +98,8 @@ class Context {
         process.start();
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err);
       });
   }
@@ -115,6 +119,8 @@ class Context {
         process.start();
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err);
       });
   }

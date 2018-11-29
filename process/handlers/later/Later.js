@@ -13,6 +13,7 @@ const config = require("../../../config");
 const Sentry = require("@sentry/node");
 const FindContext = require('../findContext/FindContext');
 const contextMutation = require("../../../helpers/graphql/context/mutation");
+const ErrorMessage = require('../error/error');
 
 const contextsCanLater = ['description'];
 
@@ -54,6 +55,8 @@ class Later {
         this.createLater();
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err);
       });
   }
@@ -89,7 +92,11 @@ class Later {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
   sendErrorMessage() {

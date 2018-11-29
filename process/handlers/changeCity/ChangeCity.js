@@ -4,6 +4,7 @@ const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewDefault = require('../../../view/default/ViewDefault');
+const ErrorMessage = require('../error/error');
 const accountMessenger = require(
   '../../../helpers/graphql/accountMessenger/mutation');
 const config = require("../../../config");
@@ -39,7 +40,11 @@ class ChangeCity {
               changeCityMessage.cityMenu()];
             new Message(this.event.senderId, messageArray).sendMessage();
           })
-          .catch(err => Sentry.captureException(err));
+          .catch(err => {
+            const Error = new ErrorMessage(this.event);
+            Error.start();
+            Sentry.captureException(err)
+          });
       } else {
         const defaultMessage = new ViewDefault(this.user, this.event.locale);
         const messageArray = [ViewChatAction.markSeen(),

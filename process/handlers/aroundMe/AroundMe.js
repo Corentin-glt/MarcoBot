@@ -2,6 +2,7 @@ const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
+const ErrorMessage = require('../error/error');
 const config = require("../../../config");
 const queryBar = require("../../../helpers/graphql/bar/query");
 const queryMuseum = require("../../../helpers/graphql/museum/query");
@@ -50,7 +51,11 @@ class AroundMe {
             this.sendVenuesAroundMe() : this.askForLocation();
         }
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
   sendVenuesAroundMe() {
@@ -117,7 +122,11 @@ class AroundMe {
           newMessage.sendMessage();
         }
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      });
   }
 
   receiveLocation() {
@@ -140,7 +149,11 @@ class AroundMe {
         this.user.geoLocation = geoLocation;
         this.sendVenuesAroundMe()
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
   cleanContext() {

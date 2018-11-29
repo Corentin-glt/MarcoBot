@@ -9,6 +9,7 @@ const Sentry = require("@sentry/node");
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const visitQuery = require('../../../helpers/graphql/visit/query');
 const ViewVenue = require('../../../view/Venue/Venue');
+const ErrorMessage = require('../error/error');
 
 class Visit {
   constructor(event, context, user) {
@@ -99,6 +100,8 @@ class Visit {
         }
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err)
       })
   }
@@ -126,7 +129,11 @@ class Visit {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      });
   }
 }
 

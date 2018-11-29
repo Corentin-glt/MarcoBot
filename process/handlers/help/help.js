@@ -5,6 +5,7 @@ const contextMutation = require('../../../helpers/graphql/context/mutation');
 const Sentry = require("@sentry/node");
 const config = require("../../../config");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
+const ErrorMessage = require('../error/error');
 
 class Help {
   constructor(event, context, user) {
@@ -19,7 +20,6 @@ class Help {
   }
 
   start() {
-    console.log('START');
     const helpMessage = new ViewHelp(this.user, this.event.locale);
     const messageArray = [
       ViewChatAction.markSeen(),
@@ -38,13 +38,16 @@ class Help {
         value: 'true'
       }]
     };
-    console.log(objToSend);
     const messagesToSend = new Message(this.event.senderId, messageArray);
     this.apiGraphql.sendMutation(contextMutation.createContext(), objToSend)
       .then(res => {
         messagesToSend.sendMessage();
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
 

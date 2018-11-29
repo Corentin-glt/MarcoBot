@@ -13,7 +13,7 @@ const queryParc = require("../../../helpers/graphql/parc/query");
 const queryRestaurant = require("../../../helpers/graphql/restaurant/query");
 const querySite = require("../../../helpers/graphql/site/query");
 const ViewDescription = require('../../../view/description/Description');
-
+const ErrorMessage = require('../error/error');
 const events = {
   "bar": (id) => queryBar.queryBar(id),
   "museum": (id) => queryMuseum.queryMuseum(id),
@@ -73,6 +73,8 @@ class Description {
           })
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err)
       })
   }

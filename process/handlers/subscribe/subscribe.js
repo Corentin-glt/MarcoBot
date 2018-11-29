@@ -5,6 +5,7 @@ const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const accountMessenger = require('../../../helpers/graphql/accountMessenger/mutation');
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
+const ErrorMessage = require('../error/error');
 
 
 class Subscribe {
@@ -39,11 +40,15 @@ class Subscribe {
             messageArray.push(subscribeMessage.unsubscribeMessage());
             new Message(this.event.senderId, messageArray).sendMessage();
           } else {
-            messageArray.push(subscribeMessage.unsubscribeErrorMessage())
+            messageArray.push(subscribeMessage.unsubscribeErrorMessage());
             new Message(this.event.senderId, messageArray).sendMessage();
           }
         })
-        .catch(err => Sentry.captureException(err));
+        .catch(err => {
+          const Error = new ErrorMessage(this.event);
+          Error.start();
+          Sentry.captureException(err)
+        });
     }
 
   }

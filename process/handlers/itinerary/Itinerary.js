@@ -10,6 +10,7 @@ const Sentry = require("@sentry/node");
 const numberDayProgramByCity = require(
   '../../../assets/variableApp/limitCityProgram');
 const ViewItinerary = require('../../../view/itinerary/ViewItinerary');
+const ErrorMessage = require('../error/error');
 
 
 class Itinerary {
@@ -36,7 +37,11 @@ class Itinerary {
           .then(res => {
               this.getNextItinerary(this.context.page);
           })
-          .catch(err => Sentry.captureException(err));
+          .catch(err => {
+            const Error = new ErrorMessage(this.event);
+            Error.start();
+            Sentry.captureException(err)
+          });
       } else {
         this.getNextItinerary(this.context.page);
     }
@@ -101,7 +106,11 @@ class Itinerary {
             .catch(err => Sentry.captureException(err));
         }
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      });
   }
 
 

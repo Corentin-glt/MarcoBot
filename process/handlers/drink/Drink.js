@@ -9,6 +9,7 @@ const userMutation = require('../../../helpers/graphql/user/mutation');
 const barQuery = require('../../../helpers/graphql/bar/query');
 const ViewVenue = require('../../../view/Venue/Venue');
 const config = require("../../../config");
+const ErrorMessage = require("../error/error");
 
 class Drink {
   constructor(event, context, user) {
@@ -92,6 +93,7 @@ class Drink {
               const newMessage = new Message(this.event.senderId, messageArray);
               newMessage.sendMessage();
             })
+            .catch(err => Sentry.captureException(err));
         } else {
           const messageArray = [
             ViewChatAction.markSeen(),
@@ -105,8 +107,10 @@ class Drink {
         }
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err)
-      })
+      });
   }
 
   categoryIsMissing() {
@@ -132,7 +136,11 @@ class Drink {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      });
   }
 
   priceIsMissing() {
@@ -150,7 +158,11 @@ class Drink {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err));
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      });
   }
 }
 

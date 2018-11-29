@@ -15,6 +15,7 @@ const mutationGoing = require("../../../helpers/graphql/going/mutation");
 const mutationContext = require("../../../helpers/graphql/context/mutation");
 const FindContext = require('../findContext/FindContext');
 const contextMutation = require("../../../helpers/graphql/context/mutation");
+const ErrorMessage = require("../error/error");
 //const LIMIT_HOUR_ASK_LOCATION = 2;
 
 const contextsCanGo = ['description'];
@@ -61,7 +62,11 @@ class Go {
             .catch(err => Sentry.captureException(err))
         }
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
   createGoing() {
@@ -115,7 +120,11 @@ class Go {
         this.user.geoLocation = geoLocation;
         this.sendItinerary()
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
   checkoutLastUpdate() {
@@ -164,7 +173,11 @@ class Go {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
   sendLocation() {
@@ -197,7 +210,11 @@ class Go {
         const newMessage = new Message(this.event.senderId, messageArray);
         newMessage.sendMessage();
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
   askForLocation() {
@@ -260,6 +277,8 @@ class Go {
         this.createGoing();
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err);
       });
   }

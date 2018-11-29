@@ -8,6 +8,7 @@ const laterQuery = require('../../../helpers/graphql/later/query');
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
 const async = require('async');
+const ErrorMessage = require('../error/error');
 
 class Favorite {
   constructor(event, context, user) {
@@ -27,7 +28,7 @@ class Favorite {
           parseInt(this.context.page)))
       .then(res => {
         if (res.laters === null) {
-          this.sendNothing()
+          this.sendNothing();
         } else {
           this.sendFavorites(res.laters)
         }
@@ -78,6 +79,11 @@ class Favorite {
           const newMessage = new Message(this.event.senderId,
             messageArray);
           newMessage.sendMessage();
+        })
+        .catch(err => {
+          const Error = new ErrorMessage(this.event);
+          Error.start();
+          Sentry.captureException(err);
         })
     });
   }

@@ -6,7 +6,7 @@ const Sentry = require("@sentry/node");
 const config = require("../../../config");
 const contextQuery = require("../../../helpers/graphql/context/query");
 const contextMutation = require("../../../helpers/graphql/context/mutation");
-
+const ErrorMessage = require('../error/error');
 const ProcessEat = require("../eat/Eat");
 const ProcessDrink = require("../drink/Drink");
 const ProcessItinerary = require("../itinerary/itinerary");
@@ -41,7 +41,11 @@ class Next {
       .then(context => {
         this.updateContext(context)
       })
-      .catch(err => Sentry.captureException(err))
+      .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
+        Sentry.captureException(err)
+      })
   }
 
   findContext() {
@@ -80,8 +84,6 @@ class Next {
   }
 
   updateContext(context) {
-    console.log('YOLOOOOO');
-    console.log(context.name);
     const filter = {
       contextId: context.id,
       page: parseInt(context.page) + 1,
@@ -98,6 +100,8 @@ class Next {
         processObject.start();
       })
       .catch(err => {
+        const Error = new ErrorMessage(this.event);
+        Error.start();
         Sentry.captureException(err);
       });
   }
