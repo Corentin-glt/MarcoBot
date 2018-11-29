@@ -10,11 +10,10 @@ const PORT = Config.category[Config.indexCategory].port;
 const verificationController = require("./controllers/verification");
 const messageWebhookController = require("./controllers/messageWebhook");
 const apiMessenger = require('./helpers/Api/apiMessenger');
-const MessageData = require('./messenger/product_data');
 const axios = require('axios');
-const CronJob = require('cron').CronJob;
-const cronMethods = require('./helpers/Class/cronMethods/cronMethods');
-const hoursCron = require('./assets/variableApp/hoursCron');
+// const CronJob = require('cron').CronJob;
+// const cronMethods = require('./helpers/Class/cronMethods/cronMethods');
+// const hoursCron = require('./assets/variableApp/hoursCron');
 const Sentry = require('@sentry/node');
 const ViewMenuMessenger = require('./view/MessengerComponents/ViewMessengerMenu');
 const ViewStartMessenger = require('./view/MessengerComponents/ViewMessengerStart');
@@ -27,37 +26,37 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 
-const cronMorning = new CronJob(hoursCron["morning"], () => {
-  const Cron = new cronMethods();
-  Cron.sendProgram();
-  console.log('cron MORNING begin');
-}, () => {
-  console.log('cron MORNING finished');
-}, true, 'Europe/Paris');
-
-const cronEndAfterNoon = new CronJob(hoursCron["endAfterNoon"], () => {
-  const Cron = new cronMethods();
-  Cron.readyForTomorrow();
-  console.log('cron END AFTERNOON begin');
-}, () => {
-  console.log('cron END AFTERNOON finished');
-}, true, 'Europe/Paris');
-
-const cronEveryHour = new CronJob(hoursCron["everyHour"], () => {
-  const Cron = new cronMethods();
-  Cron.checkLastMessageToHuman();
-  console.log('cron check lastMessage');
-}, () => {
-  console.log('cron check lastMessag finished');
-}, true, 'Europe/Paris');
-
-const cronSendInvitation = new CronJob(hoursCron["noon"], () => {
-  const Cron = new cronMethods();
-  Cron.sendGroupInvitation();
-  console.log('cron check invitation');
-}, () => {
-  console.log('cron check lastMessag finished');
-}, true, 'Europe/Paris');
+// const cronMorning = new CronJob(hoursCron["morning"], () => {
+//   const Cron = new cronMethods();
+//   Cron.sendProgram();
+//   console.log('cron MORNING begin');
+// }, () => {
+//   console.log('cron MORNING finished');
+// }, true, 'Europe/Paris');
+//
+// const cronEndAfterNoon = new CronJob(hoursCron["endAfterNoon"], () => {
+//   const Cron = new cronMethods();
+//   Cron.readyForTomorrow();
+//   console.log('cron END AFTERNOON begin');
+// }, () => {
+//   console.log('cron END AFTERNOON finished');
+// }, true, 'Europe/Paris');
+//
+// const cronEveryHour = new CronJob(hoursCron["everyHour"], () => {
+//   const Cron = new cronMethods();
+//   Cron.checkLastMessageToHuman();
+//   console.log('cron check lastMessage');
+// }, () => {
+//   console.log('cron check lastMessag finished');
+// }, true, 'Europe/Paris');
+//
+// const cronSendInvitation = new CronJob(hoursCron["noon"], () => {
+//   const Cron = new cronMethods();
+//   Cron.sendGroupInvitation();
+//   console.log('cron check invitation');
+// }, () => {
+//   console.log('cron check lastMessag finished');
+// }, true, 'Europe/Paris');
 
 
 app.post("/", messageWebhookController);
@@ -86,7 +85,6 @@ axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {
 
 
 app.get('/setup', (req, res) => {
-  const product_data = new MessageData('en');
   apiMessenger.callbackStartButton(ViewStartMessenger)
     .then(response => {
       return apiMessenger.callbackStartButton(ViewMenuMessenger)

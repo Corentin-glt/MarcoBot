@@ -1,5 +1,5 @@
 const ReceivedLocation = require(
-  '../handlers/receivedAttachments/handlers/receivedLocation/receivedLocation');
+  './handlers/receivedLocation');
 const contextMessenger = require('./contextMessenger');
 const ApiGraphql = require('../../helpers/Api/apiGraphql');
 const Sentry = require('@sentry/node');

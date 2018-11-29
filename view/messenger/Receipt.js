@@ -103,10 +103,10 @@ class Receipt extends Template {
 
   addPrice(price) {
     if (!price)
-      throw new Error('Price is required for addPrice method');
+      throw new Error('price is required for addPrice method');
 
     if (!helper.isNumber(price))
-      throw new Error('Price needs to be a number');
+      throw new Error('price needs to be a number');
 
     let item = this.getLastItem();
 

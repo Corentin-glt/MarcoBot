@@ -1,9 +1,8 @@
 const Message = require('../../../view/messenger/Message');
 const ViewFavorite = require('../../../view/favorite/ViewFavorite');
-const ViewVenue = require('../../../view/Venue/Venue');
+const ViewVenue = require('../../../view/venue/ViewVenue');
 const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
-const contextMutation = require("../../../helpers/graphql/context/mutation");
 const laterQuery = require('../../../helpers/graphql/later/query');
 const config = require("../../../config");
 const Sentry = require("@sentry/node");
@@ -88,8 +87,7 @@ class Favorite {
           newMessage.sendMessage();
         })
         .catch(err => {
-          const Error = new ErrorMessage(this.event);
-          Error.start();
+          this.error.start();
           Sentry.captureException(err);
         })
     });

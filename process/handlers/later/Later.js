@@ -3,7 +3,7 @@
  */
 const valueLater = require('../../../assets/values/later');
 const Message = require('../../../view/messenger/Message');
-const ViewLater = require('../../../view/Later/ViewLater');
+const ViewLater = require('../../../view/later/ViewLater');
 const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const ApiReferral = require("../../../helpers/Api/apiReferral");

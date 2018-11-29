@@ -2,14 +2,14 @@ const eatValues = require("../../../assets/values/eat");
 const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const config = require("../../../config");
-const ViewCategory = require("../../../view/Category/Category");
-const ViewPrice = require("../../../view/Price/Price");
+const ViewCategory = require("../../../view/category/ViewCategory");
+const ViewPrice = require("../../../view/price/ViewPrice");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const restaurantQuery = require('../../../helpers/graphql/restaurant/query');
-const ViewVenue = require('../../../view/Venue/Venue');
+const ViewVenue = require('../../../view/venue/ViewVenue');
 const Error = require('../error/error');
 
 class Eat {

@@ -7,8 +7,8 @@ const ViewDefault = require("../../../view/default/ViewDefault");
 const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
 const tripValues = require("../../../assets/values/trip");
 const eatValues = require("../../../assets/values/eat");
-const ViewCategory = require('../../../view/Category/Category');
-const ViewPrice = require('../../../view/Price/Price');
+const ViewCategory = require('../../../view/category/ViewCategory');
+const ViewPrice = require('../../../view/price/ViewPrice');
 const FindContext = require('../findContext/FindContext');
 const contextsCanUnknown = require('./contextsCanUnknon');
 const DescriptionContext = require('../description/Description');
@@ -48,7 +48,6 @@ class Unknown {
             case 'trip':
               if (context.values.length !== 0) {
                 const value = this.findElemMissing(tripValues, context);
-                console.log(value);
                 if (value === 'city')
                   messageArray.push(defaultMessage.tripCityDefault1(),
                     defaultMessage.tripCityDefault2());
@@ -165,10 +164,7 @@ class Unknown {
                 });
               break;
             case 'feedback':
-              // this.apiGraphql.sendMutation(contextMutation.updateContext({
-              //   contextId: context.id,
-              //   values: [{name: 'message', value: }]
-              // }));
+
               messageArray.push(defaultMessage.feedbackDefault());
               new Message(this.event.senderId, messageArray).sendMessage();
               break;

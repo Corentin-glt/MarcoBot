@@ -13,8 +13,8 @@ const mutationUser = require("../../../helpers/graphql/user/mutation");
 const mutationContext = require("../../../helpers/graphql/context/mutation");
 const queryIndexLocation = require(
   "../../../helpers/graphql/indexLocation/query");
-const ViewAroundMe = require('../../../view/AroundMe/AroundMe');
-const ViewVenue = require('../../../view/Venue/Venue');
+const ViewAroundMe = require('../../../view/aroundMe/ViewAroundMe');
+const ViewVenue = require('../../../view/venue/ViewVenue');
 const Error = require('../error/error');
 const ApiReferral = require("../../../helpers/Api/apiReferral");
 const async = require('async');

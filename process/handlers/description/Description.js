@@ -12,7 +12,7 @@ const queryMuseum = require("../../../helpers/graphql/museum/query");
 const queryParc = require("../../../helpers/graphql/parc/query");
 const queryRestaurant = require("../../../helpers/graphql/restaurant/query");
 const querySite = require("../../../helpers/graphql/site/query");
-const ViewDescription = require('../../../view/description/Description');
+const ViewDescription = require('../../../view/description/ViewDescription');
 const Error = require('../error/error');
 
 const events = {
