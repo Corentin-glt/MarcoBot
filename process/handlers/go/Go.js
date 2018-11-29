@@ -8,7 +8,7 @@ const queryMuseum = require("../../../helpers/graphql/museum/query");
 const queryParc = require("../../../helpers/graphql/parc/query");
 const queryRestaurant = require("../../../helpers/graphql/restaurant/query");
 const querySite = require("../../../helpers/graphql/site/query");
-const ViewGo = require('../../../view/go/Go');
+const ViewGo = require('../../../view/go/ViewGo');
 const ApiReferral = require("../../../helpers/Api/apiReferral");
 const mutationUser = require("../../../helpers/graphql/user/mutation");
 const mutationGoing = require("../../../helpers/graphql/going/mutation");
@@ -19,6 +19,7 @@ const ErrorMessage = require("../error/error");
 //const LIMIT_HOUR_ASK_LOCATION = 2;
 
 const contextsCanGo = ['description'];
+const Error = require('../error/error');
 
 const events = {
   "bar": (id) => queryBar.queryBar(id),
@@ -33,6 +34,7 @@ class Go {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -59,12 +61,14 @@ class Go {
                 this.checkoutLastUpdate()
                 : this.askForLocation()
             })
-            .catch(err => Sentry.captureException(err))
+            .catch(err => {
+              this.error.start();
+              Sentry.captureException(err)
+            })
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -121,8 +125,7 @@ class Go {
         this.sendItinerary()
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -174,8 +177,7 @@ class Go {
         newMessage.sendMessage();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -211,8 +213,7 @@ class Go {
         newMessage.sendMessage();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -277,8 +278,7 @@ class Go {
         this.createGoing();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err);
       });
   }

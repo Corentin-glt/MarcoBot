@@ -12,8 +12,9 @@ const queryMuseum = require("../../../helpers/graphql/museum/query");
 const queryParc = require("../../../helpers/graphql/parc/query");
 const queryRestaurant = require("../../../helpers/graphql/restaurant/query");
 const querySite = require("../../../helpers/graphql/site/query");
-const ViewDescription = require('../../../view/description/Description');
-const ErrorMessage = require('../error/error');
+const ViewDescription = require('../../../view/description/ViewDescription');
+const Error = require('../error/error');
+
 const events = {
   "bar": (id) => queryBar.queryBar(id),
   "museum": (id) => queryMuseum.queryMuseum(id),
@@ -27,6 +28,7 @@ class Description {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -69,8 +71,7 @@ class Description {
           })
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }

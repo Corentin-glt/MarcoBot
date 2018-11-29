@@ -2,19 +2,20 @@ const visitValues = require("../../../assets/values/visit");
 const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const config = require("../../../config");
-const ViewCategory = require("../../../view/Category/Category");
+const ViewCategory = require("../../../view/category/ViewCategory");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const visitQuery = require('../../../helpers/graphql/visit/query');
-const ViewVenue = require('../../../view/Venue/Venue');
-const ErrorMessage = require('../error/error');
+const ViewVenue = require('../../../view/venue/ViewVenue');
+const Error = require('../error/error');
 
 class Visit {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
+    this.error = new Error(this.event);
     this.user = user;
   }
 
@@ -100,8 +101,7 @@ class Visit {
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -130,8 +130,7 @@ class Visit {
         newMessage.sendMessage();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       });
   }

@@ -2,18 +2,16 @@
  * Created by corentin on 07/11/2018.
  */
 const Sentry = require('@sentry/node');
-const config = require('../../../../../config');
-const ApiGraphql = require('../../../../../helpers/Api/apiGraphql');
-const user = require("../../../../../helpers/graphql/user/query");
-const receiveLocationItinerary = require('./handlers/receiveLocationItinerary');
-const receiveLocationAroundMe = require('./handlers/receiveLocationAroundMe');
-const contextQuery = require("../../../../../helpers/graphql/context/query");
+const config = require('../../../config');
+const ApiGraphql = require('../../../helpers/Api/apiGraphql');
+const user = require("../../../helpers/graphql/user/query");
+const contextQuery = require("../../../helpers/graphql/context/query");
 const mutationQuery = require(
-  "../../../../../helpers/graphql/context/mutation");
+  "../../../helpers/graphql/context/mutation");
 const async = require('async');
-const ProcessGo = require("../../../../../process/handlers/go/Go");
+const ProcessGo = require("../../../process/handlers/go/Go");
 const ProcessAroundMe = require(
-  "../../../../../process/handlers/aroundMe/AroundMe");
+  "../../../process/handlers/aroundMe/AroundMe");
 
 const contextsCanLocation = ['aroundMe', 'go'];
 const contextMap = {

@@ -13,8 +13,9 @@ const mutationUser = require("../../../helpers/graphql/user/mutation");
 const mutationContext = require("../../../helpers/graphql/context/mutation");
 const queryIndexLocation = require(
   "../../../helpers/graphql/indexLocation/query");
-const ViewAroundMe = require('../../../view/AroundMe/AroundMe');
-const ViewVenue = require('../../../view/Venue/Venue');
+const ViewAroundMe = require('../../../view/aroundMe/ViewAroundMe');
+const ViewVenue = require('../../../view/venue/ViewVenue');
+const Error = require('../error/error');
 const ApiReferral = require("../../../helpers/Api/apiReferral");
 const async = require('async');
 
@@ -31,6 +32,7 @@ class AroundMe {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -52,8 +54,7 @@ class AroundMe {
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -123,8 +124,7 @@ class AroundMe {
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       });
   }
@@ -150,8 +150,7 @@ class AroundMe {
         this.sendVenuesAroundMe()
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }

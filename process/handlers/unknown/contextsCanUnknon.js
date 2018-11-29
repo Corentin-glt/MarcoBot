@@ -20,7 +20,6 @@ module.exports = [
   'favorite',
   'subscribe',
   'help',
-  'share',
   'map',
   'description',
 ];

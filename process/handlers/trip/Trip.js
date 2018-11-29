@@ -11,13 +11,14 @@ const Sentry = require("@sentry/node");
 const numberDayProgramByCity = require(
   '../../../assets/variableApp/limitCityProgram');
 const ViewDefault = require('../../../view/default/ViewDefault');
-const ErrorMessage = require('../error/error');
+const Error = require('../error/error');
 
 class Trip {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -25,7 +26,6 @@ class Trip {
   }
 
   start() {
-    console.log('start trip');
     const city = this.context.values.find(value => value.name === 'city');
     if (city) {
       if (typeof city.value !== 'undefined' && city.value !== null) {
@@ -36,7 +36,10 @@ class Trip {
           .then(user => {
             console.log(user);
           })
-          .catch(err => Sentry.captureException(err));
+          .catch(err => {
+            this.error.start();
+            Sentry.captureException(err)
+          });
       } else {
         const defaultMessage = new ViewDefault(this.user, this.event.locale);
         const messageArray = [ViewChatAction.markSeen(),
@@ -76,8 +79,7 @@ class Trip {
           this.endTrip();
         })
         .catch(err => {
-          const Error = new ErrorMessage(this.event);
-          Error.start();
+          this.error.start();
           Sentry.captureException(err)
         });
 
@@ -204,8 +206,7 @@ class Trip {
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err);
       });
   }

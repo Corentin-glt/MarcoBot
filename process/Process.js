@@ -28,6 +28,7 @@ const ProcessNext = require("./handlers/next/Next");
 const ProcessMap = require("./handlers/map/map");
 const ProcessDescription = require("./handlers/description/Description");
 const ProcessUnknown = require('./handlers/unknown/Unknown');
+const Error = require('./handlers/error/error');
 
 const contextMap = {
   eat: ProcessEat,
@@ -58,6 +59,7 @@ const contextMap = {
 class Process {
   constructor(event) {
     this.event = event;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -82,19 +84,16 @@ class Process {
               processObject.start();
             })
             .catch(err => {
-              const Error = new ErrorMessage(this.event);
-              Error.start();
+              this.error.start();
               Sentry.captureException(err);
             });
         } else {
-          const Error = new ErrorMessage(this.event);
-          Error.start();
+          this.error.start();
           Sentry.captureException("user not found in process");
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err);
       });
   }

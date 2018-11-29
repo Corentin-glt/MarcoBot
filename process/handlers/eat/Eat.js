@@ -2,21 +2,22 @@ const eatValues = require("../../../assets/values/eat");
 const apiMessenger = require("../../../helpers/Api/apiMessenger");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
 const config = require("../../../config");
-const ViewCategory = require("../../../view/Category/Category");
-const ViewPrice = require("../../../view/Price/Price");
+const ViewCategory = require("../../../view/category/ViewCategory");
+const ViewPrice = require("../../../view/price/ViewPrice");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const restaurantQuery = require('../../../helpers/graphql/restaurant/query');
-const ViewVenue = require('../../../view/Venue/Venue');
-const ErrorMessage =require('../error/error');
+const ViewVenue = require('../../../view/venue/ViewVenue');
+const Error = require('../error/error');
 
 class Eat {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
   }
 
   start() {
@@ -91,7 +92,10 @@ class Eat {
               const newMessage = new Message(this.event.senderId, messageArray);
               newMessage.sendMessage();
             })
-            .catch(err => Sentry.captureException(err));
+            .catch(err => {
+              this.error.start();
+              Sentry.captureException(err)
+            });
         } else {
           const messageArray = [
             ViewChatAction.markSeen(),
@@ -105,8 +109,7 @@ class Eat {
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -135,8 +138,7 @@ class Eat {
         newMessage.sendMessage();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       });
   }
@@ -157,8 +159,7 @@ class Eat {
         newMessage.sendMessage();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       });
   }

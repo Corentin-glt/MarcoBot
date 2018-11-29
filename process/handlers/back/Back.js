@@ -7,10 +7,10 @@ const backValues = require("../../../assets/values/back");
 const ErrorMessage = require('../error/error');
 const Sentry = require("@sentry/node");
 const async = require('async');
-
 const ProcessEat = require("../eat/Eat");
 const ProcessDrink = require("../drink/Drink");
 const ProcessVisit = require("../visit/Visit");
+const Error = require('../error/error');
 
 const contextMap = {
   eat: ProcessEat,
@@ -24,6 +24,7 @@ class Back {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -37,8 +38,7 @@ class Back {
       this.findContext()
         .then(context => this.updateContext(context))
         .catch(err => {
-          const Error = new ErrorMessage(this.event);
-          Error.start();
+          this.error.start()
           Sentry.captureException(err)
         })
     }
@@ -111,8 +111,7 @@ class Back {
         processObject.start();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start()
         Sentry.captureException(err);
       });
   }

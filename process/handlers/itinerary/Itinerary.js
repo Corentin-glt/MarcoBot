@@ -10,14 +10,14 @@ const Sentry = require("@sentry/node");
 const numberDayProgramByCity = require(
   '../../../assets/variableApp/limitCityProgram');
 const ViewItinerary = require('../../../view/itinerary/ViewItinerary');
-const ErrorMessage = require('../error/error');
-
+const Error = require('../error/error');
 
 class Itinerary {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -38,8 +38,7 @@ class Itinerary {
               this.getNextItinerary(this.context.page);
           })
           .catch(err => {
-            const Error = new ErrorMessage(this.event);
-            Error.start();
+            this.error.start();
             Sentry.captureException(err)
           });
       } else {
@@ -103,12 +102,14 @@ class Itinerary {
               newMessage.sendMessage();
 
             })
-            .catch(err => Sentry.captureException(err));
+            .catch(err => {
+              this.error.start();
+              Sentry.captureException(err)
+            });
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       });
   }

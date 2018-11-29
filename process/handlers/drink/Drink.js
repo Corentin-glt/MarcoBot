@@ -1,21 +1,22 @@
 const drinkValues = require("../../../assets/values/drink");
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
-const ViewCategory = require("../../../view/Category/Category");
-const ViewPrice = require("../../../view/Price/Price");
+const ViewCategory = require("../../../view/category/ViewCategory");
+const ViewPrice = require("../../../view/price/ViewPrice");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const barQuery = require('../../../helpers/graphql/bar/query');
-const ViewVenue = require('../../../view/Venue/Venue');
+const ViewVenue = require('../../../view/venue/ViewVenue');
 const config = require("../../../config");
-const ErrorMessage = require("../error/error");
+const Error = require('../error/error');
 
 class Drink {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event)
   }
 
   start() {
@@ -71,7 +72,8 @@ class Drink {
         //TODO CHANGE 'bars' by 'barsByPriceAndType'
         const venue = new ViewVenue(this.event.locale, this.user,
           response.barsByPriceAndType, 'bar', false);
-        if (response.barsByPriceAndType !== null && response.barsByPriceAndType.length > 0) {
+        if (response.barsByPriceAndType !== null &&
+          response.barsByPriceAndType.length > 0) {
           return venue
             .init()
             .then(messageVenue => {
@@ -93,7 +95,10 @@ class Drink {
               const newMessage = new Message(this.event.senderId, messageArray);
               newMessage.sendMessage();
             })
-            .catch(err => Sentry.captureException(err));
+            .catch(err => {
+              this.error.start();
+              Sentry.captureException(err)
+            });
         } else {
           const messageArray = [
             ViewChatAction.markSeen(),
@@ -107,8 +112,7 @@ class Drink {
         }
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       });
   }
@@ -137,8 +141,7 @@ class Drink {
         newMessage.sendMessage();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       });
   }
@@ -159,8 +162,7 @@ class Drink {
         newMessage.sendMessage();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err)
       });
   }

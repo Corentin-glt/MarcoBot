@@ -7,17 +7,19 @@ const ViewDefault = require("../../../view/default/ViewDefault");
 const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
 const tripValues = require("../../../assets/values/trip");
 const eatValues = require("../../../assets/values/eat");
-const ViewCategory = require('../../../view/Category/Category');
-const ViewPrice = require('../../../view/Price/Price');
+const ViewCategory = require('../../../view/category/ViewCategory');
+const ViewPrice = require('../../../view/price/ViewPrice');
 const FindContext = require('../findContext/FindContext');
 const contextsCanUnknown = require('./contextsCanUnknon');
 const DescriptionContext = require('../description/Description');
+const Error = require('../error/error');
 
 class Unknown {
   constructor(event, context, user) {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -46,7 +48,6 @@ class Unknown {
             case 'trip':
               if (context.values.length !== 0) {
                 const value = this.findElemMissing(tripValues, context);
-                console.log(value);
                 if (value === 'city')
                   messageArray.push(defaultMessage.tripCityDefault1(),
                     defaultMessage.tripCityDefault2());
@@ -140,7 +141,10 @@ class Unknown {
                     messageArray.push.apply(messageArray, tempArray);
                     new Message(this.event.senderId, messageArray).sendMessage();
                   })
-                  .catch(err => Sentry.captureException(err));
+                  .catch(err => {
+                    this.error.start();
+                    Sentry.captureException(err)
+                  });
               }
               break;
             case 'visit':
@@ -154,13 +158,13 @@ class Unknown {
                   messageArray.push.apply(messageArray, tempArray);
                   new Message(this.event.senderId, messageArray).sendMessage();
                 })
-                .catch(err => Sentry.captureException(err));
+                .catch(err => {
+                  this.error.start();
+                  Sentry.captureException(err)
+                });
               break;
             case 'feedback':
-              // this.apiGraphql.sendMutation(contextMutation.updateContext({
-              //   contextId: context.id,
-              //   values: [{name: 'message', value: }]
-              // }));
+
               messageArray.push(defaultMessage.feedbackDefault());
               new Message(this.event.senderId, messageArray).sendMessage();
               break;
@@ -182,11 +186,10 @@ class Unknown {
               break;
 
           }
-
         }
       )
       .catch(err => {
-        this.sendErrorMessage();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -206,20 +209,6 @@ class Unknown {
     }
     return valueMissing;
   }
-
-  sendErrorMessage() {
-    const goDefault = new ViewDefault(this.user, this.event.locale);
-    const messageArray = [
-      ViewChatAction.markSeen(),
-      ViewChatAction.typingOn(),
-      ViewChatAction.smallPause(),
-      ViewChatAction.typingOff(),
-      goDefault.errorMessage(),
-    ];
-    const newMessage = new Message(this.event.senderId, messageArray);
-    newMessage.sendMessage();
-  }
-
 }
 
 module.exports = Unknown;

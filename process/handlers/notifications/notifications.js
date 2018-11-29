@@ -11,7 +11,6 @@ const queryItinerary = require('../../../helpers/graphql/itinerary/query');
 const queryUser = require('../../../helpers/graphql/user/query');
 const userMutation = require('../../../helpers/graphql/user/mutation');
 const queryAccountMessenger = require('../../../helpers/graphql/accountMessenger/query');
-const MessageData = require("../../../messenger/product_data");
 const numberDayProgramByCity = require(
   '../../../assets/variableApp/limitCityProgram');
 const axios = require("axios");

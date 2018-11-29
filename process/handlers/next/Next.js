@@ -17,6 +17,7 @@ const ProcessVisit = require("../visit/Visit");
 const ProcessAroundMe = require("../aroundMe/AroundMe");
 const ProcessFavorite = require("../favorite/favorite");
 const ProcessTicket = require("../ticket/ticket");
+const Error = require('../error/error');
 
 const contextMap = {
   eat: ProcessEat,
@@ -33,6 +34,7 @@ class Next {
     this.event = event;
     this.context = context;
     this.user = user;
+    this.error = new Error(this.event);
     this.apiGraphql = new ApiGraphql(
       config.category[config.indexCategory].apiGraphQlUrl,
       config.accessTokenMarcoApi
@@ -46,7 +48,7 @@ class Next {
         this.updateContext(context)
       })
       .catch(err => {
-        this.sendErrorMessage();
+        this.error.start();
         Sentry.captureException(err)
       })
   }
@@ -68,23 +70,9 @@ class Next {
         processObject.start();
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+        this.error.start();
         Sentry.captureException(err);
       });
-  }
-
-  sendErrorMessage() {
-    const viewNext = new ViewNext(this.event.locale, this.user);
-    const messageArray = [
-      ViewChatAction.markSeen(),
-      ViewChatAction.typingOn(),
-      ViewChatAction.smallPause(),
-      ViewChatAction.typingOff(),
-      viewNext.errorMessage(),
-    ];
-    const newMessage = new Message(this.event.senderId, messageArray);
-    newMessage.sendMessage();
   }
 }
 

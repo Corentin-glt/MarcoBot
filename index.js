@@ -10,7 +10,6 @@ const PORT = Config.category[Config.indexCategory].port;
 const verificationController = require("./controllers/verification");
 const messageWebhookController = require("./controllers/messageWebhook");
 const apiMessenger = require('./helpers/Api/apiMessenger');
-const MessageData = require('./messenger/product_data');
 const axios = require('axios');
 const CronJob = require('cron').CronJob;
 const cronMethods = require('./process/handlers/notifications/notifications');
@@ -61,6 +60,7 @@ const cronSendInvitation = new CronJob(hoursCron["noon"], () => {
 }, true, 'Europe/Paris');
 
 
+
 app.post("/", messageWebhookController);
 app.get("/", verificationController);
 axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {
@@ -87,7 +87,6 @@ axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {
 
 
 app.get('/setup', (req, res) => {
-  const product_data = new MessageData('en');
   apiMessenger.callbackStartButton(ViewStartMessenger)
     .then(response => {
       return apiMessenger.callbackStartButton(ViewMenuMessenger)
