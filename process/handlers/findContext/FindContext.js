@@ -32,6 +32,7 @@ class FindContext {
               const contextNext = this.contextsToFind.find(item => {
                 return item === contextArray[0].name;
               });
+              console.log('item ==>', contextArray[0].name )
               if (typeof contextNext !== 'undefined') {
                 contextFound = true;
                 callback(null, contextArray[0]);

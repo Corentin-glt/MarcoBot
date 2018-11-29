@@ -74,7 +74,7 @@ class Venue {
       "jokeMarco2")}\n${arrayAnecdotes[indexJoke]}`);
     textEmpty
       .addQuickReply(i18n.__("geolocation"), 'aroundMe')
-      .addQuickReply(i18n.__('ticketing'), 'ticketing')
+      .addQuickReply(i18n.__('ticketing'), 'ticket')
       .addQuickReply(i18n.__("visit"), 'visit')
       .addQuickReply(i18n.__("eat"), 'eat')
       .addQuickReply(i18n.__("chat"), 'talkingToHuman');

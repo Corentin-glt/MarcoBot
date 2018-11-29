@@ -129,7 +129,7 @@ class ViewDefault {
   errorMessage() {
     return new Text(i18n.__("wrongContext"))
       .addQuickReply(i18n.__("geolocation"), 'aroundMe')
-      .addQuickReply(i18n.__("ticketing"), 'ticketing')
+      .addQuickReply(i18n.__("ticketing"), 'ticket')
       .addQuickReply(i18n.__("visit"), 'visit')
       .addQuickReply(i18n.__("eat"), 'eat')
       .addQuickReply(i18n.__("drink"), 'drink')

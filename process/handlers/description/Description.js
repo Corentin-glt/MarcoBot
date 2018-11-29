@@ -41,10 +41,6 @@ class Description {
     }
   }
 
-  defaultAnswer() {
-
-  }
-
   findContext() {
     const event = this.context.values.find(value => {
       return value.name === 'event';

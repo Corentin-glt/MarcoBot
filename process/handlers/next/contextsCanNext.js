@@ -5,7 +5,7 @@ module.exports = [
   'eat',
   'drink',
   'visit',
-  'ticketing',
+  'ticket',
   'itinerary',
   'favorite',
 ];

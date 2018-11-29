@@ -1,12 +1,15 @@
 const contextsCanNext = require('./contextsCanNext');
 const async = require('async');
 const ApiGraphql = require("../../../helpers/Api/apiGraphql");
+const ViewNext = require('../../../view/Next/ViewNext');
+const ViewChatAction = require('../../../view/chatActions/ViewChatAction');
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
 const config = require("../../../config");
 const contextQuery = require("../../../helpers/graphql/context/query");
 const contextMutation = require("../../../helpers/graphql/context/mutation");
 const ErrorMessage = require('../error/error');
+const FindContext = require('../findContext/FindContext');
 const ProcessEat = require("../eat/Eat");
 const ProcessDrink = require("../drink/Drink");
 const ProcessItinerary = require("../itinerary/itinerary");
@@ -37,50 +40,16 @@ class Next {
   }
 
   start() {
-    this.findContext()
+    new FindContext(this.event, contextsCanNext)
+      .start()
       .then(context => {
         this.updateContext(context)
       })
       .catch(err => {
-        const Error = new ErrorMessage(this.event);
-        Error.start();
+
+        this.sendErrorMessage();
         Sentry.captureException(err)
       })
-  }
-
-  findContext() {
-    let page = 0;
-    let contextFound = false;
-    return new Promise((resolve, reject) => {
-      async.whilst(
-        () => contextFound === false,
-        (callback) => {
-          this.apiGraphql
-            .sendQuery(
-              contextQuery.getUserContextByPage(this.event.senderId, page))
-            .then(res => {
-              page++;
-              const contextArray = res.contextsByUserAndPage;
-              const contextNext = contextsCanNext.find(item => {
-                return item === contextArray[0].name;
-              });
-              if (typeof contextNext !== 'undefined') {
-                contextFound = true;
-                callback(null, contextArray[0]);
-              } else {
-                callback(null, contextArray[0]);
-              }
-            })
-            .catch(err => callback(err))
-        },
-        (err, context) => {
-          if (err) return reject(err);
-          if (contextFound) {
-            return resolve(context)
-          }
-        }
-      )
-    })
   }
 
   updateContext(context) {
@@ -104,6 +73,19 @@ class Next {
         Error.start();
         Sentry.captureException(err);
       });
+  }
+
+  sendErrorMessage() {
+    const viewNext = new ViewNext(this.event.locale, this.user);
+    const messageArray = [
+      ViewChatAction.markSeen(),
+      ViewChatAction.typingOn(),
+      ViewChatAction.smallPause(),
+      ViewChatAction.typingOff(),
+      viewNext.errorMessage(),
+    ];
+    const newMessage = new Message(this.event.senderId, messageArray);
+    newMessage.sendMessage();
   }
 }
 
