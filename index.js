@@ -13,7 +13,7 @@ const apiMessenger = require('./helpers/Api/apiMessenger');
 const MessageData = require('./messenger/product_data');
 const axios = require('axios');
 const CronJob = require('cron').CronJob;
-const cronMethods = require('./helpers/Class/cronMethods/cronMethods');
+const cronMethods = require('./process/handlers/notifications/notifications');
 const hoursCron = require('./assets/variableApp/hoursCron');
 const Sentry = require('@sentry/node');
 const ViewMenuMessenger = require('./view/MessengerComponents/ViewMessengerMenu');
@@ -52,6 +52,7 @@ const cronEveryHour = new CronJob(hoursCron["everyHour"], () => {
 }, true, 'Europe/Paris');
 
 const cronSendInvitation = new CronJob(hoursCron["noon"], () => {
+  console.log('Start cron invite');
   const Cron = new cronMethods();
   Cron.sendGroupInvitation();
   console.log('cron check invitation');

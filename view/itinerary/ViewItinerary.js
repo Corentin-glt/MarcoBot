@@ -28,7 +28,6 @@ class ViewItinerary {
   }
 
   itineraryNotifications(description, locationsGoogleMap) {
-    console.log(description);
     return new Text(description)
       .addQuickReply(i18n.__("next"), 'next')
       .addQuickReply(i18n.__("stepMap"), `map_location:${locationsGoogleMap}`)
@@ -52,7 +51,6 @@ class ViewItinerary {
         .get()
       )
       .get();
-    console.log(stuff);
     return stuff;
   }
 

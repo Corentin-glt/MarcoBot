@@ -160,8 +160,12 @@ class DialogflowAi {
             newValuesObject["arrival"] = datePeriodObject.startDate.stringValue;
             newValuesObject["departure"] = datePeriodObject.endDate.stringValue;
           } else if (item === "date") {
-            newValuesObject[objectValues["tripDate"].stringValue] =
-              objectValues[item].stringValue;
+            if (objectValues["tripDate"] !== "") {
+              newValuesObject[objectValues["tripDate"].stringValue] =
+                objectValues[item].stringValue;
+            } else {
+              newValuesObject['arrival'] = objectValues[item].stringValue;
+            }
           } else {
             if (item === 'geo-city') {
               console.log(objectValues[item].stringValue.toLowerCase());

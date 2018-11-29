@@ -46,7 +46,6 @@ class Next {
         this.updateContext(context)
       })
       .catch(err => {
-
         this.sendErrorMessage();
         Sentry.captureException(err)
       })

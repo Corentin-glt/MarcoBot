@@ -97,15 +97,14 @@ class ViewTrip {
   itinerary(city, numberDay, programs_id) {
     const dayString = this.locale === 'fr' ? numberDayStringFR[numberDay] :
       numberDayString[numberDay];
-     const itinerary = new Button(`${i18n.__("messageNotification")}${dayString}${i18n.__(
+     return new Button(`${i18n.__("messageNotification")}${dayString}${i18n.__(
       "messageOfItineraryNotification2")}${i18n.__(city)}`)
       .addButton("Start ⚡️",
         `itinerary_program:${programs_id}_city:${city}_day:${parseInt(
-          numberDay)}`);
-    console.log(itinerary);
-    return itinerary.template;
+          numberDay)}`).get();
 
   }
+
 
   couldNotFindProgram() {
     return new Text(i18n.__("noProgram"))

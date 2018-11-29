@@ -1,26 +1,26 @@
 /**
  * Created by corentin on 20/08/2018.
  */
-const ApiGraphql = require('../../Api/apiGraphql');
-const apiMessenger = require('../../Api/apiMessenger');
+const ApiGraphql = require('../../../helpers/Api/apiGraphql');
+const apiMessenger = require('../../../helpers/Api/apiMessenger');
 const config = require("../../../config");
 const async = require("async");
-const queryTrip = require('../../graphql/trip/query');
-const queryProgram = require('../../graphql/program/query');
-const queryItinerary = require('../../graphql/itinerary/query');
-const queryUser = require('../../graphql/user/query');
-const userMutation = require('../../graphql/user/mutation');
-const queryAccountMessenger = require('../../graphql/accountMessenger/query');
+const queryTrip = require('../../../helpers/graphql/trip/query');
+const queryProgram = require('../../../helpers/graphql/program/query');
+const queryItinerary = require('../../../helpers/graphql/itinerary/query');
+const queryUser = require('../../../helpers/graphql/user/query');
+const userMutation = require('../../../helpers/graphql/user/mutation');
+const queryAccountMessenger = require('../../../helpers/graphql/accountMessenger/query');
 const MessageData = require("../../../messenger/product_data");
 const numberDayProgramByCity = require(
   '../../../assets/variableApp/limitCityProgram');
 const axios = require("axios");
-const ApiReferral = require('../../Api/apiReferral');
+const ApiReferral = require('../../../helpers/Api/apiReferral');
 const ViewNotifications = require(
   '../../../view/notifications/ViewNotifications');
 const Message = require('../../../view/messenger/Message');
 
-class CronMethods {
+class Notifications {
   constructor() {
     this.apiGraphql =
       new ApiGraphql(config.category[config.indexCategory].apiGraphQlUrl,
@@ -37,7 +37,7 @@ class CronMethods {
     return this.apiGraphql.sendQuery(queryTrip.getPastTrips())
       .then(trips => {
         return async.each(trips.getPastTrips, (trip, callback) => {
-          const days = CronMethods.diffDayBetween2Date(trip.departureDateToCity,
+          const days = Notifications.diffDayBetween2Date(trip.departureDateToCity,
             new Date());
           if (days === 1 && trip.started) {
             this.apiGraphql.sendQuery(queryUser.queryUser(trip.users_id))
@@ -94,13 +94,13 @@ class CronMethods {
         async.each(trips.getTrips, (trip, callback) => {
           const dayArrival = new Date(trip.arrivalDateToCity);
           const dayDeparture = new Date(trip.departureDateToCity);
-          const numberDayAlreadyDone = CronMethods.diffDayBetween2Date(
+          const numberDayAlreadyDone = Notifications.diffDayBetween2Date(
             dayArrival, new Date()) + 1;
           const numberDayIsStaying =
-            CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) >=
+            Notifications.diffDayBetween2Date(dayArrival, dayDeparture) >=
             numberDayProgramByCity[trip.cityTraveling] ?
               numberDayProgramByCity[trip.cityTraveling] :
-              CronMethods.diffDayBetween2Date(dayArrival, dayDeparture) + 1;
+              Notifications.diffDayBetween2Date(dayArrival, dayDeparture) + 1;
           if (numberDayAlreadyDone <= numberDayIsStaying) {
             return this.apiGraphql.sendQuery(
               queryProgram.getOneProgram(trip.cityTraveling,
@@ -211,4 +211,4 @@ class CronMethods {
 }
 
 
-module.exports = CronMethods;
+module.exports = Notifications;
