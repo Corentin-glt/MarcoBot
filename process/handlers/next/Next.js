@@ -12,10 +12,10 @@ const ErrorMessage = require('../error/error');
 const FindContext = require('../findContext/FindContext');
 const ProcessEat = require("../eat/Eat");
 const ProcessDrink = require("../drink/Drink");
-const ProcessItinerary = require("../itinerary/itinerary");
+const ProcessItinerary = require("../itinerary/Itinerary");
 const ProcessVisit = require("../visit/Visit");
 const ProcessAroundMe = require("../aroundMe/AroundMe");
-const ProcessFavorite = require("../favorite/favorite");
+const ProcessFavorite = require("../favorite/Favorite");
 const ProcessTicket = require("../ticket/ticket");
 const Error = require('../error/error');
 

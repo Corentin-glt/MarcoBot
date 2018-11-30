@@ -3,7 +3,7 @@ const config = require("../../../config");
 const ViewChatAction = require("../../../view/chatActions/ViewChatAction");
 const Message = require("../../../view/messenger/Message");
 const Sentry = require("@sentry/node");
-const ViewTicket = require('../../../view/Ticket/ViewTicket');
+const ViewTicket = require('../../../view/ticket/ViewTicket');
 const ticketQuery = require('../../../helpers/graphql/affiliation/query');
 const Error = require('../error/error');
 
