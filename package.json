@@ -7,18 +7,23 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@sentry/node": "4.2.4",
     "apiai": "^4.0.3",
     "async": "^2.6.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "cron": "^1.4.0",
-    "dialogflow": "^0.3.0",
+    "dialogflow": "^0.7.0",
     "docker-nodemon": "^1.11.0",
     "express": "^4.16.3",
     "graphql-request": "^1.5.2",
     "i18n": "^0.8.3",
+    "moment": "^2.22.2",
     "node-wit": "^5.0.0",
     "qs": "^6.5.2",
     "request": "^2.85.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0"
   }
 }
