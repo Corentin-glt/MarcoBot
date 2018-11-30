@@ -40,20 +40,27 @@ class Nlp {
         .sendQuery(contextQuery.getUserContext(this.event.senderId))
         .then(res => {
           const userContextArray = res.contextsByUser;
-          const isTalking = userContextArray[0].values.find(
-            value => value.name === 'isTalking');
-          const message = userContextArray[0].values.find(
-            value => value.name === 'message');
-          if (userContextArray[0].name === 'talkingToHuman' &&
-            isTalking.value) {
-            this._checkIfWantStopChat(user);
-          } else if (userContextArray[0].name === 'feedback' &&
-            this.event.message.text !== "" && typeof this.event.message.text !==
-            'undefined' && this.event.message.text !== null &&
-            typeof message === 'undefined') {
-            new Context(this.event, 'feedback',
-              {message: this.event.message.text}, dictContext).mapContext();
+          if (userContextArray.length > 0) {
+            const isTalking = userContextArray[0].values.find(
+              value => value.name === 'isTalking');
+            const message = userContextArray[0].values.find(
+              value => value.name === 'message');
+            if (userContextArray[0].name === 'talkingToHuman' &&
+              isTalking.value) {
+              this._checkIfWantStopChat(user);
+            } else if (userContextArray[0].name === 'feedback' &&
+              this.event.message.text !== "" &&
+              typeof this.event.message.text !==
+              'undefined' && this.event.message.text !== null &&
+              typeof message === 'undefined') {
+              new Context(this.event, 'feedback',
+                {message: this.event.message.text}, dictContext).mapContext();
+            } else {
+              const dialogflow = new DialogflowAi(this.event);
+              dialogflow.start();
+            }
           } else {
+            console.log('NO CONTEXT');
             const dialogflow = new DialogflowAi(this.event);
             dialogflow.start();
           }
