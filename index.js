@@ -71,7 +71,10 @@ axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {
   .then(res => {
     Config.accessTokenMarcoApi = res.data.token;
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.log('MARCO API');
+    console.log(err)
+  });
 
 
 //TODO Gros t'es relou à tout le temps commenter
@@ -83,7 +86,10 @@ axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {
   .then(res => {
     Config.accessTokenRecommendationApi = res.data.token;
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.log('Recommendation API');
+    console.log(err)
+  });
 
 
 app.get('/setup', (req, res) => {
