@@ -153,7 +153,6 @@ class DialogflowAi {
           item !== "tripDate" &&
           item !== "ordinal"
         ) {
-          console.log('IN FIRST IF ====> ' + item);
           if (item === "date-period") {
             console.log("DATE PERIOD");
             const datePeriodObject = objectValues[item].structValue.fields;
