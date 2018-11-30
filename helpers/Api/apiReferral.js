@@ -29,7 +29,6 @@ module.exports = {
       page_scoped_user_id: senderID
     })
       .then(response => {
-        console.log("SUCCESS event start");
       })
       .catch(err => Sentry.captureException(err))
   }

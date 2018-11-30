@@ -80,7 +80,6 @@ class Itinerary {
           const newMessage = new Message(this.event.senderId, messageArray);
           newMessage.sendMessage();
         } else {
-          console.log('SEND LAST');
           const program = this.context.values.find(
             value => value.name === 'program');
           const numberDay = this.context.values.find(
@@ -97,7 +96,6 @@ class Itinerary {
                 itineraryMessage.shareOrFindUrlMedium()
 
               ];
-              console.log(messageArray);
               const newMessage = new Message(this.event.senderId, messageArray);
               newMessage.sendMessage();
 

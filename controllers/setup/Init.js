@@ -16,7 +16,6 @@ class Init {
   handleEntry() {
     this.entry.forEach(item => {
       item.messaging.forEach(event => {
-        console.log(event);
         const mainEvent = new Event(event);
         const apiGraphql = new ApiGraphql(
           config.category[config.indexCategory].apiGraphQlUrl,
@@ -72,7 +71,6 @@ class Init {
         }
       })
       .catch(err => {
-        console.log(err.response.data);
         Sentry.captureException(err);
       });
   }

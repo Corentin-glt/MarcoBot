@@ -60,7 +60,6 @@ class Nlp {
               dialogflow.start();
             }
           } else {
-            console.log('NO CONTEXT');
             const dialogflow = new DialogflowAi(this.event);
             dialogflow.start();
           }
@@ -99,7 +98,6 @@ class Nlp {
       apiGraphql.sendMutation(userMutation.updateUserByAccountMessenger(),
         {PSID: this.event.senderId, lastMessageToHuman: new Date()})
         .then(res => {
-          console.log('update last message');
         })
         .catch((err) => {
           const Error = new ErrorMessage(this.event);

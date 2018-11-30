@@ -21,9 +21,7 @@ class apiDialogFlow {
         client_email: this.clientEmail
       }
     };
-    console.log('BEFORE SESSION CLIENT');
     this.sessionClient = new dialogflow.SessionsClient(this.config);
-    console.log('AFTER SESSION CLIENT');
   }
 
   sendTextMessageToDialogFlow(textMessage) {

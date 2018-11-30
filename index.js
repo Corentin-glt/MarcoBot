@@ -29,34 +29,25 @@ app.use(bodyParser.json());
 const cronMorning = new CronJob(hoursCron["morning"], () => {
   const Cron = new cronMethods();
   Cron.sendProgram();
-  console.log('cron MORNING begin');
 }, () => {
-  console.log('cron MORNING finished');
 }, true, 'Europe/Paris');
 
 const cronEndAfterNoon = new CronJob(hoursCron["endAfterNoon"], () => {
   const Cron = new cronMethods();
   Cron.readyForTomorrow();
-  console.log('cron END AFTERNOON begin');
 }, () => {
-  console.log('cron END AFTERNOON finished');
 }, true, 'Europe/Paris');
 
 const cronEveryHour = new CronJob(hoursCron["everyHour"], () => {
   const Cron = new cronMethods();
   Cron.checkLastMessageToHuman();
-  console.log('cron check lastMessage');
 }, () => {
-  console.log('cron check lastMessag finished');
 }, true, 'Europe/Paris');
 
 const cronSendInvitation = new CronJob(hoursCron["noon"], () => {
-  console.log('Start cron invite');
   const Cron = new cronMethods();
   Cron.sendGroupInvitation();
-  console.log('cron check invitation');
 }, () => {
-  console.log('cron check lastMessag finished');
 }, true, 'Europe/Paris');
 
 
@@ -72,7 +63,6 @@ axios.post(Config.category[Config.indexCategory].authUrlMarcoApi, {
     Config.accessTokenMarcoApi = res.data.token;
   })
   .catch(err => {
-    console.log('MARCO API');
     console.log(err)
   });
 
@@ -87,7 +77,6 @@ axios.post(Config.category[Config.indexCategory].authUrlRecommendationApi, {
     Config.accessTokenRecommendationApi = res.data.token;
   })
   .catch(err => {
-    console.log('Recommendation API');
     console.log(err)
   });
 

@@ -44,7 +44,6 @@ class Message {
     } else {
       messageBody.message = message;
     }
-    console.log(messageBody);
     return apiMessenger.sendToFacebook(messageBody);
   }
 
@@ -78,7 +77,6 @@ class Message {
           return this.sendAll();
         })
         .catch(err => {
-          console.log(err.response.data.error);
           Sentry.captureException(err);
         });
     }

@@ -34,7 +34,6 @@ class Start {
       const newMessage = new Message(this.event.senderId, messageArray);
       newMessage.sendMessage();
     } else {
-      console.log(this.context.values[0].value);
       if (JSON.parse(this.context.values[0].value)) {
         const messageArray = [ViewChatAction.markSeen(),
           ViewChatAction.typingOn(), ViewChatAction.typingOff(),

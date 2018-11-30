@@ -22,9 +22,7 @@ class User {
     return new Promise((resolve, reject) => {
       this.apiGraphql.sendQuery(userQuery.queryUserByAccountMessenger(this.PSID))
         .then(res =>  {
-          console.log(res);
           if (res.userByAccountMessenger) {
-            console.log(res.userByAccountMessenger);
             resolve(res.userByAccountMessenger);
           }
         })
@@ -48,7 +46,6 @@ class User {
       const mutationCreateUser = mutationUser.createUser();
       this.apiGraphql.sendMutation(mutationCreateUser, userToSave)
         .then(userSaved => {
-          console.log(userSaved);
           resolve(userSaved);
         })
         .catch(err => reject(err))

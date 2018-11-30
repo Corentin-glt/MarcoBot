@@ -34,7 +34,6 @@ class Trip {
           cityTraveling: city.value.toLowerCase()
         })
           .then(user => {
-            console.log(user);
           })
           .catch(err => {
             this.error.start();
@@ -166,9 +165,7 @@ class Trip {
       departureDateFound.value : new Date(
         arrivalDate.getTime() +
         parseInt(departureDateFound.value));
-    console.log(departureDate);
     const duration = departureDate - arrivalDate;
-    console.log(duration);
     let numberDay = duration / (24 * 60 * 60 * 1000) < 1 ? 1 :
       duration / (24 * 60 * 60 * 1000);
     numberDay > numberDayProgramByCity[city] ?

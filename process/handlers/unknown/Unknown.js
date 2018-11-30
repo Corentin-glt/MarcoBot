@@ -196,10 +196,8 @@ class Unknown {
     let valueMissing = "";
     for (let i = 0; i < allValues.length; i++) {
       const elemFound = context.values.find(value => {
-        console.log(value.name);
         return value.name === allValues[i].name;
       });
-      console.log(elemFound);
       if (typeof elemFound === "undefined") {
         valueMissing = allValues[i].name;
         break;
