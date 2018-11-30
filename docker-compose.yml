@@ -7,7 +7,7 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - $HOME/Marco/MarcoBot:/usr/src/api
+      - /etc/api/MarcoBot:/usr/src/api
     network_mode: "docker-environment_env-net"
     external_links:
       - "api:api"
