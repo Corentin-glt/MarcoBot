@@ -42,6 +42,7 @@ module.exports = (senderID, locale) => {
           .then(helper.delayPromise(2000))
           .then(resp => {
             delete messageData.sender_action;
+            console.log(res.userByAccountMessenger.cityTraveling);
             messageData.message = product_data.selectionSiteType(res.userByAccountMessenger.cityTraveling);
             if(resp.status === 200) {
               return apiMessenger.sendToFacebook(messageData)

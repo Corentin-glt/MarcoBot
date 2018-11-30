@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -e js,graphql index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "apiai": "^4.0.3",
