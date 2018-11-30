@@ -1,11 +1,11 @@
 const dialogflow = require("dialogflow");
 const config = require("../../config.js");
-const sessionClient = new dialogflow.SessionsClient({
-  credentials: {
-    private_key: config.privateKeyDialogflow,
-    client_email: config.clientEmailDialogflow
-  }
-});
+// const sessionClient = new dialogflow.SessionsClient({
+//   credentials: {
+//     private_key: config.privateKeyDialogflow,
+//     client_email: config.clientEmailDialogflow
+//   }
+// });
 
 
 class apiDialogFlow {
@@ -21,7 +21,9 @@ class apiDialogFlow {
         client_email: this.clientEmail
       }
     };
-    // this.sessionClient = new dialogflow.SessionsClient(this.config);
+    console.log('BEFORE SESSION CLIENT');
+    this.sessionClient = new dialogflow.SessionsClient(this.config);
+    console.log('AFTER SESSION CLIENT');
   }
 
   sendTextMessageToDialogFlow(textMessage) {
