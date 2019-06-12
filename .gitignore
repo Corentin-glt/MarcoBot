@@ -10,6 +10,9 @@ config.js
 docker-compose.yml
 Dockerfile
 
+marco-dialogflow.json
+.marco-dialogflow.json
+
 .tern-project
 
 docker-compose.yml
