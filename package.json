@@ -15,7 +15,7 @@
     "cron": "^1.4.0",
     "dialogflow": "^0.7.0",
     "docker-nodemon": "^1.11.0",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "graphql-request": "^1.5.2",
     "i18n": "^0.8.3",
     "moment": "^2.22.2",
